@@ -1,1 +1,6 @@
 The Del Close Marathon mobile app
+
+dcm13_scrubbed.sql.gz contains a scrubbed SQL dump of the DCM database, 
+for development testing. Only the dcm13 show tables have been included, 
+rejected shows have been removed, and the contact_email and extra_info 
+fields have been set to NULL.

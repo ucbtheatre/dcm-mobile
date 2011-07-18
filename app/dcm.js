@@ -75,7 +75,13 @@ DCM.loadShow = function( params ) {
         // console.log( data );
 
         if ( data.show_name && $header.length ) {
-          $header.text( data.show_name + ' | ' + $header.text() );
+
+          // Update app title.
+          $header.text( data.show_name + ' | DCM 13' );
+
+          // Update browser title.
+          $( 'head title' ).text( $header.text() );
+
         }
 
         $.each( data, function( i, v ) {
@@ -157,7 +163,13 @@ DCM.loadVenue = function( params ) {
         // console.log( data );
 
         if ( data.name && $header.length ) {
-          $header.text( data.name + ' | ' + $header.text() );
+
+          // Update app title.
+          $header.text( data.name + ' | DCM 13' );
+
+          // Update browser title.
+          $( 'head title' ).text( $header.text() );
+
         }
 
         $.each( data, function( i, v ) {

@@ -9,6 +9,7 @@ CACHE:
 index.html
 show.html
 dcm.js
+jquery.ba-bbq.min.js
 touch-icon.png
 
 http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.css

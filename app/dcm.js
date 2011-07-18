@@ -98,9 +98,11 @@ DCM.loadShow = function( params ) {
 };
 
 DCM.loadVenues = function() {
+
   DCM.db.readTransaction(function(tx) {
+
     tx.executeSql(
-      'SELECT dcm13_venues.name AS name FROM dcm13_venues ORDER BY id',
+      'SELECT id, name FROM dcm13_venues ORDER BY id',
       [],
       function (tx, result) {
 
@@ -114,10 +116,14 @@ DCM.loadVenues = function() {
 
           var row = result.rows.item( i ),
               $item = $itemTpl.clone(),
-              $link = $item.find( 'a' );
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
 
           // Add show title to link.
           $link.text( row.name );
+
+          // Add venue id to href.
+          $link.attr( 'href', href + '?id=' + row.id );
 
           // Add item to list.
           $items.append( $item );
@@ -128,7 +134,49 @@ DCM.loadVenues = function() {
 
       }
     );
+
   });
+
+};
+
+DCM.loadVenue = function( params ) {
+
+  var id = parseInt( params.id, 10 ),
+      $itemTpl = $( '#venue [data-role="content"]' );
+
+  DCM.db.readTransaction(function(tx) {
+
+    tx.executeSql(
+      'SELECT dcm13_venues.* FROM dcm13_venues WHERE dcm13_venues.id = ' + id + ' LIMIT 1',
+      [],
+      function (tx, result) {
+
+        var data = result.rows.item(0),
+            $header = $( '#venue [data-role="header"] h1' );
+
+        // console.log( data );
+
+        if ( data.name && $header.length ) {
+          $header.text( data.name + ' | ' + $header.text() );
+        }
+
+        $.each( data, function( i, v ) {
+
+          var className = 'venue-data-' + i,
+              $el = $itemTpl.find( '.' + className );
+
+          // If an HTML element exists, load it with show data.
+          if ( $el.length ) {
+            $el.text( v );
+          }
+
+        });
+
+      }
+    );
+
+  });
+
 };
 
 $( document ).bind( 'mobileinit', function() {

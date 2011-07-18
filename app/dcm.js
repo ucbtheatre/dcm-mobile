@@ -22,27 +22,61 @@ DCM.loadShows = function() {
       [],
       function (tx, result) {
 
-        var $shows = $('#shows [data-role="content"] .list'),
-            $showTpl = $shows.children( 'li:first' ).remove();
+        var $items = $('#shows [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
 
         // Remove all current list items, in case.
-        $shows.empty();
+        $items.empty();
 
         for (var i = 0; i < result.rows.length; i++) {
 
           var row = result.rows.item( i ),
-              $item = $showTpl.clone(),
+              $item = $itemTpl.clone(),
               $link = $item.find( 'a' );
 
           // Add show title to link.
           $link.text( row.title );
 
           // Add item to list.
-          $shows.append( $item );
+          $items.append( $item );
 
         }
 
-        $shows.listview( 'refresh' );
+        $items.listview( 'refresh' );
+
+      }
+    );
+  });
+};
+
+DCM.loadVenues = function() {
+  DCM.db.readTransaction(function(tx) {
+    tx.executeSql(
+      'SELECT dcm13_venues.name AS name FROM dcm13_venues ORDER BY id',
+      [],
+      function (tx, result) {
+
+        var $items = $('#venues [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
+
+        // Remove all current list items, in case.
+        $items.empty();
+
+        for (var i = 0; i < result.rows.length; i++) {
+
+          var row = result.rows.item( i ),
+              $item = $itemTpl.clone(),
+              $link = $item.find( 'a' );
+
+          // Add show title to link.
+          $link.text( row.name );
+
+          // Add item to list.
+          $items.append( $item );
+
+        }
+
+        $items.listview( 'refresh' );
 
       }
     );
@@ -68,6 +102,8 @@ $(document).ready(function($) {
     }
 
     DCM.loadShows();
+
+    DCM.loadVenues();
 
   });
 

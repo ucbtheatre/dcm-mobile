@@ -15,19 +15,30 @@
   </head>
   <body>
 
-    <div data-role="page" data-theme="d" id="page-show">
+    <div data-role="page" data-theme="d" id="show">
 
       <div data-role="header">
-        <h1>DCM 13: Show Title</h1>
+        <h1>DCM 13</h1>
       </div>
 
       <div data-role="content">
-        <p>Show description, etc...</p>
+
+        <h2 class="show-data-show_name"></h2>
+
+        <p class="show-data-promo_blurb"></p>
+
       </div>
 
-      <div data-role="footer">
-        <h4><a rel="external" href="http://ucbtheatre.com">UCB Theatre</a></h4>
-      </div>
+      <div data-role="footer" data-position="fixed" data-theme="a">
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#shows" class="ui-btn-active" data-transition="slide" data-direction="reverse">Shows</a></li>
+            <li><a href="#venues" data-transition="fade">Venues</a></li>
+            <li><a href="#performers" data-transition="fade">Performers</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+
     </div>
 
   </body>

@@ -16,6 +16,7 @@ DCM.dbImport = function(tableName, tableColumns, tableRows) {
 };
 
 DCM.loadShows = function() {
+
   DCM.db.readTransaction(function(tx) {
     tx.executeSql(
       'SELECT dcm13_shows.id, dcm13_shows.show_name AS title FROM dcm13_schedules JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY show_name',
@@ -51,7 +52,49 @@ DCM.loadShows = function() {
 
       }
     );
+
   });
+
+};
+
+DCM.loadShow = function( params ) {
+
+  var id = parseInt( params.id, 10 ),
+      $itemTpl = $( '#show [data-role="content"]' );
+
+  DCM.db.readTransaction(function(tx) {
+
+    tx.executeSql(
+      'SELECT dcm13_shows.* FROM dcm13_shows JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ' + id + ' LIMIT 1',
+      [],
+      function (tx, result) {
+
+        var data = result.rows.item(0),
+            $header = $( '#show [data-role="header"] h1' );
+
+        // console.log( data );
+
+        if ( data.show_name && $header.length ) {
+          $header.text( data.show_name + ' | ' + $header.text() );
+        }
+
+        $.each( data, function( i, v ) {
+
+          var className = 'show-data-' + i,
+              $el = $itemTpl.find( '.' + className );
+
+          // If an HTML element exists, load it with show data.
+          if ( $el.length ) {
+            $el.text( v );
+          }
+
+        });
+
+      }
+    );
+
+  });
+
 };
 
 DCM.loadVenues = function() {

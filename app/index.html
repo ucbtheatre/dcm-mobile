@@ -24,7 +24,7 @@
 
         <p>Welcome the the Del Close Marathon!</p>
 
-        <ul id="list-home" class="list" data-role="listview" data-inset="true">
+        <ul class="list" data-role="listview" data-inset="true">
           <li><a href="#shows" data-transition="slide">Shows</a></li>
           <li><a href="#venues" data-transition="slide">Venues</a></li>
           <li><a href="#performers" data-transition="slide">Performers</a></li>
@@ -35,9 +35,9 @@
       <div data-role="footer" data-position="fixed">
         <div data-role="navbar">
           <ul>
-            <li><a href="#shows">Shows</a></li>
-            <li><a href="#venues">Venues</a></li>
-            <li><a href="#performers">Performers</a></li>
+            <li><a href="#shows" data-transition="fade">Shows</a></li>
+            <li><a href="#venues" data-transition="fade">Venues</a></li>
+            <li><a href="#performers" data-transition="fade">Performers</a></li>
           </ul>
         </div><!-- / .navbar -->
       </div><!-- / .footer -->
@@ -52,9 +52,7 @@
       <div data-role="content">
 
         <ul class="list" data-role="listview">
-          <li><a href="#venue" data-transition="slide">Venue 1</a></li>
-          <li><a href="#venue" data-transition="slide">Venue 2</a></li>
-          <li><a href="#venue" data-transition="slide">Venue 3</a></li>
+          <li><a href="#venue" data-transition="slide">Venue</a></li>
         </ul>
 
       </div>
@@ -62,9 +60,32 @@
       <div data-role="footer" data-position="fixed">
         <div data-role="navbar">
           <ul>
-            <li><a href="#shows">Shows</a></li>
-            <li><a href="#venues" class="ui-btn-active">Venues</a></li>
-            <li><a href="#performers">Performers</a></li>
+            <li><a href="#shows" data-transition="fade">Shows</a></li>
+            <li><a href="#venues" class="ui-btn-active" data-transition="fade">Venues</a></li>
+            <li><a href="#performers" data-transition="fade">Performers</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+    </div>
+
+    <div data-role="page" data-theme="d" id="venue">
+
+      <div data-role="header">
+        <h1>Venue | DCM 13</h1>
+      </div>
+
+      <div data-role="content">
+
+        <p>Venue description, etc...</p>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#shows" data-transition="fade">Shows</a></li>
+            <li><a href="#venues" class="ui-btn-active" data-transition="slide" data-direction="reverse">Venues</a></li>
+            <li><a href="#performers" data-transition="fade">Performers</a></li>
           </ul>
         </div><!-- / .navbar -->
       </div><!-- / .footer -->
@@ -79,9 +100,7 @@
       <div data-role="content">
 
         <ul class="list" data-role="listview">
-          <li><a href="#show" data-transition="slide">Show 1</a></li>
-          <li><a href="#show" data-transition="slide">Show 2</a></li>
-          <li><a href="#show" data-transition="slide">Show 3</a></li>
+          <li><a href="#show" data-transition="slide">Show</a></li>
         </ul>
 
       </div>
@@ -89,9 +108,32 @@
       <div data-role="footer" data-position="fixed">
         <div data-role="navbar">
           <ul>
-            <li><a href="#shows" class="ui-btn-active">Shows</a></li>
-            <li><a href="#venues">Venues</a></li>
-            <li><a href="#performers">Performers</a></li>
+            <li><a href="#shows" class="ui-btn-active" data-transition="fade">Shows</a></li>
+            <li><a href="#venues" data-transition="fade">Venues</a></li>
+            <li><a href="#performers" data-transition="fade">Performers</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+    </div>
+
+    <div data-role="page" data-theme="d" id="show">
+
+      <div data-role="header">
+        <h1>Show | DCM 13</h1>
+      </div>
+
+      <div data-role="content">
+
+        <p>Show description, etc...</p>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#shows" class="ui-btn-active" data-transition="slide" data-direction="reverse">Shows</a></li>
+            <li><a href="#venues" data-transition="fade">Venues</a></li>
+            <li><a href="#performers" data-transition="fade">Performers</a></li>
           </ul>
         </div><!-- / .navbar -->
       </div><!-- / .footer -->

@@ -18,7 +18,7 @@ DCM.dbImport = function(tableName, tableColumns, tableRows) {
 DCM.loadShows = function() {
   DCM.db.readTransaction(function(tx) {
     tx.executeSql(
-      'SELECT dcm13_shows.show_name AS title FROM dcm13_schedules JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY show_name',
+      'SELECT dcm13_shows.id, dcm13_shows.show_name AS title FROM dcm13_schedules JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY show_name',
       [],
       function (tx, result) {
 
@@ -32,16 +32,21 @@ DCM.loadShows = function() {
 
           var row = result.rows.item( i ),
               $item = $itemTpl.clone(),
-              $link = $item.find( 'a' );
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
 
           // Add show title to link.
           $link.text( row.title );
+
+          // Add show id to href.
+          $link.attr( 'href', href + '?id=' + row.id );
 
           // Add item to list.
           $items.append( $item );
 
         }
 
+        // Reload list plugin.
         $items.listview( 'refresh' );
 
       }

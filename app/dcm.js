@@ -21,18 +21,28 @@ DCM.loadShows = function() {
       'SELECT dcm13_shows.show_name AS title FROM dcm13_schedules JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY starttime',
       [],
       function (tx, result) {
-        var shows = $('#shows');
-        shows.children().remove();
+
+        var $shows = $('#list-shows');
+
+        // Remove all current list items.
+        $shows.empty();
+
         for (var i = 0; i < result.rows.length; i++) {
-          var row = result.rows.item(i);
-          var li = document.createElement('LI');
-          var a = document.createElement('A');
-          a.innerText = row.title;
-          a.href = 'show.html';
-          a['data-transition'] = "slide";
-          li.appendChild(a);
-          shows.append(li);
+
+          var row = result.rows.item( i ),
+              $link = $( '<a href="show.html" data-transition="slide" />' ),
+              $item = $( '<li />' ).append( $link );
+
+          // Add show title to link.
+          $link.text( row.title );
+
+          // Add item to list.
+          $shows.append( $item );
+
         }
+
+        $shows.listview( 'refresh' );
+
       }
     );
   });

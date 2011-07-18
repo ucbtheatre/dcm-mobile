@@ -18,7 +18,7 @@ DCM.dbImport = function(tableName, tableColumns, tableRows) {
 DCM.loadShows = function() {
   DCM.db.readTransaction(function(tx) {
     tx.executeSql(
-      'SELECT dcm13_shows.show_name AS title FROM dcm13_schedules JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY starttime',
+      'SELECT dcm13_shows.show_name AS title FROM dcm13_schedules JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY show_name',
       [],
       function (tx, result) {
 

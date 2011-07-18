@@ -1020,9 +1020,9 @@ a.ui-link-inherit {
 
 /*orientations from js are available */
 .portrait,
-.portrait .ui-page { min-height: 420px; }
+.portrait .ui-page { /*min-height: 420px;*/ }
 .landscape,
-.landscape .ui-page  { min-height: 300px; }
+.landscape .ui-page  { /*min-height: 300px;*/ }
 
 /* loading screen */
 .ui-loading .ui-mobile-viewport { overflow: hidden !important; }
@@ -1663,4 +1663,5 @@ span.ui-slider-label-b { right: -100%;  margin-left: -1px }
 #header_image{text-align:center;}
 #header_image img{width:300px;}
 
-body {background:#d3321b}
+body {background:#d3321b; height:100%;}
+#home{background:#d3321b;}

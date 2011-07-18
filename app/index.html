@@ -14,33 +14,87 @@
   </head>
   <body>
 
-    <div data-role="page" data-theme="d" id="page-home">
+    <div data-role="page" data-theme="d" id="home">
 
       <div data-role="header">
         <h1>Del Close Marathon 13</h1>
       </div>
 
       <div data-role="content">
-        <ul id="shows" data-role="listview" data-inset="true">
-          <li><a href="show.html" data-transition="slide">Show 1</a></li>
-          <li><a href="show.html" data-transition="slide">Show 2</a></li>
-          <li><a href="show.html" data-transition="slide">Show 3</a></li>
-          <li><a href="show.html" data-transition="slide">Show 4</a></li>
-          <li><a href="show.html" data-transition="slide">Show 5</a></li>
-          <li><a href="show.html" data-transition="slide">Show 6</a></li>
-          <li><a href="show.html" data-transition="slide">Show 7</a></li>
-          <li><a href="show.html" data-transition="slide">Show 8</a></li>
-          <li><a href="show.html" data-transition="slide">Show 9</a></li>
-          <li><a href="show.html" data-transition="slide">Show 10</a></li>
-          <li><a href="show.html" data-transition="slide">Show 11</a></li>
-          <li><a href="show.html" data-transition="slide">Show 12</a></li>
-          <li><a href="show.html" data-transition="slide">Show 13</a></li>
+
+        <p>Welcome the the Del Close Marathon!</p>
+
+        <ul id="list-home" class="list" data-role="listview" data-inset="true">
+          <li><a href="#shows" data-transition="slide">Shows</a></li>
+          <li><a href="#venues" data-transition="slide">Venues</a></li>
+          <li><a href="#performers" data-transition="slide">Performers</a></li>
         </ul>
+
       </div>
-      
-      <div data-role="footer">
-        <h4><a rel="external" href="http://ucbtheatre.com">UCB Theatre</a></h4>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#shows">Shows</a></li>
+            <li><a href="#venues">Venues</a></li>
+            <li><a href="#performers">Performers</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+    </div>
+
+    <div data-role="page" data-theme="d" id="venues">
+
+      <div data-role="header">
+        <h1>Venues | DCM 13</h1>
       </div>
+
+      <div data-role="content">
+
+        <ul class="list" data-role="listview">
+          <li><a href="#venue" data-transition="slide">Venue 1</a></li>
+          <li><a href="#venue" data-transition="slide">Venue 2</a></li>
+          <li><a href="#venue" data-transition="slide">Venue 3</a></li>
+        </ul>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#shows">Shows</a></li>
+            <li><a href="#venues" class="ui-btn-active">Venues</a></li>
+            <li><a href="#performers">Performers</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+    </div>
+
+    <div data-role="page" data-theme="d" id="shows">
+
+      <div data-role="header">
+        <h1>Shows | DCM 13</h1>
+      </div>
+
+      <div data-role="content">
+
+        <ul class="list" data-role="listview">
+          <li><a href="#show" data-transition="slide">Show 1</a></li>
+          <li><a href="#show" data-transition="slide">Show 2</a></li>
+          <li><a href="#show" data-transition="slide">Show 3</a></li>
+        </ul>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#shows" class="ui-btn-active">Shows</a></li>
+            <li><a href="#venues">Venues</a></li>
+            <li><a href="#performers">Performers</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
     </div>
 
   </body>

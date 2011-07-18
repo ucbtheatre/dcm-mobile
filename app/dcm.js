@@ -22,16 +22,17 @@ DCM.loadShows = function() {
       [],
       function (tx, result) {
 
-        var $shows = $('#list-shows');
+        var $shows = $('#shows [data-role="content"] .list'),
+            $showTpl = $shows.children( 'li:first' ).remove();
 
-        // Remove all current list items.
+        // Remove all current list items, in case.
         $shows.empty();
 
         for (var i = 0; i < result.rows.length; i++) {
 
           var row = result.rows.item( i ),
-              $link = $( '<a href="show.html" data-transition="slide" />' ),
-              $item = $( '<li />' ).append( $link );
+              $item = $showTpl.clone(),
+              $link = $item.find( 'a' );
 
           // Add show title to link.
           $link.text( row.title );

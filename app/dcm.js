@@ -88,6 +88,30 @@ DCM.loadVenues = function() {
   });
 };
 
+$( document ).bind( 'mobileinit', function() {
+
+  // On page load, check if there's a query string (for individual item pages).
+  $( 'div' ).live( 'pageshow', function( event, ui ) {
+
+    var params = $.deparam.querystring( location.hash, true ),
+        $page = $.mobile.activePage;
+
+    switch ( $page.attr( 'id' ) ) {
+
+      case 'show':
+        DCM.loadShow( params );
+        break;
+
+      case 'venue':
+        DCM.loadVenue( params );
+        break;
+
+    }
+
+  });
+
+});
+
 $(document).ready(function($) {
 
   // Load database.

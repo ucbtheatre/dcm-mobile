@@ -106,8 +106,8 @@
 							#666666, 
 							#444444);
 	background-image: -webkit-gradient(linear,left top,left bottom,
-		color-stop(0, 		#000),
-		color-stop(1, 		#000));
+		color-stop(0, 		#666666),
+		color-stop(1, 		#444444));
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#666666', EndColorStr='#444444')";
 }
 .ui-btn-hover-a a.ui-link-inherit {

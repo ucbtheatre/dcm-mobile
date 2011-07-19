@@ -19,6 +19,11 @@
 			"name": "dcm13_times",
 			"columns": ["id","minutes"],
 			"rows": [[1,15],[2,30],[3,45],[4,60],[5,90],[6,120]]
+		},
+		{
+			"name": "dcm13_home_theatres",
+			"columns": ["id","name"],
+			"rows": [[0,"Not Applicable"],[1,"The BadDog Theatre Co (Toronto)"],[2,"ColdTowne Theater (Austin)"],[3,"ComedyWorx (Raleigh)"],[4,"DSI (Carrboro)"],[5,"The Hideout (Austin)"],[6,"The Impatient Theatre (Toronto)"],[7,"Improv Asylum (Boston)"],[8,"ImprovBoston (Boston)"],[9,"iO (Chicago)"],[10,"iO West (LA)"],[11,"The Magnet (NYC)"],[12,"The New Movement (Austin)"],[13,"PHIT (Philadelphia)"],[14,"The PIT (NYC)"],[15,"The Playground (Chicago)"],[16,"The Second City (Chicago)"],[17,"The Torch Theatre (Phoenix)"],[18,"UCBNY (NYC)"],[19,"UCBLA (LA)"],[20,"WIT (Washington DC)"],[21,"Other"]]
 		}
 	]
 }

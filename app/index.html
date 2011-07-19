@@ -26,15 +26,15 @@
       <div data-role="content">
         <div id="header_image"><img src="dcm13_mobile_header.jpg" /></div>
         <ul class="list" data-role="listview" data-inset="true" data-theme="a">
-          <li><a href="#shows" data-transition="slide">Shows</a></li>
-          <li id="venues_nav"><a href="#venues" data-transition="slide">Venues</a></li>
+	      <li><a href="#schedule" data-transition="slide">Schedule</a></li>
+          <li><a href="#shows" data-transition="slide">All Shows</a></li>
+		  <li><a href="#performers" data-transition-"slide">Performers</a></li>
+          <li><a href="#venues" data-transition="slide">Venue Details</a></li>
         </ul>
 
       </div>
 	<div id="footer_image"><img src="dcm13_footer.jpg" /></div>
     </div>
-
-
 
     <div data-role="page" data-theme="a" id="venues">
 
@@ -43,7 +43,6 @@
       </div>
 
       <div data-role="content">
-
         <ul class="list" data-role="listview" data-theme="a">
           <li><a href="venue.html" data-transition="slide">Venue</a></li>
         </ul>
@@ -53,9 +52,9 @@
       <div data-role="footer" data-position="fixed">
         <div data-role="navbar">
           <ul>
-            <li><a href="#shows" data-icon="grid" data-transition="fade">Shows</a></li>
-            <li><a href="#venues" class="ui-btn-active" data-icon="info" data-transition="fade">Venues</a></li>
-            <li><a href="#schedule" data-transition="fade">Schedule</a></li>
+			<li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+            <li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+            <li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
           </ul>
         </div><!-- / .navbar -->
       </div><!-- / .footer -->
@@ -81,16 +80,172 @@
       <div data-role="footer" data-position="fixed">
         <div data-role="navbar">
           <ul>
-            <li><a href="#shows" class="ui-btn-active" data-icon="grid" data-transition="fade">Shows</a></li>
-            <li><a href="#venues" data-icon="info" data-transition="fade">Venues</a></li>
-            <li><a href="#schedule" data-transition="fade">Schedule</a></li>
+	        <li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+            <li><a href="#shows" class="ui-btn-active" data-icon="info" data-transition="fade">All Shows</a></li>
+            <li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
           </ul>
         </div><!-- / .navbar -->
       </div><!-- / .footer -->
 
     </div>
 
+	<div data-role="page" data-theme="a" id="schedule">
 
+      <div data-role="header">
+        <h1>Choose a Venue</h1>
+      </div>
+
+      <div data-role="content">
+         
+        <ul class="list" data-role="listview" data-theme="a">
+          <li><a href="#">Scheduled Venue</a></li>
+        </ul>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+	  	    <li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+            <li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+            <li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+
+    </div>
+
+	<!-- UCB THEATRE SCHEDULE -->
+	<div data-role="page" data-theme="a" id="venue_ucbt">
+
+      <div data-role="header">
+        <h1>UCB Theatre</h1>
+      </div>
+
+      <div data-role="content">
+         
+        <ul class="list" data-role="listview" data-theme="a">
+          <li><a href="show.html">Show</a></li>
+        </ul>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+	  	    <li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+            <li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+            <li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+   </div>
+	<!-- HUDSON GUILD THEATRE SCHEDULE -->
+	<div data-role="page" data-theme="a" id="venue_hudsonguild">
+
+      <div data-role="header">
+        <h1>Hudson Guild Theatre</h1>
+      </div>
+
+      <div data-role="content">
+
+        <ul class="list" data-role="listview" data-theme="a">
+          <li><a href="show.html">Show</a></li>
+        </ul>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+	  	    <li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+            <li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+            <li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+</div>
+
+     <!-- URBAN STAGES SCHEDULE -->
+	<div data-role="page" data-theme="a" id="venue_urbanstages">
+
+      <div data-role="header">
+        <h1>Urban Stages</h1>
+      </div>
+
+      <div data-role="content">
+
+        <ul class="list" data-role="listview" data-theme="a">
+          <li><a href="show.html">Show</a></li>
+        </ul>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+	  	    <li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+            <li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+            <li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+
+    </div>
+
+   	 <!-- Kate Murphy SCHEDULE -->
+	<div data-role="page" data-theme="a" id="venue_katemurphy">
+
+      <div data-role="header">
+        <h1>FIT Kate Murphy Amphitheater</h1>
+      </div>
+
+      <div data-role="content">
+
+        <ul class="list" data-role="listview" data-theme="a">
+          <li><a href="show.html">Show</a></li>
+        </ul>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+	  	    <li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+            <li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+            <li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+
+    </div>
+
+	 <!-- Haft SCHEDULE -->
+	<div data-role="page" data-theme="a" id="venue_haft">
+
+      <div data-role="header">
+        <h1>FIT Haft Auditorium</h1>
+      </div>
+
+      <div data-role="content">
+
+        <ul class="list" data-role="listview" data-theme="a">
+          <li><a href="show.html">Show</a></li>
+        </ul>
+
+      </div>
+
+      <div data-role="footer" data-position="fixed">
+        <div data-role="navbar">
+          <ul>
+	  	    <li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+            <li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+            <li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
+          </ul>
+        </div><!-- / .navbar -->
+      </div><!-- / .footer -->
+
+    </div>
 
   </body>
 </html>

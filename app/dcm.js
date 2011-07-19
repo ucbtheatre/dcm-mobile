@@ -191,6 +191,310 @@ DCM.loadVenue = function( params ) {
 
 };
 
+
+DCM.loadVenuesForSchedule = function() {
+
+  DCM.db.readTransaction(function(tx) {
+
+    tx.executeSql(
+      'SELECT id, name, short_name FROM dcm13_venues ORDER BY id',
+      [],
+      function (tx, result) {
+
+        var $items = $('#schedule [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
+
+        // Remove all current list items, in case.
+        $items.empty();
+
+        for (var i = 0; i < result.rows.length; i++) {
+
+          var row = result.rows.item( i ),
+              $item = $itemTpl.clone(),
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
+
+          // Add show title to link.
+          $link.text( row.name );
+
+          // Add venue id to href.
+          $link.attr( 'href', href + 'venue_' + row.short_name.toLowerCase().replace(/ /g,'') );
+
+          // Add item to list.
+          $items.append( $item );
+
+        }
+
+        $items.listview( 'refresh' );
+
+      }
+    );
+
+  });
+
+};
+
+DCM.loadUCBTSchedule = function() {
+
+  DCM.db.readTransaction(function(tx) {
+
+    tx.executeSql(
+      'select shows.id, shows.show_name, schedules.starttime from dcm13_shows shows INNER JOIN dcm13_schedules schedules ON shows.id = schedules.show_id where schedules.venue_id = 1 order by schedules.starttime asc',
+      [],
+      function (tx, result) {
+
+        var $items = $('#venue_ucbt [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
+
+        // Remove all current list items, in case.
+        $items.empty();
+
+        for (var i = 0; i < result.rows.length; i++) {
+
+          var row = result.rows.item( i ),
+              $item = $itemTpl.clone(),
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
+	
+			var start_time = new Date(row.starttime*1000);
+			var hours = start_time.getHours();
+			var minutes = start_time.getMinutes();
+			if(minutes == 0){
+				minutes = '00';
+			}
+			var abbreviation = 'AM';
+			if(hours > 12) {
+				abbreviation = 'PM';
+				hours = hours - 12;
+			}
+			
+			if(hours == 0){
+				hours = 12;
+			}
+			
+			var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
+          // Add show title to link.
+          $link.text( row.show_name + ' ' + formattedTime);
+
+          // Add venue id to href.
+          $link.attr( 'href', href + '?id=' + row.id );
+
+          // Add item to list.
+          $items.append( $item );
+
+        }
+
+        $items.listview( 'refresh' );
+
+      }
+    );
+
+  });
+
+};
+
+DCM.loadHudsonGuildSchedule = function() {
+
+  DCM.db.readTransaction(function(tx) {
+
+    tx.executeSql(
+      'select shows.id, shows.show_name, schedules.starttime from dcm13_shows shows INNER JOIN dcm13_schedules schedules ON shows.id = schedules.show_id where schedules.venue_id = 2 order by schedules.starttime asc',
+      [],
+      function (tx, result) {
+
+        var $items = $('#venue_hudsonguild [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
+
+        // Remove all current list items, in case.
+        $items.empty();
+
+        for (var i = 0; i < result.rows.length; i++) {
+
+          var row = result.rows.item( i ),
+              $item = $itemTpl.clone(),
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
+
+          	var start_time = new Date(row.starttime*1000);
+			var hours = start_time.getHours();
+			var minutes = start_time.getMinutes();
+			if(minutes == 0){
+				minutes = '00';
+			}
+			var abbreviation = 'AM';
+			if(hours > 12) {
+				abbreviation = 'PM';
+				hours = hours - 12;
+			}
+
+			if(hours == 0){
+				hours = 12;
+			}
+
+			var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
+          // Add show title to link.
+          $link.text( row.show_name + ' ' + formattedTime);
+
+          // Add venue id to href.
+          $link.attr( 'href', href + '?id=' + row.id );
+
+          // Add item to list.
+          $items.append( $item );
+
+        }
+
+        $items.listview( 'refresh' );
+
+      }
+    );
+
+  });
+
+};
+
+DCM.loadUrbanStagesSchedule = function() {
+
+  DCM.db.readTransaction(function(tx) {
+
+    tx.executeSql(
+      'select shows.id, shows.show_name, schedules.starttime from dcm13_shows shows INNER JOIN dcm13_schedules schedules ON shows.id = schedules.show_id where schedules.venue_id = 3 order by schedules.starttime asc',
+      [],
+      function (tx, result) {
+
+        var $items = $('#venue_urbanstages [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
+
+        // Remove all current list items, in case.
+        $items.empty();
+
+        for (var i = 0; i < result.rows.length; i++) {
+
+          var row = result.rows.item( i ),
+              $item = $itemTpl.clone(),
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
+
+          	var start_time = new Date(row.starttime*1000);
+			var hours = start_time.getHours();
+			var minutes = start_time.getMinutes();
+			if(minutes == 0){
+				minutes = '00';
+			}
+			var abbreviation = 'AM';
+			if(hours > 12) {
+				abbreviation = 'PM';
+				hours = hours - 12;
+			}
+
+			if(hours == 0){
+				hours = 12;
+			}
+
+			var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
+          // Add show title to link.
+          $link.text( row.show_name + ' ' + formattedTime);
+
+          // Add venue id to href.
+          $link.attr( 'href', href + '?id=' + row.id );
+
+          // Add item to list.
+          $items.append( $item );
+
+        }
+
+        $items.listview( 'refresh' );
+
+      }
+    );
+
+  });
+
+};
+
+DCM.loadKateMurphySchedule = function() {
+
+  DCM.db.readTransaction(function(tx) {
+
+    tx.executeSql(
+      'select shows.id, shows.show_name, schedules.starttime from dcm13_shows shows INNER JOIN dcm13_schedules schedules ON shows.id = schedules.show_id where schedules.venue_id = 4 order by schedules.starttime asc',
+      [],
+      function (tx, result) {
+
+        var $items = $('#venue_katemurphy [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
+
+        // Remove all current list items, in case.
+        $items.empty();
+
+        for (var i = 0; i < result.rows.length; i++) {
+
+          var row = result.rows.item( i ),
+              $item = $itemTpl.clone(),
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
+
+          // Add show title to link.
+          $link.text( row.show_name );
+
+          // Add venue id to href.
+          $link.attr( 'href', href + '?id=' + row.id );
+
+          // Add item to list.
+          $items.append( $item );
+
+        }
+
+        $items.listview( 'refresh' );
+
+      }
+    );
+
+  });
+
+};
+
+DCM.loadHaftSchedule = function() {
+
+  DCM.db.readTransaction(function(tx) {
+
+    tx.executeSql(
+      'select shows.id, shows.show_name, schedules.starttime from dcm13_shows shows INNER JOIN dcm13_schedules schedules ON shows.id = schedules.show_id where schedules.venue_id = 5 order by schedules.starttime asc',
+      [],
+      function (tx, result) {
+
+        var $items = $('#venue_haft [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
+
+        // Remove all current list items, in case.
+        $items.empty();
+
+        for (var i = 0; i < result.rows.length; i++) {
+
+          var row = result.rows.item( i ),
+              $item = $itemTpl.clone(),
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
+
+          // Add show title to link.
+          $link.text( row.show_name );
+
+          // Add venue id to href.
+          $link.attr( 'href', href + '?id=' + row.id );
+
+          // Add item to list.
+          $items.append( $item );
+
+        }
+
+        $items.listview( 'refresh' );
+
+      }
+    );
+
+  });
+
+};
+
 $( document ).bind( 'mobileinit', function() {
 
   // On page load, check if there's a query string (for individual item pages).
@@ -236,6 +540,14 @@ $(document).ready(function($) {
     DCM.loadShows();
 
     DCM.loadVenues();
+
+	DCM.loadVenuesForSchedule();
+	
+	DCM.loadUCBTSchedule();
+	DCM.loadHudsonGuildSchedule();
+	DCM.loadUrbanStagesSchedule();
+	// DCM.loadKateMurphySchedule();
+	// DCM.loadHaftSchedule();
 
   });
 

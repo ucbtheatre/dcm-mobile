@@ -588,7 +588,8 @@
 	text-decoration: none;
 }
 
-#header_image{text-align:center;}
+#header_image,
+#footer_image{text-align:center;}
 #header_image img{width:300px;}
 
 body {background:#d3321b; height:100%;}

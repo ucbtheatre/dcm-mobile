@@ -27,6 +27,7 @@
         <div id="header_image"><img src="dcm13_mobile_header.jpg" /></div>
         <ul class="list" data-role="listview" data-inset="true" data-theme="a">
 	      <li><a href="#schedule" data-transition="slide">Schedule</a></li>
+		  <li><a href="#bookmarks" data-transition="slide">Bookmarked Shows</a></li>
           <li><a href="#shows" data-transition="slide">All Shows</a></li>
 		  <li><a href="#performers" data-transition-"slide">Performers</a></li>
           <li><a href="#venues" data-transition="slide">Venue Details</a></li>
@@ -70,8 +71,7 @@
       </div>
 
       <div data-role="content">
-
-        <ul class="list" data-role="listview" data-theme="a">
+        <ul data-filter-placeholder="Search Shows..." class="list" data-role="listview" data-theme="a" data-filter="true">
           <li><a href="show.html" data-transition="slide">Show</a></li>
         </ul>
 

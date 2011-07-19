@@ -15,6 +15,19 @@ DCM.dbImport = function(tableName, tableColumns, tableRows) {
   });
 };
 
+DCM.createBookmarkTable = function(){
+	// DCM.db.transaction(function(tx) {
+	// 		tx.executeSql('SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = "dcm13_bookmarks"',
+	// 		[],
+	// 		  function(tx, result) {
+	// 			if(result.rows.length == 0){
+	// 				tx.executeSql('CREATE TABLE dcm13_bookmarks (bookmark_id int, show_id int, starttime timestamp)')
+	// 			}
+	// 		  }
+	// 		);
+	// 	});
+};
+
 DCM.loadShows = function() {
 
   DCM.db.readTransaction(function(tx) {
@@ -536,6 +549,8 @@ $(document).ready(function($) {
       var table = json.tables[i];
       DCM.dbImport(table.name, table.columns, table.rows);
     }
+
+    // DCM.createBookmarkTable();
 
     DCM.loadShows();
 

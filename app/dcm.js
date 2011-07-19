@@ -77,10 +77,10 @@ DCM.loadShow = function( params ) {
         if ( data.show_name && $header.length ) {
 
           // Update app title.
-          $header.text( data.show_name + ' | DCM 13' );
+          // $header.text( data.show_name );
 
           // Update browser title.
-          $( 'head title' ).text( $header.text() );
+          $( 'head title' ).text( data.show_name );
 
         }
 
@@ -165,10 +165,10 @@ DCM.loadVenue = function( params ) {
         if ( data.name && $header.length ) {
 
           // Update app title.
-          $header.text( data.name + ' | DCM 13' );
+          // $header.text( data.name );
 
           // Update browser title.
-          $( 'head title' ).text( $header.text() );
+          $( 'head title' ).text( data.name );
 
         }
 

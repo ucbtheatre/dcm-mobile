@@ -532,38 +532,44 @@ $( document ).bind( 'mobileinit', function() {
 
 });
 
+//loads the data from the DB into the UI
+DCM.loadData = function() {
+	
+	DCM.loadShows();
+    DCM.loadVenues();
+	DCM.loadVenuesForSchedule();
+	DCM.loadUCBTSchedule();
+	DCM.loadHudsonGuildSchedule();
+	DCM.loadUrbanStagesSchedule();
+	
+	// DCM.loadKateMurphySchedule();
+	// DCM.loadHaftSchedule();
+};
+	
+
 $(document).ready(function($) {
 
   // Load database.
-  DCM.db = openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024);
+  DCM.db = openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024, function(db){
+	//populate the DB
+ 	$.getJSON('dcm13data.js', function(json) {
+	  for (var i = 0; i < json.tables.length; i++) {
+	    var table = json.tables[i];
+	    DCM.dbImport(table.name, table.columns, table.rows);
+	  }
+	  
+	  //load the data into the UI
+	  DCM.loadData();
+	});
+
+  });
 
   $('h1').ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     $(this).text('Error!');
     console.log(thrownError);
   });
-
-  // test if data is already loaded; if so, skip the next part and just call loadShows()
-  $.getJSON('dcm13data.js', function(json) {
-
-    for (var i = 0; i < json.tables.length; i++) {
-      var table = json.tables[i];
-      DCM.dbImport(table.name, table.columns, table.rows);
-    }
-
-    // DCM.createBookmarkTable();
-
-    DCM.loadShows();
-
-    DCM.loadVenues();
-
-	DCM.loadVenuesForSchedule();
-	
-	DCM.loadUCBTSchedule();
-	DCM.loadHudsonGuildSchedule();
-	DCM.loadUrbanStagesSchedule();
-	// DCM.loadKateMurphySchedule();
-	// DCM.loadHaftSchedule();
-
-  });
-
-});
+  
+  if(DCM.db.version == "1.0"){
+    DCM.loadData();
+  }
+ });

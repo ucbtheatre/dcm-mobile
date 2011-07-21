@@ -65,8 +65,8 @@ DCM.loadShows = function() {
           // Add show title to link.
           $link.text( row.title );
 
-          // Add show id to href.
-          $link.attr( 'href', href + '?id=' + row.id );
+          // Add show data to link.
+          $link.jqmData( 'dcm', { id : row.id, type : 'show' } );
 
           // Add item to list.
           $items.append( $item );
@@ -219,8 +219,8 @@ DCM.loadVenuesForVenueDetails = function() {
           // Add show title to link.
           $link.text( row.name );
 
-          // Add venue id to href.
-          $link.attr( 'href', href + '?id=' + row.id );
+          // Add venue data to link.
+          $link.jqmData( 'dcm', { id : row.id, type : 'venue' } );
 
           // Add item to list.
           $items.append( $item );
@@ -310,8 +310,8 @@ DCM.loadVenuesForSchedules = function() {
           // Add show title to link.
           $link.text( row.name );
 
-          // Add venue id to href.
-          $link.attr( 'href', href + '?id=' + row.id );
+          // Add venue data to link.
+          $link.jqmData( 'dcm', { id : row.id, type : 'venue' } );
 
           // Add item to list.
           $items.append( $item );

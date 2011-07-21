@@ -70,7 +70,7 @@ DCM.loadShows = function() {
 
 };
 
-DCM.loadShow = function( params ) {
+DCM.loadPageShow = function( params ) {
 
   var id = parseInt( params.id, 10 ),
       $itemTpl = $( '#show [data-role="content"]' );
@@ -116,7 +116,7 @@ DCM.loadShow = function( params ) {
 
 };
 
-DCM.loadVenues = function() {
+DCM.loadVenuesForVenueDetails = function() {
 
   DCM.db.readTransaction(function(tx) {
 
@@ -125,7 +125,7 @@ DCM.loadVenues = function() {
       [],
       function (tx, result) {
 
-        var $items = $('#venues [data-role="content"] .list'),
+        var $items = $('#venues_details [data-role="content"] .list'),
             $itemTpl = $items.children( 'li:first' ).remove();
 
         // Remove all current list items, in case.
@@ -158,7 +158,7 @@ DCM.loadVenues = function() {
 
 };
 
-DCM.loadVenue = function( params ) {
+DCM.loadPageVenueDetails = function( params ) {
 
   var id = parseInt( params.id, 10 ),
       $itemTpl = $( '#venue [data-role="content"]' );
@@ -205,7 +205,7 @@ DCM.loadVenue = function( params ) {
 };
 
 
-DCM.loadVenuesForSchedule = function() {
+DCM.loadVenuesForSchedules = function() {
 
   DCM.db.readTransaction(function(tx) {
 
@@ -214,7 +214,7 @@ DCM.loadVenuesForSchedule = function() {
       [],
       function (tx, result) {
 
-        var $items = $('#schedule [data-role="content"] .list'),
+        var $items = $('#venues_schedules [data-role="content"] .list'),
             $itemTpl = $items.children( 'li:first' ).remove();
 
         // Remove all current list items, in case.
@@ -231,7 +231,7 @@ DCM.loadVenuesForSchedule = function() {
           $link.text( row.name );
 
           // Add venue id to href.
-          $link.attr( 'href', href + 'venue_' + row.short_name.toLowerCase().replace(/ /g,'') );
+          $link.attr( 'href', href + '?id=' + row.id );
 
           // Add item to list.
           $items.append( $item );
@@ -247,13 +247,27 @@ DCM.loadVenuesForSchedule = function() {
 
 };
 
-DCM.loadScheduleForVenue = function(venue_db_id, venue_div_id) {
+
+DCM.loadPageScheduleForVenue = function( params ) {
+
+	var id = parseInt( params.id, 10 );
+	
 	DCM.db.readTransaction(function(tx) {
 		tx.executeSql(
-			'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ? ORDER BY schedules.starttime ASC',
-			[venue_db_id],
+			'SELECT name FROM dcm13_venues WHERE id = ?',
+			[id],
 			function (tx, result) {
-				var $items = $(venue_div_id + ' [data-role="content"] .list'),
+				var venue_name = result.rows.item(0).name;
+	            $( '#schedule [data-role="header"] h1' ).text( venue_name );
+				$( 'head title' ).text( venue_name );
+			}
+		);
+	
+		tx.executeSql(
+			'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ? ORDER BY schedules.starttime ASC',
+			[id],
+			function (tx, result) {
+				var $items = $('#schedule [data-role="content"] .list'),
 					$itemTpl = $items.children( 'li:first' ).remove();
 				
 				// Remove anything currently in the list.
@@ -295,62 +309,36 @@ DCM.loadScheduleForVenue = function(venue_db_id, venue_div_id) {
 };
 
 
-DCM.loadUCBTSchedule = function() {
-	DCM.loadScheduleForVenue(1, '#venue_ucbt');
-};
-
-DCM.loadHudsonGuildSchedule = function() {
-	DCM.loadScheduleForVenue(2, '#venue_hudsonguild');
-};
-
-DCM.loadUrbanStagesSchedule = function() {
-	DCM.loadScheduleForVenue(3, '#venue_urbanstages');
-};
-
-DCM.loadKateMurphySchedule = function() {
-	DCM.loadScheduleForVenue(4, '#venue_katemurphy');
-};
-
-DCM.loadHaftSchedule = function() {
-	DCM.loadScheduleForVenue(5, '#venue_haft');
-};
-
-
 $( document ).bind( 'mobileinit', function() {
+	// On page load, check if there's a query string (for individual item pages).
+	$( 'div' ).live( 'pageshow', function( event, ui ) {
+		var params = $.deparam.querystring( location.hash, true ),
+			$page = $.mobile.activePage;
 
-  // On page load, check if there's a query string (for individual item pages).
-  $( 'div' ).live( 'pageshow', function( event, ui ) {
+		switch ( $page.attr( 'id' ) ) {
 
-    var params = $.deparam.querystring( location.hash, true ),
-        $page = $.mobile.activePage;
+			case 'show':
+				DCM.loadPageShow( params );
+				break;
 
-    switch ( $page.attr( 'id' ) ) {
+			case 'venue':
+				DCM.loadPageVenueDetails( params );
+				break;
 
-      case 'show':
-        DCM.loadShow( params );
-        break;
-
-      case 'venue':
-        DCM.loadVenue( params );
-        break;
-
-    }
-
-  });
-
+			case 'schedule':
+				DCM.loadPageScheduleForVenue( params );
+				break;
+		
+		}
+	});
 });
 
 
 //loads the data from the DB into the UI
 DCM.loadData = function() {
 	DCM.loadShows();
-    DCM.loadVenues();
-	DCM.loadVenuesForSchedule();
-	DCM.loadUCBTSchedule();
-	DCM.loadHudsonGuildSchedule();
-	DCM.loadUrbanStagesSchedule();
-	DCM.loadKateMurphySchedule();
-	DCM.loadHaftSchedule();
+    DCM.loadVenuesForVenueDetails();
+    DCM.loadVenuesForSchedules();
 };
 	
 

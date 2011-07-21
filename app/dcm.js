@@ -78,8 +78,8 @@ DCM.loadShow = function( params ) {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_shows.* FROM dcm13_shows JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ' + id + ' LIMIT 1',
-      [],
+      'SELECT dcm13_shows.* FROM dcm13_shows JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
+      [id],
       function (tx, result) {
 
         var data = result.rows.item(0),
@@ -166,8 +166,8 @@ DCM.loadVenue = function( params ) {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_venues.* FROM dcm13_venues WHERE dcm13_venues.id = ' + id + ' LIMIT 1',
-      [],
+      'SELECT dcm13_venues.* FROM dcm13_venues WHERE dcm13_venues.id = ? LIMIT 1',
+      [id],
       function (tx, result) {
 
         var data = result.rows.item(0),

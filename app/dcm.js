@@ -4,7 +4,7 @@ var DCM = {
 };
 
 DCM.getActiveState = function( type ) {
-  return DCM.state[ type ] || null;
+  return parseInt( DCM.state[ type ], 10 ) || null;
 }
 
 DCM.dbImport = function(tableName, tableColumns, tableRows) {

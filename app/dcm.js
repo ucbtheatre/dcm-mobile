@@ -1,4 +1,11 @@
-var DCM = { db : null };
+var DCM = {
+  db : null,
+  state : {}
+};
+
+DCM.getActiveState = function( type ) {
+  return DCM.state[ type ] || null;
+}
 
 DCM.dbImport = function(tableName, tableColumns, tableRows) {
   DCM.db.transaction(function(tx) {

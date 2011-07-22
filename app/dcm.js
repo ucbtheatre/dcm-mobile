@@ -147,21 +147,10 @@ DCM.loadPageShow = function( params ) {
           // Update browser title.
           $( 'head title' ).text( data.show_name );
 
-		  $favorite_link.attr('onclick', 'DCM.favorite(' + data.id + ')');
-		  if(data.bookmark_id != null)
-		  {
-		    $favorite_link.attr('data-theme','b')
-		    $favorite_link.addClass('ui-btn-up-b')
-		    $favorite_link.addClass('ui-btn-down-b')
-		    $('#favorite_button span .ui-btn-text').text('Remove from Favorites');
-		  }
-		  else
-		  {
-		    $favorite_link.attr('data-theme','a')
-		    $favorite_link.addClass('ui-btn-up-a')
-		    $favorite_link.addClass('ui-btn-down-a')
-		    $('#favorite_button span .ui-btn-text').text('Add to Favorites');
-		  }
+		  $favorite_link.unbind('favorite_changed', DCM.updateFavoriteButtonUI);
+		  $favorite_link.bind('favorite_changed', DCM.updateFavoriteButtonUI);
+		  $favorite_link.addClass('favorite_listener');
+		  DCM.updateFavoriteButtonUI(null, {show_id:data.id, isFavorite: (data.bookmark_id != null)});		
 
         }
 
@@ -435,51 +424,57 @@ $(document).ready(function($) {
     DCM.loadData();
   }
 
-
 	$('#bookmarks').bind('pageshow', function() {
 	        console.log('show nearby');
-			DCM.loadFavorites();
+			/DCM.loadFavorites();
 	    });
 
  });
 
 
+DCM.addFavoriteShow = function(event){
+	DCM.db.transaction(function(tx) {
+ 	tx.executeSql(
+			'insert into dcm13_bookmarks(show_id) values(?)',
+			[event.data.show_id],
+			function (tx, result) {
+				//do nothing.
+				$('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:true});
+			}
+		);
+	});
+	
+};
 
-DCM.favorite = function(show_id) {
-	//update favorite button status.
-	var currentTheme = $('#favorite_button').attr('data-theme')
-	if(currentTheme == 'a')
+DCM.removeFavoriteShow = function(event){
+	DCM.db.transaction(function(tx) {
+ 	tx.executeSql(
+			'delete from dcm13_bookmarks where show_id = ?',
+			[event.data.show_id],
+			function (tx, result) {
+				//do nothing.
+					$('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:false});
+			}
+		);
+	});
+};
+
+DCM.updateFavoriteButtonUI = function(e, data){
+	if(data.isFavorite)
 	{
+		$('#favorite_button').bind('click', {'show_id': data.show_id}, DCM.removeFavoriteShow);
 		$('#favorite_button').attr('data-theme', 'b');
 		$('#favorite_button').removeClass("ui-btn-up-a").addClass("ui-btn-up-b").removeClass("ui-btn-down-a").addClass("ui-btn-down-b").removeClass('ui-btn-hover-a');
 		$('#favorite_button span .ui-btn-text').text('Remove from Favorites');
-		
-		DCM.db.transaction(function(tx) {
-	 	tx.executeSql(
-				'insert into dcm13_bookmarks(show_id) values(?)',
-				[show_id],
-				function (tx, result) {
-					//do nothing.
-				}
-			);
-		});
+		$('#favorite_button').unbind('click', DCM.addFavoriteShow);
 	}
 	else
 	{
-		DCM.db.transaction(function(tx) {
-	 	tx.executeSql(
-				'delete from dcm13_bookmarks where show_id = ?',
-				[show_id],
-				function (tx, result) {
-					//do nothing.
-				}
-			);
-		});
-		
-		
+		$('#favorite_button').bind('click', {'show_id': data.show_id}, DCM.addFavoriteShow);
 		$('#favorite_button').attr('data-theme', 'a');
 		$('#favorite_button').removeClass("ui-btn-up-b").addClass("ui-btn-up-a").removeClass("ui-btn-down-b").addClass("ui-btn-down-a").removeClass('ui-btn-hover-b');
 		$('#favorite_button span .ui-btn-text').text('Add to Favorites');
+		$('#favorite_button').unbind('click', DCM.removeFavoriteShow);
 	}
 };
 

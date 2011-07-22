@@ -35,13 +35,24 @@
   <!-- Favorite Shows -->
 
   <div data-role="page" data-theme="a" id="bookmarks">
-    <div data-role="header">
+		<div data-role="header">
       <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
-      <h1>Favorites</h1>
-    </div>
-    <div data-role="content">
-      <p>Not yet implemented. <a href="#home" data-transition="slide">Go home.</a></p>
-    </div>
+			<h1>Shows</h1>
+		</div>
+		<div data-role="content">
+			<ul class="list" data-role="listview" data-theme="a">
+				<li><a href="show.html" data-transition="slide">Show</a></li>
+			</ul>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+					<li><a href="#shows" class="ui-btn-active" data-icon="info" data-transition="fade">All Shows</a></li>
+					<li><a href="#venues_schedules" data-transition="fade" data-icon="grid">Schedule</a></li>
+				</ul>
+			</div><!-- / .navbar -->
+		</div><!-- / .footer -->
   </div>
 
   <!-- Performers -->

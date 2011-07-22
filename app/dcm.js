@@ -77,6 +77,50 @@ DCM.loadShows = function() {
 
 };
 
+DCM.loadFavorites = function() {
+
+  DCM.db.readTransaction(function(tx) {
+    tx.executeSql(
+      'SELECT dcm13_bookmarks.id as bookmark_id, dcm13_shows.id, dcm13_shows.show_name AS title FROM dcm13_bookmarks LEFT JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_bookmarks.show_id) JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY show_name',
+      [],
+      function (tx, result) {
+
+        var $items = $('#bookmarks [data-role="content"] .list'),
+            $itemTpl = $items.children( 'li:first' ).remove();
+
+        // Remove all current list items, in case.
+        $items.empty();
+
+        for (var i = 0; i < result.rows.length; i++) {
+
+          var row = result.rows.item( i ),
+              $item = $itemTpl.clone(),
+              $link = $item.find( 'a' ),
+              href = $link.attr( 'href' );
+
+          // Add show title to link.
+          $link.text( row.title );
+
+          // Add show id to href.
+          $link.attr( 'href', href + '?id=' + row.id );
+
+          // Add item to list.
+          $items.append( $item );
+
+        }
+
+        // Reload list plugin.
+        $items.listview( 'refresh' );
+
+      }
+    );
+
+  });
+
+};
+
+
+
 DCM.loadPageShow = function( params ) {
 
   var id = parseInt( params.id, 10 ),
@@ -363,6 +407,7 @@ DCM.loadData = function() {
 	DCM.loadShows();
     DCM.loadVenuesForVenueDetails();
     DCM.loadVenuesForSchedules();
+	DCM.loadFavorites();
 };
 	
 
@@ -389,6 +434,12 @@ $(document).ready(function($) {
   if(DCM.db.version == "1.0"){
     DCM.loadData();
   }
+
+
+	$('#bookmarks').bind('pageshow', function() {
+	        console.log('show nearby');
+			DCM.loadFavorites();
+	    });
 
  });
 
@@ -431,5 +482,6 @@ DCM.favorite = function(show_id) {
 		$('#favorite_button span .ui-btn-text').text('Add to Favorites');
 	}
 };
+
 
 

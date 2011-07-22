@@ -11,14 +11,16 @@
     <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="jquery.ba-bbq.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="dcm.js"></script>
-    <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.0b1.min.js"></script>
   </head>
   <body>
 
-    <div data-role="page" data-theme="a" id="show">
+    <div data-role="page" data-theme="a" id="show" data-add-back-btn="true">
 
       <div data-role="header">
-        <h1></h1>
+		<a href="#shows" data-rel="back" data-icon="arrow-l">Back to Shows</a>
+        <h1 class="show-data-show_name">Show</h1>
+		<a id="favorite_button" data-icon="star" id="favorite_button"></a>
       </div>
 
       <div data-role="content">

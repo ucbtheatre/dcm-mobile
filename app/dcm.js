@@ -1,4 +1,11 @@
+var DEBUG = 0;
+var DEBUG_TIME = new Date("August 13, 2011 11:13:00");
+
 var DCM = { db : null };
+
+DCM.getTime = function(){
+	return DEBUG ? DEBUG_TIME : new Date();
+};
 
 DCM.dbImport = function(tableName, tableColumns, tableRows) {
   DCM.db.transaction(function(tx) {
@@ -78,22 +85,39 @@ DCM.loadPageShow = function( params ) {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_shows.* FROM dcm13_shows JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
+      'SELECT dcm13_shows.*, dcm13_venues.*, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id) JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
       [id],
       function (tx, result) {
 
         var data = result.rows.item(0),
-            $header = $( '#show [data-role="header"] h1' );
+            $header = $( '#show [data-role="header"] h1' ),
+			$favorite_link = $('#show [data-role="header"] #favorite_button');
 
         // console.log( data );
 
         if ( data.show_name && $header.length ) {
 
           // Update app title.
-          // $header.text( data.show_name );
+          $header.text( data.show_name );
 
           // Update browser title.
           $( 'head title' ).text( data.show_name );
+
+		  $favorite_link.attr('onclick', 'DCM.favorite(' + data.id + ')');
+		  if(data.bookmark_id != null)
+		  {
+		    $favorite_link.attr('data-theme','b')
+		    $favorite_link.addClass('ui-btn-up-b')
+		    $favorite_link.addClass('ui-btn-down-b')
+		    $('#favorite_button span .ui-btn-text').text('Remove from Favorites');
+		  }
+		  else
+		  {
+		    $favorite_link.attr('data-theme','a')
+		    $favorite_link.addClass('ui-btn-up-a')
+		    $favorite_link.addClass('ui-btn-down-a')
+		    $('#favorite_button span .ui-btn-text').text('Add to Favorites');
+		  }
 
         }
 
@@ -365,4 +389,47 @@ $(document).ready(function($) {
   if(DCM.db.version == "1.0"){
     DCM.loadData();
   }
+
  });
+
+
+
+DCM.favorite = function(show_id) {
+	//update favorite button status.
+	var currentTheme = $('#favorite_button').attr('data-theme')
+	if(currentTheme == 'a')
+	{
+		$('#favorite_button').attr('data-theme', 'b');
+		$('#favorite_button').removeClass("ui-btn-up-a").addClass("ui-btn-up-b").removeClass("ui-btn-down-a").addClass("ui-btn-down-b").removeClass('ui-btn-hover-a');
+		$('#favorite_button span .ui-btn-text').text('Remove from Favorites');
+		
+		DCM.db.transaction(function(tx) {
+	 	tx.executeSql(
+				'insert into dcm13_bookmarks(show_id) values(?)',
+				[show_id],
+				function (tx, result) {
+					//do nothing.
+				}
+			);
+		});
+	}
+	else
+	{
+		DCM.db.transaction(function(tx) {
+	 	tx.executeSql(
+				'delete from dcm13_bookmarks where show_id = ?',
+				[show_id],
+				function (tx, result) {
+					//do nothing.
+				}
+			);
+		});
+		
+		
+		$('#favorite_button').attr('data-theme', 'a');
+		$('#favorite_button').removeClass("ui-btn-up-b").addClass("ui-btn-up-a").removeClass("ui-btn-down-b").addClass("ui-btn-down-a").removeClass('ui-btn-hover-b');
+		$('#favorite_button span .ui-btn-text').text('Add to Favorites');
+	}
+};
+
+

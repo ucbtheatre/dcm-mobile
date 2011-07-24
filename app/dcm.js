@@ -15,6 +15,19 @@ DCM.dbImport = function(tableName, tableColumns, tableRows) {
   });
 };
 
+DCM.resetDB = function() {
+	$.getJSON("dcm13data.js", function(json) {
+	  DCM.db.transaction(function(txt){
+	    tx.executeSql('DROP DATABASE IF EXISTS dcm');	
+	  });
+	  for (var i = 0; i < json.tables.length; i++) {
+	    var table = json.tables[i];
+	    DCM.dbImport(table.name, table.columns, table.rows);
+	  }
+	});
+    $(".message").html("Database is Reset");
+};
+
 DCM.createBookmarkTable = function(){
 	// DCM.db.transaction(function(tx) {
 	// 		tx.executeSql('SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = "dcm13_bookmarks"',
@@ -98,7 +111,7 @@ DCM.loadPageShow = function( params ) {
         }
 
         $.each( data, function( i, v ) {
-
+			// console.log(i + '||' + v);
           var className = 'show-data-' + i,
               $el = $itemTpl.find( '.' + className );
 
@@ -106,6 +119,10 @@ DCM.loadPageShow = function( params ) {
           if ( $el.length ) {
             $el.text( v );
           }
+
+		 if($el.hasClass('show-data-cast_list')){
+			$el.html('<span class="cast-label">Cast:</span> ' + v);
+		 }
 
         });
 
@@ -293,6 +310,11 @@ DCM.loadPageScheduleForVenue = function( params ) {
 					if (hours == 0) {
 						hours = 12;
 					}
+					
+					if(row.show_name == "THEATRE CLEANING"){
+					    $link.addClass("theatre-cleaning");
+					  }
+					console.log(row.show_name);
 					var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
 					// Add show title to link
 					$link.text( formattedTime + ' ' + row.show_name );

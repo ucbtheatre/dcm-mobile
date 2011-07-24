@@ -110,6 +110,9 @@ DCM.loadPageShow = function( params ) {
 
         }
 
+		if(data['image'].length){
+			$('.show-data-show_name').after('<div><img class="show-image" src="' + data['image'] + '" /></div>');
+		}
         $.each( data, function( i, v ) {
 			// console.log(i + '||' + v);
           var className = 'show-data-' + i,
@@ -314,7 +317,6 @@ DCM.loadPageScheduleForVenue = function( params ) {
 					if(row.show_name == "THEATRE CLEANING"){
 					    $link.addClass("theatre-cleaning");
 					  }
-					console.log(row.show_name);
 					var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
 					// Add show title to link
 					$link.text( formattedTime + ' ' + row.show_name );

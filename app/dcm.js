@@ -133,7 +133,7 @@ DCM.loadPageShow = function( params ) {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_shows.* FROM dcm13_shows JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
+      'SELECT dcm13_shows.*, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id)  JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
       [id],
       function (tx, result) {
 
@@ -146,7 +146,7 @@ DCM.loadPageShow = function( params ) {
         if ( data.show_name && $header.length ) {
 
           // Update app title.
-          // $header.text( data.show_name );
+          $header.text( data.show_name );
 
           // Update browser title.
           $( 'head title' ).text( data.show_name );
@@ -461,22 +461,20 @@ DCM.addFavoriteShow = function(event){
             'insert into dcm13_bookmarks(show_id) values(?)',
             [event.data.show_id],
             function (tx, result) {
-                //do nothing.
-                $('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:true});
+				$('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:true});
             }
         );
     });
     
 };
 
-DCM.removeFavoriteShowhow = function(event){
+DCM.removeFavoriteShow = function(event){
     DCM.db.transaction(function(tx) {
     tx.executeSql(
             'delete from dcm13_bookmarks where show_id = ?',
             [event.data.show_id],
             function (tx, result) {
-                //do nothing.
-                    $('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:false});
+				$('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:false});
             }
         );
     });
@@ -485,18 +483,18 @@ DCM.removeFavoriteShowhow = function(event){
 DCM.updateFavoriteButtonUI = function(e, data){
     if(data.isFavorite)
     {
-        $('#favorite_button').bind('click', {'show_id': data.show_id}, DCM.removeFavoriteShow);
-        $('#favorite_button').attr('data-theme', 'b');
-        $('#favorite_button').removeClass("ui-btn-up-a").addClass("ui-btn-up-b").removeClass("ui-btn-down-a").addClass("ui-btn-down-b").removeClass('ui-btn-hover-a');
-        $('#favorite_button span .ui-btn-text').text('Remove from Favorites');
-        $('#favorite_button').unbind('click', DCM.addFavoriteShow);
+        $('#show [data-role="header"] #favorite_button').unbind('click', DCM.addFavoriteShow);
+        $('#show [data-role="header"] #favorite_button').bind('click', {'show_id': data.show_id}, DCM.removeFavoriteShow);
+        $('#show [data-role="header"] #favorite_button').attr('data-theme', 'b');
+        $('#show [data-role="header"] #favorite_button').removeClass("ui-btn-up-a").addClass("ui-btn-up-b").removeClass("ui-btn-down-a").addClass("ui-btn-down-b").removeClass('ui-btn-hover-a');
+        $('#show [data-role="header"] #favorite_button span .ui-btn-text').text('Remove from Favorites');
     }
     else
     {
-        $('#favorite_button').bind('click', {'show_id': data.show_id}, DCM.addFavoriteShow);
-        $('#favorite_button').attr('data-theme', 'a');
-        $('#favorite_button').removeClass("ui-btn-up-b").addClass("ui-btn-up-a").removeClass("ui-btn-down-b").addClass("ui-btn-down-a").removeClass('ui-btn-hover-b');
-        $('#favorite_button span .ui-btn-text').text('Add to Favorites');
-        $('#favorite_button').unbind('click', DCM.removeFavoriteShow);
+        $('#show [data-role="header"] #favorite_button').unbind('click', DCM.removeFavoriteShow);
+		$('#show [data-role="header"] #favorite_button').bind('click', {'show_id': data.show_id}, DCM.addFavoriteShow);
+		$('#show [data-role="header"] #favorite_button').attr('data-theme', 'a');
+		$('#show [data-role="header"] #favorite_button').removeClass("ui-btn-up-b").addClass("ui-btn-up-a").removeClass("ui-btn-down-b").addClass("ui-btn-down-a").removeClass('ui-btn-hover-b');
+        $('#show [data-role="header"] #favorite_button span .ui-btn-text').text('Add to Favorites');
     }
 };

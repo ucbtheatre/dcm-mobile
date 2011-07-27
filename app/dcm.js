@@ -156,10 +156,21 @@ DCM.loadPageShow = function( params ) {
           $favorite_link.addClass('favorite_listener');
           DCM.updateFavoriteButtonUI(null, {show_id:data.id, isFavorite: (data.bookmark_id != null)});      
         }
-
-		if(data['image'].length){
-			$('.show-data-show_name').after('<div><img class="show-image" src="' + data['image'] + '" /></div>');
+        
+		//Show image
+        if(data['image'].length && data['image'].match('^.+\.((jpg)|(gif)|(jpeg)|(png))$')){
+			if($('.show-image-container').length) {
+				$('.show-image-container .show-image').attr('src', data['image']);
+			}
+			else {
+				$('.show-data-show_name').after('<div class="show-image-container"><img class="show-image" src="' + data['image'] + '" /></div>');
+			}
+		} else {
+			if($('.show-image-container').length){
+				$('.show-image-container').remove();
+			}
 		}
+		
         $.each( data, function( i, v ) {
 			// console.log(i + '||' + v);
           var className = 'show-data-' + i,

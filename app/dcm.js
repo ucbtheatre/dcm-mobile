@@ -1,11 +1,4 @@
-var DEBUG = 0;
-var DEBUG_TIME = new Date("August 13, 2011 11:13:00");
-
 var DCM = { db : null };
-
-DCM.getTime = function(){
-	return DEBUG ? DEBUG_TIME : new Date();
-};
 
 DCM.dbImport = function(tableName, tableColumns, tableRows) {
   DCM.db.transaction(function(tx) {
@@ -23,16 +16,16 @@ DCM.dbImport = function(tableName, tableColumns, tableRows) {
 };
 
 DCM.createBookmarkTable = function(){
-	// DCM.db.transaction(function(tx) {
-	// 		tx.executeSql('SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = "dcm13_bookmarks"',
-	// 		[],
-	// 		  function(tx, result) {
-	// 			if(result.rows.length == 0){
-	// 				tx.executeSql('CREATE TABLE dcm13_bookmarks (bookmark_id int, show_id int, starttime timestamp)')
-	// 			}
-	// 		  }
-	// 		);
-	// 	});
+    // DCM.db.transaction(function(tx) {
+    //      tx.executeSql('SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = "dcm13_bookmarks"',
+    //      [],
+    //        function(tx, result) {
+    //          if(result.rows.length == 0){
+    //              tx.executeSql('CREATE TABLE dcm13_bookmarks (bookmark_id int, show_id int, starttime timestamp)')
+    //          }
+    //        }
+    //      );
+    //  });
 };
 
 DCM.loadShows = function() {
@@ -119,8 +112,6 @@ DCM.loadFavorites = function() {
 
 };
 
-
-
 DCM.loadPageShow = function( params ) {
 
   var id = parseInt( params.id, 10 ),
@@ -129,29 +120,28 @@ DCM.loadPageShow = function( params ) {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_shows.*, dcm13_venues.*, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id) JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
+      'SELECT dcm13_shows.* FROM dcm13_shows JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
       [id],
       function (tx, result) {
 
         var data = result.rows.item(0),
             $header = $( '#show [data-role="header"] h1' ),
-			$favorite_link = $('#show [data-role="header"] #favorite_button');
+            $favorite_link = $('#show [data-role="header"] #favorite_button');
 
         // console.log( data );
 
         if ( data.show_name && $header.length ) {
 
           // Update app title.
-          $header.text( data.show_name );
+          // $header.text( data.show_name );
 
           // Update browser title.
           $( 'head title' ).text( data.show_name );
 
-		  $favorite_link.unbind('favorite_changed', DCM.updateFavoriteButtonUI);
-		  $favorite_link.bind('favorite_changed', DCM.updateFavoriteButtonUI);
-		  $favorite_link.addClass('favorite_listener');
-		  DCM.updateFavoriteButtonUI(null, {show_id:data.id, isFavorite: (data.bookmark_id != null)});		
-
+          $favorite_link.unbind('favorite_changed', DCM.updateFavoriteButtonUI);
+          $favorite_link.bind('favorite_changed', DCM.updateFavoriteButtonUI);
+          $favorite_link.addClass('favorite_listener');
+          DCM.updateFavoriteButtonUI(null, {show_id:data.id, isFavorite: (data.bookmark_id != null)});      
         }
 
         $.each( data, function( i, v ) {
@@ -307,112 +297,111 @@ DCM.loadVenuesForSchedules = function() {
 
 DCM.loadPageScheduleForVenue = function( params ) {
 
-	var id = parseInt( params.id, 10 );
-	
-	DCM.db.readTransaction(function(tx) {
-		tx.executeSql(
-			'SELECT name FROM dcm13_venues WHERE id = ?',
-			[id],
-			function (tx, result) {
-				var venue_name = result.rows.item(0).name;
-	            $( '#schedule [data-role="header"] h1' ).text( venue_name );
-				$( 'head title' ).text( venue_name );
-			}
-		);
-	
-		tx.executeSql(
-			'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ? ORDER BY schedules.starttime ASC',
-			[id],
-			function (tx, result) {
-				var $items = $('#schedule [data-role="content"] .list'),
-					$itemTpl = $items.children( 'li:first' ).remove();
-				
-				// Remove anything currently in the list.
-				$items.empty();
-				
-				for (var i = 0; i < result.rows.length; i++) {
-					var row = result.rows.item( i ),
-						$item = $itemTpl.clone(),
-						$link = $item.find( 'a' ),
-						href = $link.attr( 'href' );
-					
-					var start_time = new Date(row.starttime * 1000);
-					var hours = start_time.getHours();
-					var minutes = start_time.getMinutes();
-					if (minutes < 10) {
-						minutes = '0' + minutes;
-					}
-					var abbreviation = 'AM';
-					if (hours > 12) {
-						abbreviation = 'PM';
-						hours = hours - 12;
-					}
-					if (hours == 0) {
-						hours = 12;
-					}
-					var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
-					// Add show title to link
-					$link.text( formattedTime + ' ' + row.show_name );
-					// Add venue id to href
-					$link.attr( 'href', href + '?id=' + row.id );
-					// Add item to list.
-					$items.append( $item );
-				}
-				
-				$items.listview( 'refresh' );
-			}
-		);
-	});
+    var id = parseInt( params.id, 10 );
+    
+    DCM.db.readTransaction(function(tx) {
+        tx.executeSql(
+            'SELECT name FROM dcm13_venues WHERE id = ?',
+            [id],
+            function (tx, result) {
+                var venue_name = result.rows.item(0).name;
+                $( '#schedule [data-role="header"] h1' ).text( venue_name );
+                $( 'head title' ).text( venue_name );
+            }
+        );
+    
+        tx.executeSql(
+            'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ? ORDER BY schedules.starttime ASC',
+            [id],
+            function (tx, result) {
+                var $items = $('#schedule [data-role="content"] .list'),
+                    $itemTpl = $items.children( 'li:first' ).remove();
+                
+                // Remove anything currently in the list.
+                $items.empty();
+                
+                for (var i = 0; i < result.rows.length; i++) {
+                    var row = result.rows.item( i ),
+                        $item = $itemTpl.clone(),
+                        $link = $item.find( 'a' ),
+                        href = $link.attr( 'href' );
+                    
+                    var start_time = new Date(row.starttime * 1000);
+                    var hours = start_time.getHours();
+                    var minutes = start_time.getMinutes();
+                    if (minutes < 10) {
+                        minutes = '0' + minutes;
+                    }
+                    var abbreviation = 'AM';
+                    if (hours > 12) {
+                        abbreviation = 'PM';
+                        hours = hours - 12;
+                    }
+                    if (hours == 0) {
+                        hours = 12;
+                    }
+                    var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
+                    // Add show title to link
+                    $link.text( formattedTime + ' ' + row.show_name );
+                    // Add venue id to href
+                    $link.attr( 'href', href + '?id=' + row.id );
+                    // Add item to list.
+                    $items.append( $item );
+                }
+                
+                $items.listview( 'refresh' );
+            }
+        );
+    });
 };
 
 
 $( document ).bind( 'mobileinit', function() {
-	// On page load, check if there's a query string (for individual item pages).
-	$( 'div' ).live( 'pageshow', function( event, ui ) {
-		var params = $.deparam.querystring( location.hash, true ),
-			$page = $.mobile.activePage;
+    // On page load, check if there's a query string (for individual item pages).
+    $( 'div' ).live( 'pageshow', function( event, ui ) {
+        var params = $.deparam.querystring( location.hash, true ),
+            $page = $.mobile.activePage;
 
-		switch ( $page.attr( 'id' ) ) {
+        switch ( $page.attr( 'id' ) ) {
 
-			case 'show':
-				DCM.loadPageShow( params );
-				break;
+            case 'show':
+                DCM.loadPageShow( params );
+                break;
 
-			case 'venue':
-				DCM.loadPageVenueDetails( params );
-				break;
+            case 'venue':
+                DCM.loadPageVenueDetails( params );
+                break;
 
-			case 'schedule':
-				DCM.loadPageScheduleForVenue( params );
-				break;
-		
-		}
-	});
+            case 'schedule':
+                DCM.loadPageScheduleForVenue( params );
+                break;
+        
+        }
+    });
 });
 
 
 //loads the data from the DB into the UI
 DCM.loadData = function() {
-	DCM.loadShows();
+    DCM.loadShows();
     DCM.loadVenuesForVenueDetails();
     DCM.loadVenuesForSchedules();
-	DCM.loadFavorites();
 };
-	
+    
 
 $(document).ready(function($) {
 
   // Load database.
   DCM.db = openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024, function(db){
-	//populate the DB
- 	$.getJSON('dcm13data.js', function(json) {
-	  for (var i = 0; i < json.tables.length; i++) {
-	    var table = json.tables[i];
-	    DCM.dbImport(table.name, table.columns, table.rows);
-	  }
-	  //load the data into the UI
-	  DCM.loadData();
-	});
+    //populate the DB
+    $.getJSON('dcm13data.js', function(json) {
+      for (var i = 0; i < json.tables.length; i++) {
+        var table = json.tables[i];
+        DCM.dbImport(table.name, table.columns, table.rows);
+      }
+      //load the data into the UI
+      DCM.loadData();
+    });
   });
 
   $('h1').ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
@@ -423,60 +412,57 @@ $(document).ready(function($) {
   if(DCM.db.version == "1.0"){
     DCM.loadData();
   }
-
-	$('#bookmarks').bind('pageshow', function() {
-	        console.log('show nearby');
-			/DCM.loadFavorites();
-	    });
+    
+  $('#bookmarks').bind('pageshow', function() {
+            console.log('show nearby');
+            DCM.loadFavorites();
+    });
 
  });
 
 
 DCM.addFavoriteShow = function(event){
-	DCM.db.transaction(function(tx) {
- 	tx.executeSql(
-			'insert into dcm13_bookmarks(show_id) values(?)',
-			[event.data.show_id],
-			function (tx, result) {
-				//do nothing.
-				$('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:true});
-			}
-		);
-	});
-	
+    DCM.db.transaction(function(tx) {
+    tx.executeSql(
+            'insert into dcm13_bookmarks(show_id) values(?)',
+            [event.data.show_id],
+            function (tx, result) {
+                //do nothing.
+                $('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:true});
+            }
+        );
+    });
+    
 };
 
-DCM.removeFavoriteShow = function(event){
-	DCM.db.transaction(function(tx) {
- 	tx.executeSql(
-			'delete from dcm13_bookmarks where show_id = ?',
-			[event.data.show_id],
-			function (tx, result) {
-				//do nothing.
-					$('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:false});
-			}
-		);
-	});
+DCM.removeFavoriteShowhow = function(event){
+    DCM.db.transaction(function(tx) {
+    tx.executeSql(
+            'delete from dcm13_bookmarks where show_id = ?',
+            [event.data.show_id],
+            function (tx, result) {
+                //do nothing.
+                    $('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:false});
+            }
+        );
+    });
 };
 
 DCM.updateFavoriteButtonUI = function(e, data){
-	if(data.isFavorite)
-	{
-		$('#favorite_button').bind('click', {'show_id': data.show_id}, DCM.removeFavoriteShow);
-		$('#favorite_button').attr('data-theme', 'b');
-		$('#favorite_button').removeClass("ui-btn-up-a").addClass("ui-btn-up-b").removeClass("ui-btn-down-a").addClass("ui-btn-down-b").removeClass('ui-btn-hover-a');
-		$('#favorite_button span .ui-btn-text').text('Remove from Favorites');
-		$('#favorite_button').unbind('click', DCM.addFavoriteShow);
-	}
-	else
-	{
-		$('#favorite_button').bind('click', {'show_id': data.show_id}, DCM.addFavoriteShow);
-		$('#favorite_button').attr('data-theme', 'a');
-		$('#favorite_button').removeClass("ui-btn-up-b").addClass("ui-btn-up-a").removeClass("ui-btn-down-b").addClass("ui-btn-down-a").removeClass('ui-btn-hover-b');
-		$('#favorite_button span .ui-btn-text').text('Add to Favorites');
-		$('#favorite_button').unbind('click', DCM.removeFavoriteShow);
-	}
+    if(data.isFavorite)
+    {
+        $('#favorite_button').bind('click', {'show_id': data.show_id}, DCM.removeFavoriteShow);
+        $('#favorite_button').attr('data-theme', 'b');
+        $('#favorite_button').removeClass("ui-btn-up-a").addClass("ui-btn-up-b").removeClass("ui-btn-down-a").addClass("ui-btn-down-b").removeClass('ui-btn-hover-a');
+        $('#favorite_button span .ui-btn-text').text('Remove from Favorites');
+        $('#favorite_button').unbind('click', DCM.addFavoriteShow);
+    }
+    else
+    {
+        $('#favorite_button').bind('click', {'show_id': data.show_id}, DCM.addFavoriteShow);
+        $('#favorite_button').attr('data-theme', 'a');
+        $('#favorite_button').removeClass("ui-btn-up-b").addClass("ui-btn-up-a").removeClass("ui-btn-down-b").addClass("ui-btn-down-a").removeClass('ui-btn-hover-b');
+        $('#favorite_button span .ui-btn-text').text('Add to Favorites');
+        $('#favorite_button').unbind('click', DCM.removeFavoriteShow);
+    }
 };
-
-
-

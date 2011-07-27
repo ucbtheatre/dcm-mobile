@@ -272,7 +272,9 @@ DCM.loadPageVenueDetails = function( params ) {
           if ( $el.length ) {
             $el.text( v );
           }
-
+          if ( i == 'address' ){
+            $el.attr( 'href', data['gmaps']);
+          }
         });
 
       }

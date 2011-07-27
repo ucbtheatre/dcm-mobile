@@ -593,3 +593,7 @@
 
 body {background:#d3321b; height:100%;}
 #home{background:#d3321b;}
+
+.cast-label{font-weight:bold;}
+.theatre-cleaning{height:60px;background:#d3321b;}
+.show-image{max-width:300px;}

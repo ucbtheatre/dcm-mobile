@@ -15,6 +15,19 @@ DCM.dbImport = function(tableName, tableColumns, tableRows) {
   });
 };
 
+DCM.resetDB = function() {
+	$.getJSON("dcm13data.js", function(json) {
+	  DCM.db.transaction(function(txt){
+	    tx.executeSql('DROP DATABASE IF EXISTS dcm');	
+	  });
+	  for (var i = 0; i < json.tables.length; i++) {
+	    var table = json.tables[i];
+	    DCM.dbImport(table.name, table.columns, table.rows);
+	  }
+	});
+    $(".message").html("Database is Reset");
+};
+
 DCM.createBookmarkTable = function(){
     // DCM.db.transaction(function(tx) {
     //      tx.executeSql('SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = "dcm13_bookmarks"',
@@ -144,8 +157,11 @@ DCM.loadPageShow = function( params ) {
           DCM.updateFavoriteButtonUI(null, {show_id:data.id, isFavorite: (data.bookmark_id != null)});      
         }
 
+		if(data['image'].length){
+			$('.show-data-show_name').after('<div><img class="show-image" src="' + data['image'] + '" /></div>');
+		}
         $.each( data, function( i, v ) {
-
+			// console.log(i + '||' + v);
           var className = 'show-data-' + i,
               $el = $itemTpl.find( '.' + className );
 
@@ -153,6 +169,10 @@ DCM.loadPageShow = function( params ) {
           if ( $el.length ) {
             $el.text( v );
           }
+
+		 if($el.hasClass('show-data-cast_list')){
+			$el.html('<span class="cast-label">Cast:</span> ' + v);
+		 }
 
         });
 
@@ -296,63 +316,66 @@ DCM.loadVenuesForSchedules = function() {
 
 
 DCM.loadPageScheduleForVenue = function( params ) {
-
-    var id = parseInt( params.id, 10 );
-    
-    DCM.db.readTransaction(function(tx) {
-        tx.executeSql(
-            'SELECT name FROM dcm13_venues WHERE id = ?',
-            [id],
-            function (tx, result) {
-                var venue_name = result.rows.item(0).name;
-                $( '#schedule [data-role="header"] h1' ).text( venue_name );
-                $( 'head title' ).text( venue_name );
-            }
-        );
-    
-        tx.executeSql(
-            'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ? ORDER BY schedules.starttime ASC',
-            [id],
-            function (tx, result) {
-                var $items = $('#schedule [data-role="content"] .list'),
-                    $itemTpl = $items.children( 'li:first' ).remove();
-                
-                // Remove anything currently in the list.
-                $items.empty();
-                
-                for (var i = 0; i < result.rows.length; i++) {
-                    var row = result.rows.item( i ),
-                        $item = $itemTpl.clone(),
-                        $link = $item.find( 'a' ),
-                        href = $link.attr( 'href' );
-                    
-                    var start_time = new Date(row.starttime * 1000);
-                    var hours = start_time.getHours();
-                    var minutes = start_time.getMinutes();
-                    if (minutes < 10) {
-                        minutes = '0' + minutes;
-                    }
-                    var abbreviation = 'AM';
-                    if (hours > 12) {
-                        abbreviation = 'PM';
-                        hours = hours - 12;
-                    }
-                    if (hours == 0) {
-                        hours = 12;
-                    }
-                    var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
-                    // Add show title to link
-                    $link.text( formattedTime + ' ' + row.show_name );
-                    // Add venue id to href
-                    $link.attr( 'href', href + '?id=' + row.id );
-                    // Add item to list.
-                    $items.append( $item );
-                }
-                
-                $items.listview( 'refresh' );
-            }
-        );
-    });
+	var id = parseInt( params.id, 10 );
+	
+	DCM.db.readTransaction(function(tx) {
+		tx.executeSql(
+			'SELECT name FROM dcm13_venues WHERE id = ?',
+			[id],
+			function (tx, result) {
+				var venue_name = result.rows.item(0).name;
+	            $( '#schedule [data-role="header"] h1' ).text( venue_name );
+				$( 'head title' ).text( venue_name );
+			}
+		);
+	
+		tx.executeSql(
+			'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ? ORDER BY schedules.starttime ASC',
+			[id],
+			function (tx, result) {
+				var $items = $('#schedule [data-role="content"] .list'),
+					$itemTpl = $items.children( 'li:first' ).remove();
+				
+				// Remove anything currently in the list.
+				$items.empty();
+				
+				for (var i = 0; i < result.rows.length; i++) {
+					var row = result.rows.item( i ),
+						$item = $itemTpl.clone(),
+						$link = $item.find( 'a' ),
+						href = $link.attr( 'href' );
+					
+					var start_time = new Date(row.starttime * 1000);
+					var hours = start_time.getHours();
+					var minutes = start_time.getMinutes();
+					if (minutes < 10) {
+						minutes = '0' + minutes;
+					}
+					var abbreviation = 'AM';
+					if (hours > 12) {
+						abbreviation = 'PM';
+						hours = hours - 12;
+					}
+					if (hours == 0) {
+						hours = 12;
+					}
+					
+					if(row.show_name == "THEATRE CLEANING"){
+					    $link.addClass("theatre-cleaning");
+					  }
+					var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
+					// Add show title to link
+					$link.text( formattedTime + ' ' + row.show_name );
+					// Add venue id to href
+					$link.attr( 'href', href + '?id=' + row.id );
+					// Add item to list.
+					$items.append( $item );
+				}
+				
+				$items.listview( 'refresh' );
+			}
+		);
+	});
 };
 
 

@@ -384,6 +384,9 @@ DCM.loadPageScheduleForVenue = function( params ) {
 				}
 				
 				$items.listview( 'refresh' );
+				
+				//Make theatre cleaning unclickable
+				$('.theatre-cleaning').removeAttr('href');
 			}
 		);
 	});

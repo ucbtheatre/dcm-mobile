@@ -432,9 +432,27 @@ DCM.loadData = function() {
     DCM.loadVenuesForVenueDetails();
     DCM.loadVenuesForSchedules();
 };
-    
+
+// Setup state tracking.
+DCM.setupStateTracking = function() {
+
+  $('[data-role="page"] a').live('click', function(event) {
+
+    var $link = $( this ),
+        data = $link.jqmData( 'dcm' );
+
+    if ( data && data.id && data.type ) {
+      DCM.state[ data.type ] = data.id;
+    }
+
+  });
+
+};
 
 $(document).ready(function($) {
+
+  // Setup state tracking.
+  DCM.setupStateTracking();
 
   // Load database.
   DCM.db = openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024, function(db){

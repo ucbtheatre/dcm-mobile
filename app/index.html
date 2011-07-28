@@ -152,7 +152,7 @@
     </div><!-- / .footer -->
   </div>
 
-	<!-- Schedule by Venue -->
+  <!-- Venues List (Schedules) -->
 	<div data-role="page" data-theme="a" id="venues_schedules">
 		<div data-role="header">
       <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
@@ -160,7 +160,7 @@
 		</div>
 		<div data-role="content">
 			<ul class="list" data-role="listview">
-				<li><a href="schedule.html">Scheduled Venue</a></li>
+				<li><a href="#schedule">Scheduled Venue</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -169,6 +169,28 @@
 					<li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
 					<li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
 					<li><a href="#venues_schedules" data-transition="fade" data-icon="grid">Schedule</a></li>
+				</ul>
+			</div><!-- / .navbar -->
+		</div><!-- / .footer -->
+	</div>
+
+  <!-- Venue Schedule -->
+  <div data-role="page" data-theme="a" id="schedule">
+		<div data-role="header">
+      <a href="#venues_schedules" data-direction="reverse" data-icon="arrow-l">Back</a>
+			<h1>All Shows</h1>
+		</div>
+		<div data-role="content">
+			<ul class="list" data-role="listview" data-theme="a">
+				<li><a href="show.html">Show</a></li>
+			</ul>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+					<li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+					<li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
 				</ul>
 			</div><!-- / .navbar -->
 		</div><!-- / .footer -->

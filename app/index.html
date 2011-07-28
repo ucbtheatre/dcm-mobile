@@ -107,15 +107,15 @@
     </div><!-- / .footer -->
   </div>
 
-	<!-- All Shows -->
-    <div data-role="page" data-theme="a" id="shows">
+	<!-- All Shows List -->
+  <div data-role="page" data-theme="a" id="shows">
 		<div data-role="header">
       <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
 			<h1>Shows</h1>
 		</div>
 		<div data-role="content">
 			<ul data-filter-placeholder="Search Shows..." class="list" data-role="listview" data-filter="true">
-				<li><a href="show.html" data-transition="slide">Show</a></li>
+				<li><a href="#show" data-transition="slide">Show</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -128,6 +128,29 @@
 			</div><!-- / .navbar -->
 		</div><!-- / .footer -->
 	</div>
+
+  <!-- Show Details -->
+  <div data-role="page" data-theme="a" id="show">
+    <div data-role="header">
+      <a href="#shows" data-direction="reverse" data-icon="arrow-l">Back</a>
+      <h1 class="show-data-show_name_header">Show</h1>
+      <a id="favorite_button" data-icon="star" id="favorite_button"></a>
+    </div>
+    <div data-role="content">
+      <h2 class="show-data-show_name"></h2>
+      <p class="show-data-promo_blurb"></p>
+      <p class="show-data-cast_list"></p>
+    </div>
+    <div data-role="footer" data-position="fixed">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#home" class="ui-btn-active" data-transition="fade">Home</a></li>
+          <li><a href="#venues" data-transition="fade">Venues</a></li>
+          <li><a href="#schedule" data-transition="fade">Schedule</a></li>
+        </ul>
+      </div><!-- / .navbar -->
+    </div><!-- / .footer -->
+  </div>
 
 	<!-- Schedule by Venue -->
 	<div data-role="page" data-theme="a" id="venues_schedules">

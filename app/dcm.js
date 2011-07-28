@@ -132,9 +132,9 @@ DCM.loadFavorites = function() {
 
 };
 
-DCM.loadPageShow = function( params ) {
+DCM.loadPageShow = function() {
 
-  var id = parseInt( params.id, 10 ),
+  var id = DCM.getActiveState( 'show' ),
       $itemTpl = $( '#show [data-role="content"]' );
 
   DCM.db.readTransaction(function(tx) {
@@ -243,9 +243,9 @@ DCM.loadVenuesForVenueDetails = function() {
 
 };
 
-DCM.loadPageVenueDetails = function( params ) {
+DCM.loadPageVenueDetails = function() {
 
-  var id = parseInt( params.id, 10 ),
+  var id = DCM.getActiveState( 'venue' ),
       $itemTpl = $( '#venue [data-role="content"]' );
 
   DCM.db.readTransaction(function(tx) {
@@ -335,8 +335,8 @@ DCM.loadVenuesForSchedules = function() {
 };
 
 
-DCM.loadPageScheduleForVenue = function( params ) {
-	var id = parseInt( params.id, 10 );
+DCM.loadPageScheduleForVenue = function() {
+	var id = DCM.getActiveState( 'venue' );
 	
 	DCM.db.readTransaction(function(tx) {
 		tx.executeSql(
@@ -405,21 +405,20 @@ DCM.loadPageScheduleForVenue = function( params ) {
 $( document ).bind( 'mobileinit', function() {
     // On page load, check if there's a query string (for individual item pages).
     $( 'div' ).live( 'pageshow', function( event, ui ) {
-        var params = $.deparam.querystring( location.hash, true ),
-            $page = $.mobile.activePage;
+        var $page = $.mobile.activePage;
 
         switch ( $page.attr( 'id' ) ) {
 
             case 'show':
-                DCM.loadPageShow( params );
+                DCM.loadPageShow();
                 break;
 
             case 'venue':
-                DCM.loadPageVenueDetails( params );
+                DCM.loadPageVenueDetails();
                 break;
 
             case 'schedule':
-                DCM.loadPageScheduleForVenue( params );
+                DCM.loadPageScheduleForVenue();
                 break;
         
         }

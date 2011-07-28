@@ -1,19 +1,26 @@
 CACHE MANIFEST
 
-# revision 01
+# revision 02
 
 NETWORK:
+
 *
 
 CACHE:
-index.html
-show.html
-dcm.js
-jquery.ba-bbq.min.js
-touch-icon.png
-dcm13_mobile_header.jpg
-dcm13.css
 
+dcm.js
+dcm13.css
+dcm13_footer.jpg
+dcm13_mobile_header.jpg
+dcm13data.js
+index.html
+jquery.ba-bbq.min.js
+jquery.mobile-1.0b1.min.js
+resetdb.html
+schedule.html
+show.html
+touch-icon.png
+venue.html
 http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.css
 http://code.jquery.com/jquery-1.6.1.min.js
 http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js

@@ -35,17 +35,17 @@ DCM.resetDB = function() {
     $(".message").html("Database is Reset");
 };
 
-DCM.createBookmarkTable = function(){
-    // DCM.db.transaction(function(tx) {
-    //      tx.executeSql('SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = "dcm13_bookmarks"',
-    //      [],
-    //        function(tx, result) {
-    //          if(result.rows.length == 0){
-    //              tx.executeSql('CREATE TABLE dcm13_bookmarks (bookmark_id int, show_id int, starttime timestamp)')
-    //          }
-    //        }
-    //      );
-    //  });
+DCM.createBookmarksTable = function() {
+  DCM.db.transaction(function(tx) {
+    tx.executeSql(
+      'SELECT * FROM dcm13_bookmarks',
+      [],
+      null,
+      function(tx) {
+        tx.executeSql('CREATE TABLE dcm13_bookmarks (id int, show_id int, starttime timestamp)');
+      }
+    );
+  });
 };
 
 DCM.loadShows = function() {

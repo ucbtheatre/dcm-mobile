@@ -140,8 +140,8 @@ DCM.loadPageShow = function() {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_shows.*, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id)  JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
-      [id],
+      'SELECT dcm13_shows.*, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id)  JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ' + id + ' LIMIT 1',
+      [],
       function (tx, result) {
 
         var data = result.rows.item(0),
@@ -251,8 +251,8 @@ DCM.loadPageVenueDetails = function() {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_venues.* FROM dcm13_venues WHERE dcm13_venues.id = ? LIMIT 1',
-      [id],
+      'SELECT dcm13_venues.* FROM dcm13_venues WHERE dcm13_venues.id = ' + id + ' LIMIT 1',
+      [],
       function (tx, result) {
 
         var data = result.rows.item(0),
@@ -340,8 +340,8 @@ DCM.loadPageScheduleForVenue = function() {
 	
 	DCM.db.readTransaction(function(tx) {
 		tx.executeSql(
-			'SELECT name FROM dcm13_venues WHERE id = ?',
-			[id],
+			'SELECT name FROM dcm13_venues WHERE id = ' + id,
+			[],
 			function (tx, result) {
 				var venue_name = result.rows.item(0).name;
 	            $( '#schedule [data-role="header"] h1' ).text( venue_name );
@@ -350,8 +350,8 @@ DCM.loadPageScheduleForVenue = function() {
 		);
 	
 		tx.executeSql(
-			'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ? ORDER BY schedules.starttime ASC',
-			[id],
+			'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ' + id + ' ORDER BY schedules.starttime ASC',
+			[],
 			function (tx, result) {
 				var $items = $('#schedule [data-role="content"] .list'),
 					$itemTpl = $items.children( 'li:first' ).remove();

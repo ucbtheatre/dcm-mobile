@@ -144,8 +144,19 @@
 #header_image,
 #footer_image{text-align:center;}
 
-body {background:#d3321b; height:100%;}
-#home{background:#d3321b;}
+/*
+body {
+  background: #d3321b;
+  height: 100%;
+}
+*/
+#home {
+  background: #d3321b;
+}
+#home .ui-content {
+  background: #d3321b;
+  border: 0;
+}
 
 .cast-label{font-weight:bold;}
 .theatre-cleaning{height:60px;color:#CCC !important;font-style:italic;}

@@ -1,4 +1,11 @@
-var DCM = { db : null };
+var DCM = {
+  db : null,
+  state : {}
+};
+
+DCM.getActiveState = function( type ) {
+  return parseInt( DCM.state[ type ], 10 ) || null;
+}
 
 DCM.dbImport = function(tableName, tableColumns, tableRows) {
   DCM.db.transaction(function(tx) {
@@ -28,17 +35,17 @@ DCM.resetDB = function() {
     $(".message").html("Database is Reset");
 };
 
-DCM.createBookmarkTable = function(){
-    // DCM.db.transaction(function(tx) {
-    //      tx.executeSql('SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = "dcm13_bookmarks"',
-    //      [],
-    //        function(tx, result) {
-    //          if(result.rows.length == 0){
-    //              tx.executeSql('CREATE TABLE dcm13_bookmarks (bookmark_id int, show_id int, starttime timestamp)')
-    //          }
-    //        }
-    //      );
-    //  });
+DCM.createBookmarksTable = function() {
+  DCM.db.transaction(function(tx) {
+    tx.executeSql(
+      'SELECT * FROM dcm13_bookmarks',
+      [],
+      null,
+      function(tx) {
+        tx.executeSql('CREATE TABLE dcm13_bookmarks (id int, show_id int, starttime timestamp)');
+      }
+    );
+  });
 };
 
 DCM.loadShows = function() {
@@ -65,8 +72,8 @@ DCM.loadShows = function() {
           // Add show title to link.
           $link.text( row.title );
 
-          // Add show id to href.
-          $link.attr( 'href', href + '?id=' + row.id );
+          // Add show data to link.
+          $link.jqmData( 'dcm', { id : row.id, type : 'show' } );
 
           // Add item to list.
           $items.append( $item );
@@ -125,16 +132,16 @@ DCM.loadFavorites = function() {
 
 };
 
-DCM.loadPageShow = function( params ) {
+DCM.loadPageShow = function() {
 
-  var id = parseInt( params.id, 10 ),
+  var id = DCM.getActiveState( 'show' ),
       $itemTpl = $( '#show [data-role="content"]' );
 
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_shows.*, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id)  JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ? LIMIT 1',
-      [id],
+      'SELECT dcm13_shows.*, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id)  JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ' + id + ' LIMIT 1',
+      [],
       function (tx, result) {
 
         var data = result.rows.item(0),
@@ -219,8 +226,8 @@ DCM.loadVenuesForVenueDetails = function() {
           // Add show title to link.
           $link.text( row.name );
 
-          // Add venue id to href.
-          $link.attr( 'href', href + '?id=' + row.id );
+          // Add venue data to link.
+          $link.jqmData( 'dcm', { id : row.id, type : 'venue' } );
 
           // Add item to list.
           $items.append( $item );
@@ -236,16 +243,16 @@ DCM.loadVenuesForVenueDetails = function() {
 
 };
 
-DCM.loadPageVenueDetails = function( params ) {
+DCM.loadPageVenueDetails = function() {
 
-  var id = parseInt( params.id, 10 ),
+  var id = DCM.getActiveState( 'venue' ),
       $itemTpl = $( '#venue [data-role="content"]' );
 
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_venues.* FROM dcm13_venues WHERE dcm13_venues.id = ? LIMIT 1',
-      [id],
+      'SELECT dcm13_venues.* FROM dcm13_venues WHERE dcm13_venues.id = ' + id + ' LIMIT 1',
+      [],
       function (tx, result) {
 
         var data = result.rows.item(0),
@@ -310,8 +317,8 @@ DCM.loadVenuesForSchedules = function() {
           // Add show title to link.
           $link.text( row.name );
 
-          // Add venue id to href.
-          $link.attr( 'href', href + '?id=' + row.id );
+          // Add venue data to link.
+          $link.jqmData( 'dcm', { id : row.id, type : 'venue' } );
 
           // Add item to list.
           $items.append( $item );
@@ -328,13 +335,13 @@ DCM.loadVenuesForSchedules = function() {
 };
 
 
-DCM.loadPageScheduleForVenue = function( params ) {
-	var id = parseInt( params.id, 10 );
+DCM.loadPageScheduleForVenue = function() {
+	var id = DCM.getActiveState( 'venue' );
 	
 	DCM.db.readTransaction(function(tx) {
 		tx.executeSql(
-			'SELECT name FROM dcm13_venues WHERE id = ?',
-			[id],
+			'SELECT name FROM dcm13_venues WHERE id = ' + id,
+			[],
 			function (tx, result) {
 				var venue_name = result.rows.item(0).name;
 	            $( '#schedule [data-role="header"] h1' ).text( venue_name );
@@ -343,8 +350,8 @@ DCM.loadPageScheduleForVenue = function( params ) {
 		);
 	
 		tx.executeSql(
-			'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ? ORDER BY schedules.starttime ASC',
-			[id],
+			'SELECT shows.id, shows.show_name, schedules.starttime FROM dcm13_shows AS shows INNER JOIN dcm13_schedules AS schedules ON shows.id = schedules.show_id WHERE schedules.venue_id = ' + id + ' ORDER BY schedules.starttime ASC',
+			[],
 			function (tx, result) {
 				var $items = $('#schedule [data-role="content"] .list'),
 					$itemTpl = $items.children( 'li:first' ).remove();
@@ -398,21 +405,20 @@ DCM.loadPageScheduleForVenue = function( params ) {
 $( document ).bind( 'mobileinit', function() {
     // On page load, check if there's a query string (for individual item pages).
     $( 'div' ).live( 'pageshow', function( event, ui ) {
-        var params = $.deparam.querystring( location.hash, true ),
-            $page = $.mobile.activePage;
+        var $page = $.mobile.activePage;
 
         switch ( $page.attr( 'id' ) ) {
 
             case 'show':
-                DCM.loadPageShow( params );
+                DCM.loadPageShow();
                 break;
 
             case 'venue':
-                DCM.loadPageVenueDetails( params );
+                DCM.loadPageVenueDetails();
                 break;
 
             case 'schedule':
-                DCM.loadPageScheduleForVenue( params );
+                DCM.loadPageScheduleForVenue();
                 break;
         
         }
@@ -426,9 +432,27 @@ DCM.loadData = function() {
     DCM.loadVenuesForVenueDetails();
     DCM.loadVenuesForSchedules();
 };
-    
+
+// Setup state tracking.
+DCM.setupStateTracking = function() {
+
+  $('[data-role="page"] a').live('click', function(event) {
+
+    var $link = $( this ),
+        data = $link.jqmData( 'dcm' );
+
+    if ( data && data.id && data.type ) {
+      DCM.state[ data.type ] = data.id;
+    }
+
+  });
+
+};
 
 $(document).ready(function($) {
+
+  // Setup state tracking.
+  DCM.setupStateTracking();
 
   // Load database.
   DCM.db = openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024, function(db){

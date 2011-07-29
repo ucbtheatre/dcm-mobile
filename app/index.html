@@ -10,18 +10,16 @@
 	<link rel="stylesheet" href="dcm13.css" />
 	<link rel="apple-touch-icon" href="touch-icon.png" />
 	<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="jquery.ba-bbq.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="dcm.js"></script>
 	<script type="text/javascript" charset="utf-8" src="jquery.mobile-1.0b1.min.js"></script>
 </head>
 <body>
 
 	<!-- Home -->
-
 	<div data-role="page" data-theme="a" id="home">
 		<div data-role="content">
 			<div id="header_image"><img src="dcm13_mobile_header.jpg" /></div>
-			<ul class="list" data-role="listview" data-inset="true" data-theme="a">
+			<ul class="list" data-role="listview" data-inset="true">
 				<li><a href="#venues_schedules" data-transition="slide">Schedule by Venue</a></li>
 				<li><a href="#bookmarks" data-transition="slide">Favorite Shows</a></li>
 				<li><a href="#shows" data-transition="slide">All Shows</a></li>
@@ -32,16 +30,15 @@
 		</div>
 	</div>
 	
-  <!-- Favorite Shows -->
-
+  <!-- Favorite Shows List -->
   <div data-role="page" data-theme="a" id="bookmarks">
 		<div data-role="header">
       <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
 			<h1>Favorites</h1>
 		</div>
 		<div data-role="content">
-			<ul class="list" data-role="listview" data-theme="a">
-				<li><a href="show.html" data-transition="slide">Show</a></li>
+			<ul class="list" data-role="listview">
+				<li><a href="#show" data-transition="slide">Show</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -55,8 +52,7 @@
 		</div><!-- / .footer -->
   </div>
 
-  <!-- Performers -->
-
+  <!-- Performers List -->
   <div data-role="page" data-theme="a" id="performers">
     <div data-role="header">
       <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
@@ -66,17 +62,16 @@
       <p>Not yet implemented. <a href="#home" data-transition="slide">Go home.</a></p>
     </div>
   </div>
-    
-    <!-- Venue Details -->
 
-    <div data-role="page" data-theme="a" id="venues_details">
+  <!-- Venues List (Details) -->
+  <div data-role="page" data-theme="a" id="venues_details">
 		<div data-role="header">
-      <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
+			<a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
 			<h1>Venues</h1>
 		</div>
 		<div data-role="content">
-			<ul class="list" data-role="listview" data-theme="a">
-				<li><a href="venue.html" data-transition="slide">Venue</a></li>
+			<ul class="list" data-role="listview">
+				<li><a href="#venue" data-transition="slide">Venue</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -87,19 +82,39 @@
 					<li><a href="#venues_schedules" data-transition="fade" data-icon="grid">Schedule</a></li>
 				</ul>
 			</div><!-- / .navbar -->
-		</div><!-- / .footer -->		
+		</div><!-- / .footer -->
+  </div>
+
+  <!-- Venue Details -->
+  <div data-role="page" data-theme="a" id="venue">
+    <div data-role="header">
+      <a href="#venues_details" data-direction="reverse" data-icon="arrow-l">Back</a>
+      <h1>Venue Details</h1>
     </div>
+    <div data-role="content">
+      <h2 class="venue-data-name"></h2>
+      <a href="" class="venue-data-address"></a>
+    </div>
+    <div data-role="footer" data-position="fixed">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#shows" data-icon="grid" data-transition="fade">Shows</a></li>
+          <li><a href="#venues" class="ui-btn-active" data-icon="info" data-transition="slide" data-direction="reverse">Venues</a></li>
+          <li><a href="#schedule" data-transition="fade">Schedule</a></li>
+        </ul>
+      </div><!-- / .navbar -->
+    </div><!-- / .footer -->
+  </div>
 
-	<!-- All Shows -->
-
-    <div data-role="page" data-theme="a" id="shows">
+	<!-- All Shows List -->
+  <div data-role="page" data-theme="a" id="shows">
 		<div data-role="header">
       <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
 			<h1>Shows</h1>
 		</div>
 		<div data-role="content">
-			<ul data-filter-placeholder="Search Shows..." class="list" data-role="listview" data-theme="a" data-filter="true">
-				<li><a href="show.html" data-transition="slide">Show</a></li>
+			<ul data-filter-placeholder="Search Shows..." class="list" data-role="listview" data-filter="true">
+				<li><a href="#show" data-transition="slide">Show</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -113,16 +128,38 @@
 		</div><!-- / .footer -->
 	</div>
 
-	<!-- Schedule by Venue -->
+  <!-- Show Details -->
+  <div data-role="page" data-theme="a" id="show">
+    <div data-role="header">
+      <a href="#shows" data-direction="reverse" data-icon="arrow-l">Back</a>
+      <h1 class="show-data-show_name_header">Show</h1>
+      <a id="favorite_button" data-icon="star" id="favorite_button"></a>
+    </div>
+    <div data-role="content">
+      <h2 class="show-data-show_name"></h2>
+      <p class="show-data-promo_blurb"></p>
+      <p class="show-data-cast_list"></p>
+    </div>
+    <div data-role="footer" data-position="fixed">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#home" class="ui-btn-active" data-transition="fade">Home</a></li>
+          <li><a href="#venues" data-transition="fade">Venues</a></li>
+          <li><a href="#schedule" data-transition="fade">Schedule</a></li>
+        </ul>
+      </div><!-- / .navbar -->
+    </div><!-- / .footer -->
+  </div>
 
+  <!-- Venues List (Schedules) -->
 	<div data-role="page" data-theme="a" id="venues_schedules">
 		<div data-role="header">
       <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
 			<h1>Choose a Venue</h1>
 		</div>
 		<div data-role="content">
-			<ul class="list" data-role="listview" data-theme="a">
-				<li><a href="schedule.html">Scheduled Venue</a></li>
+			<ul class="list" data-role="listview">
+				<li><a href="#schedule">Scheduled Venue</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -131,6 +168,28 @@
 					<li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
 					<li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
 					<li><a href="#venues_schedules" data-transition="fade" data-icon="grid">Schedule</a></li>
+				</ul>
+			</div><!-- / .navbar -->
+		</div><!-- / .footer -->
+	</div>
+
+  <!-- Venue Schedule -->
+  <div data-role="page" data-theme="a" id="schedule">
+		<div data-role="header">
+      <a href="#venues_schedules" data-direction="reverse" data-icon="arrow-l">Back</a>
+			<h1>All Shows</h1>
+		</div>
+		<div data-role="content">
+			<ul class="list" data-role="listview">
+				<li><a href="#show">Show</a></li>
+			</ul>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+					<li><a href="#shows" data-icon="info" data-transition="fade">All Shows</a></li>
+					<li><a href="#schedule" data-transition="fade" data-icon="grid">Schedule</a></li>
 				</ul>
 			</div><!-- / .navbar -->
 		</div><!-- / .footer -->

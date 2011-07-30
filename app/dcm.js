@@ -8,6 +8,7 @@ DCM.getActiveState = function( type ) {
 }
 
 DCM.dbImport = function(tableName, tableColumns, tableRows) {
+	console.log('dbImport');
   DCM.db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS ' + tableName);
     tx.executeSql('CREATE TABLE ' + tableName + ' (' + tableColumns.join(',') + ')');
@@ -20,6 +21,29 @@ DCM.dbImport = function(tableName, tableColumns, tableRows) {
       tx.executeSql(query, tableRows[i]);
     }
   });
+};
+
+DCM.createEndTimes = function() {
+	DCM.db.transaction(function(tx){
+		//Add End times to shows to make it easier for Now/Next
+	    tx.executeSql('ALTER TABLE dcm13_schedules ADD endtime INT;');
+	    for(var venue_id = 1; venue_id < 6; venue_id++){
+		sql = 'select schedules.id as schedule_id, shows.show_name, schedules.venue_id, schedules.show_id, schedules.starttime from dcm13_schedules schedules INNER JOIN dcm13_shows shows ON schedules.show_id = shows.id where schedules.venue_id = ' + venue_id + ' order by schedules.starttime asc';
+			tx.executeSql(sql,
+							[],
+							function(tx, result){
+								for(var i = 0; i < result.rows.length; i++){
+									var endtime = 1313364600;
+									next_item_index = i + 1;
+									if(next_item_index < result.rows.length){
+										next_item = result.rows.item(next_item_index);
+										endtime = next_item.starttime-1;	
+									}
+									tx.executeSql('UPDATE dcm13_schedules set endtime = ' + endtime + ' where id = ' + result.rows.item(i).schedule_id);
+							    }
+							});
+		}
+	});
 };
 
 DCM.resetDB = function() {
@@ -484,7 +508,6 @@ DCM.setupStateTracking = function() {
 };
 
 $(document).ready(function($) {
-
   // Setup state tracking.
   DCM.setupStateTracking();
 
@@ -492,14 +515,18 @@ $(document).ready(function($) {
   DCM.db = openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024, function(db){
     //populate the DB
     $.getJSON('dcm13data.js', function(json) {
+	console.log('importing the db');
       for (var i = 0; i < json.tables.length; i++) {
         var table = json.tables[i];
         DCM.dbImport(table.name, table.columns, table.rows);
       }
+
       //load the data into the UI
       DCM.loadData();
     });
   });
+
+  DCM.createEndTimes();
 
   $('h1').ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     $(this).text('Error!');

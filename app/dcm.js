@@ -312,6 +312,10 @@ DCM.loadPageVenueDetails = function() {
           if ( i == 'address' ){
             $el.attr( 'href', data['gmaps']);
           }
+
+		  if ( i == 'image' ){
+			$el.attr('src', data['image']);
+		  }
         });
 
       }

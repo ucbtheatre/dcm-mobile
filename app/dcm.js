@@ -3,6 +3,8 @@ var DCM = {
   state : {}
 };
 
+var showDetailsBackHref = "#shows";
+
 DCM.getActiveState = function( type ) {
   return parseInt( DCM.state[ type ], 10 ) || null;
 }
@@ -115,7 +117,7 @@ DCM.loadFavorites = function() {
           $link.text( row.title );
 
           // Add show id to href.
-          $link.attr( 'href', href + '?id=' + row.id );
+          $link.jqmData( 'dcm', { id : row.id, type : 'show' } );
 
           // Add item to list.
           $items.append( $item );
@@ -140,7 +142,7 @@ DCM.loadPageShow = function() {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_shows.*, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id)  JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ' + id + ' LIMIT 1',
+      'SELECT dcm13_shows.id, dcm13_shows.show_name, dcm13_shows.image, dcm13_shows.promo_blurb, dcm13_shows.cast_list, dcm13_venues.name as venue_name, dcm13_schedules.starttime, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id)  JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ' + id + ' LIMIT 1',
       [],
       function (tx, result) {
 
@@ -191,6 +193,36 @@ DCM.loadPageShow = function() {
 		 if($el.hasClass('show-data-cast_list')){
 			$el.html('<span class="cast-label">Cast:</span> ' + v);
 		 }
+		
+			var start_time = new Date(data.starttime * 1000);
+
+			var hours = start_time.getHours();
+			var minutes = start_time.getMinutes();
+			if (minutes < 10) {
+				minutes = '0' + minutes;
+			}
+			var abbreviation = 'AM';
+			if (hours > 12) {
+				abbreviation = 'PM';
+				hours = hours - 12;
+			}
+			if (hours == 0) {
+				hours = 12;
+			}
+			
+			var day = 'Friday';
+			switch(start_time.getDay()){
+				case 6:
+				day = 'Saturday';
+				break;
+				
+				case 0:
+				day = 'Sunday';
+				break;
+			}
+
+			var formattedTime = day + ' ' + hours + ':' + minutes + ' ' + abbreviation;
+			$('.show-starttime').text(formattedTime);
 
         });
 
@@ -387,7 +419,7 @@ DCM.loadPageScheduleForVenue = function() {
 					// Add show title to link
 					$link.text( formattedTime + ' ' + row.show_name );
 					// Add venue id to href
-					$link.attr( 'href', href + '?id=' + row.id );
+					$link.jqmData( 'dcm', { id : row.id, type : 'show' } );
 					// Add item to list.
 					$items.append( $item );
 				}
@@ -477,7 +509,6 @@ $(document).ready(function($) {
   }
     
   $('#bookmarks').bind('pageshow', function() {
-            console.log('show nearby');
             DCM.loadFavorites();
     });
 

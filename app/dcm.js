@@ -3,8 +3,6 @@ var DCM = {
   state : {}
 };
 
-var showDetailsBackHref = "#shows";
-
 DCM.getActiveState = function( type ) {
   return parseInt( DCM.state[ type ], 10 ) || null;
 }

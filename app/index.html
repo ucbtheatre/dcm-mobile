@@ -114,7 +114,7 @@
 		</div>
 		<div data-role="content">
 			<ul data-filter-placeholder="Search Shows..." class="list" data-role="listview" data-filter="true">
-				<li><a href="#show" data-transition="slide">Show</a></li>
+				<li><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#shows');">Show</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -131,7 +131,7 @@
   <!-- Show Details -->
   <div data-role="page" data-theme="a" id="show">
     <div data-role="header">
-      <a href="#shows" data-direction="reverse" data-icon="arrow-l">Back</a>
+      <a href="#shows" id="shows-detail-back-button" data-direction="reverse" data-icon="arrow-l">Back</a>
       <h1 class="show-data-show_name_header">Show</h1>
       <a id="favorite_button" data-icon="star" id="favorite_button"></a>
     </div>
@@ -182,7 +182,7 @@
 		</div>
 		<div data-role="content">
 			<ul class="list" data-role="listview">
-				<li><a href="#show">Show</a></li>
+				<li><a onclick="$('#shows-detail-back-button').attr('href','#schedule');" href="#show">Show</a></li>
 			</ul>
 		</div>
 		<div data-role="footer" data-position="fixed">

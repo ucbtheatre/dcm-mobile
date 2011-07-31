@@ -87,8 +87,8 @@ DCM.loadNowAndNext = function(){
 								}
 								
 								//Current timestamp
-								// var current_timestamp = Math.round(new Date().getTime() / 1000);
-								var current_timestamp = 1313221500;
+								var current_timestamp = Math.round(new Date().getTime() / 1000);
+								// var current_timestamp = 1313221500;
 								
 								//If the marathon hasn't started yet
 								if(current_timestamp < 1313181000){

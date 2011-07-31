@@ -677,10 +677,10 @@ DCM.loadTwitterTrend = function(){
 	            $('#twitList').append('<ul data-role="listview"></ul>');
 	            listItems = $('#twitList').find('ul');
 	            $.each(json_results.results, function(key) {
-		console.log(json_results.results[key]);
 	                html = '<img src="'+json_results.results[key].profile_image_url+'"/>';
-	                html += '<h3><a target="_blank" style="color:black;" href="http://mobile.twitter.com/statuses/' + json_results.results[key].id_str +'">'+json_results.results[key].text+'</a></h3>';
+	                html += '<h3><a target="_blank" style="color:black;" href="#" onclick="$(\'.twitter-details-' + json_results.results[key].id_str +'\').slideToggle();">'+json_results.results[key].text+'</a></h3>';
 	                html += '<p>From: '+json_results.results[key].from_user+' Created: '+json_results.results[key].created_at+'</p>';
+					html += '<div class="twitter-details-' + json_results.results[key].id_str + '" style="display:none">' +json_results.results[key].text  +'</div>'
 	                listItems.append('<li>'+html+'</li>');
 	            });
 	            // Need to refresh list after AJAX call

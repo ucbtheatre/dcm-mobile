@@ -60,6 +60,55 @@ DCM.resetDB = function() {
 };
 
 DCM.loadNowAndNext = function(){
+	
+	//Current timestamp
+	var current_timestamp = Math.round(new Date().getTime() / 1000);
+	// var current_timestamp = 1313221500;
+	
+	var current_time = new Date();
+	var hours = current_time.getHours();
+	var minutes = current_time.getMinutes();
+	if (minutes < 10) {
+		minutes = '0' + minutes;
+	}
+	var abbreviation = 'AM';
+	if (hours > 12) {
+		abbreviation = 'PM';
+		hours = hours - 12;
+	}
+	if (hours == 0) {
+		hours = 12;
+	}
+	
+	var day = 'Friday';
+	switch(current_time.getDay()){
+		case 6:
+		day = 'Saturday';
+		break;
+		
+		case 0:
+		day = 'Sunday';
+		break;
+		
+		case 4:
+		day = 'Thursday';
+		break;
+		
+		case 3:
+		day = 'Wednesday';
+		break;
+		
+		case 2:
+		day = 'Tuesday';
+		break;
+		
+		case 1:
+		day = 'Monday';
+		break;
+	}
+	
+	$('.now-time').text(day + ' ' + (current_time.getMonth()+1) + '/' + current_time.getDate() + '/' + current_time.getFullYear() + ' ' + hours + ':' + minutes + ' ' + abbreviation);
+	
 	DCM.db.transaction(function(tx) {
 		for(var venue_id = 1; venue_id < 6; venue_id++) {
 			sql = 'select schedules.id as schedule_id, shows.show_name, schedules.venue_id, schedules.show_id, schedules.starttime, schedules.endtime from dcm13_schedules schedules INNER JOIN dcm13_shows shows ON schedules.show_id = shows.id where schedules.venue_id = ' + venue_id + ' order by schedules.starttime asc';
@@ -85,10 +134,6 @@ DCM.loadNowAndNext = function(){
 									container_name = "#haftnow";
 									break;
 								}
-								
-								//Current timestamp
-								var current_timestamp = Math.round(new Date().getTime() / 1000);
-								// var current_timestamp = 1313221500;
 								
 								//If the marathon hasn't started yet
 								if(current_timestamp < 1313181000){

@@ -20,6 +20,7 @@
 		<div data-role="content">
 			<div id="header_image"><img src="dcm13_mobile_header.jpg" /></div>
 			<ul class="list" data-role="listview" data-inset="true">
+			    <li><a href="#nowandnext" data-transition="slide">Happening Now</a></li>
 				<li><a href="#venues_schedules" data-transition="slide">Schedule by Venue</a></li>
 				<li><a href="#bookmarks" data-transition="slide">Favorite Shows</a></li>
 				<li><a href="#shows" data-transition="slide">All Shows</a></li>
@@ -29,7 +30,56 @@
 			<div id="footer_image"><img src="dcm13_footer.jpg" /></div>
 		</div>
 	</div>
-	
+  
+    <!-- Happening Now / Next -->
+    <div data-role="page" data-theme="a" id="nowandnext">
+      <div data-role="header">
+        <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
+        <h1>Happening Now</h1>
+      </div>
+      <div data-role="content">
+        <ul data-role="listview" data-inset="true" id="ucbtnow">
+            <li>UCBT</li>
+<li class="now-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Current Show</a></li>
+<li class="next-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Next Show</a></li>
+        </ul>
+        
+        <ul data-role="listview" data-inset="true" id="hudsonnow">
+            <li>Hudson Guild</li>
+            <li class="now-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Current Show</a></li>
+            <li class="next-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Next Show</a></li>
+        </ul>
+        
+        <ul data-role="listview" data-inset="true" id="urbannow">
+            <li>Urban Stages</li>
+            <li class="now-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Current Show</a></li>
+            <li class="next-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Next Show</a></li>
+        </ul>
+        
+        <ul data-role="listview" data-inset="true" id="katenow">
+            <li>FIT Kate Murphy</li>
+            <li class="now-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Current Show</a></li>
+            <li class="next-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Next Show</a></li>
+        </ul>
+        
+        <ul data-role="listview" data-inset="true" id="haftnow">
+            <li>FIT Haft Auditorium</li>
+            <li class="now-show-link-item"><a href="#show" data-transition="slide" onclick="$('#shows-detail-back-button').attr('href','#nowandnext');">Current Show</a></li>
+        </ul>
+        
+      </div>
+      
+      <div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#home" class="ui-btn-active" data-icon="home" data-transition="fade">Home</a></li>
+					<li><a href="#shows" class="ui-btn-active" data-icon="info" data-transition="fade">All Shows</a></li>
+					<li><a href="#venues_schedules" data-transition="fade" data-icon="grid">Schedule</a></li>
+				</ul>
+			</div><!-- / .navbar -->
+		</div><!-- / .footer -->
+    </div>
+  
   <!-- Favorite Shows List -->
   <div data-role="page" data-theme="a" id="bookmarks">
 		<div data-role="header">

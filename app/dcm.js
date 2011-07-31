@@ -33,7 +33,7 @@ DCM.createEndTimes = function() {
 							[],
 							function(tx, result){
 								for(var i = 0; i < result.rows.length; i++){
-									var endtime = 1313364600;
+									var endtime = 1313366460;
 									next_item_index = i + 1;
 									if(next_item_index < result.rows.length){
 										next_item = result.rows.item(next_item_index);
@@ -57,6 +57,170 @@ DCM.resetDB = function() {
 	  }
 	});
     $(".message").html("Database is Reset");
+};
+
+DCM.loadNowAndNext = function(){
+	DCM.db.transaction(function(tx) {
+		for(var venue_id = 1; venue_id < 6; venue_id++) {
+			sql = 'select schedules.id as schedule_id, shows.show_name, schedules.venue_id, schedules.show_id, schedules.starttime, schedules.endtime from dcm13_schedules schedules INNER JOIN dcm13_shows shows ON schedules.show_id = shows.id where schedules.venue_id = ' + venue_id + ' order by schedules.starttime asc';
+			tx.executeSql(sql,
+							[],
+							function(tx, result){
+								//Container
+								var container_name = '#ucbtnow';
+								switch(result.rows.item(0).venue_id){
+									case 2:
+									container_name = "#hudsonnow";
+									break;
+
+									case 3:
+									container_name = "#urbannow";
+									break;
+
+									case 4:
+									container_name = "#katenow";
+									break;
+
+									case 5:
+									container_name = "#haftnow";
+									break;
+								}
+								
+								//Current timestamp
+								// var current_timestamp = Math.round(new Date().getTime() / 1000);
+								var current_timestamp = 1313221500;
+								
+								//If the marathon hasn't started yet
+								if(current_timestamp < 1313181000){
+									$itemTpl = $(container_name).children( 'li.now-show-link-item' ).remove();
+									now_item_row = result.rows.item(0),
+									$now_item = $itemTpl.clone(),
+						              $link = $now_item.find( 'a' );
+									  $link.jqmData( 'dcm', { id : now_item_row.show_id, type : 'show' } );
+									  $link.text('NEXT: ' + now_item_row.show_name);
+									  $(container_name).append( $now_item );
+									
+									if(result.rows.length > 1){
+										$nextItemTpl = $(container_name).children( 'li.next-show-link-item' ).remove();
+										next_item_row = result.rows.item(1),
+										$next_item = $nextItemTpl.clone(),
+							              $link = $next_item.find( 'a' );
+										  $link.jqmData( 'dcm', { id : next_item_row.show_id, type : 'show' } );
+										  $link.text('NEXT: ' + next_item_row.show_name);
+										  $(container_name).append( $next_item );
+									}
+									
+								}
+								else{
+									//If the marathon is currently underway
+									for(var i=0; i < result.rows.length; i++){
+										if(current_timestamp >= result.rows.item(i).starttime && current_timestamp < result.rows.item(i).endtime){
+											$itemTpl = $(container_name).children( 'li.now-show-link-item' ).remove();
+											now_item_row = result.rows.item(i),
+											$now_item = $itemTpl.clone(),
+								              $link = $now_item.find( 'a' );
+											  $link.jqmData( 'dcm', { id : now_item_row.show_id, type : 'show' } );
+											  $link.text('NOW: ' + now_item_row.show_name);
+											  $(container_name).append( $now_item );
+											  
+											  if(result.rows.length > 1 && i < (result.rows.length -1)) {
+												$nextItemTpl = $(container_name).children( 'li.next-show-link-item' ).remove();
+												next_item_row = result.rows.item(i+1),
+												$next_item = $nextItemTpl.clone(),
+									              $link = $next_item.find( 'a' );
+												  $link.jqmData( 'dcm', { id : next_item_row.show_id, type : 'show' } );
+												  $link.text('NEXT: ' + next_item_row.show_name);
+												  $(container_name).append( $next_item );
+											}else{
+												$(container_name).children('li.next-show-link-item').remove();
+											}
+										}else{
+											//When the marathon has started but the shows at the other theatres haven't
+											//A SUPER HACK BUT IT WORKS DAMMIT - JRW
+											if(current_timestamp < 1313188200 && container_name == "#hudsonnow"){
+												$itemTpl = $(container_name).children( 'li.now-show-link-item' ).remove();
+												now_item_row = result.rows.item(0),
+												$now_item = $itemTpl.clone(),
+									              $link = $now_item.find( 'a' );
+												  $link.jqmData( 'dcm', { id : now_item_row.show_id, type : 'show' } );
+												  $link.text('NEXT: ' + now_item_row.show_name);
+												  $(container_name).append( $now_item );
+
+												  if(result.rows.length > 1 && i < result.rows.length) {
+													$nextItemTpl = $(container_name).children( 'li.next-show-link-item' ).remove();
+													next_item_row = result.rows.item(1),
+													$next_item = $nextItemTpl.clone(),
+										              $link = $next_item.find( 'a' );
+													  $link.jqmData( 'dcm', { id : next_item_row.show_id, type : 'show' } );
+													  $link.text('NEXT: ' + next_item_row.show_name);
+													  $(container_name).append( $next_item );
+												}
+											}
+											if(current_timestamp > 1313362940){
+												$('#hudsonnow').remove();
+											}
+											
+											if(current_timestamp < 1313189100 && container_name == "#urbannow") {
+												$itemTpl = $(container_name).children( 'li.now-show-link-item' ).remove();
+												now_item_row = result.rows.item(0),
+												$now_item = $itemTpl.clone(),
+									              $link = $now_item.find( 'a' );
+												  $link.jqmData( 'dcm', { id : now_item_row.show_id, type : 'show' } );
+												  $link.text('NEXT: ' + now_item_row.show_name);
+												  $(container_name).append( $now_item );
+
+												  if(result.rows.length > 1 && i < result.rows.length) {
+													$nextItemTpl = $(container_name).children( 'li.next-show-link-item' ).remove();
+													next_item_row = result.rows.item(1),
+													$next_item = $nextItemTpl.clone(),
+										              $link = $next_item.find( 'a' );
+													  $link.jqmData( 'dcm', { id : next_item_row.show_id, type : 'show' } );
+													  $link.text('NEXT: ' + next_item_row.show_name);
+													  $(container_name).append( $next_item );
+												}
+											}
+											if(current_timestamp > 1313363700){
+												$('#urbannow').remove();
+											}
+											
+											if(current_timestamp < 1313190000 && container_name == '#katenow'){
+												$itemTpl = $(container_name).children( 'li.now-show-link-item' ).remove();
+												now_item_row = result.rows.item(0),
+												$now_item = $itemTpl.clone(),
+									              $link = $now_item.find( 'a' );
+												  $link.jqmData( 'dcm', { id : now_item_row.show_id, type : 'show' } );
+												  $link.text('NEXT: ' + now_item_row.show_name);
+												  $(container_name).append( $now_item );
+
+												  if(result.rows.length > 1 && i < result.rows.length) {
+													$nextItemTpl = $(container_name).children( 'li.next-show-link-item' ).remove();
+													next_item_row = result.rows.item(1),
+													$next_item = $nextItemTpl.clone(),
+										              $link = $next_item.find( 'a' );
+													  $link.jqmData( 'dcm', { id : next_item_row.show_id, type : 'show' } );
+													  $link.text('NEXT: ' + next_item_row.show_name);
+													  $(container_name).append( $next_item );
+												}
+											}
+											if(current_timestamp > 1313292700){
+												$('#katenow').remove();
+											}
+											
+											if(current_timestamp < 1313366400 && container_name == '#haftnow'){
+												$itemTpl = $(container_name).children( 'li.now-show-link-item' ).remove();
+												now_item_row = result.rows.item(0),
+												$now_item = $itemTpl.clone(),
+									              $link = $now_item.find( 'a' );
+												  $link.jqmData( 'dcm', { id : now_item_row.show_id, type : 'show' } );
+												  $link.text('NEXT: ' + now_item_row.show_name);
+												  $(container_name).append( $now_item );
+											}
+										}
+									}
+								}
+							});
+		}
+	});
 };
 
 DCM.createBookmarksTable = function() {
@@ -478,7 +642,9 @@ $( document ).bind( 'mobileinit', function() {
             case 'schedule':
                 DCM.loadPageScheduleForVenue();
                 break;
-        
+            case 'nowandnext':
+				DCM.loadNowAndNext();
+				break;
         }
     });
 });

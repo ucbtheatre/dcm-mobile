@@ -668,6 +668,27 @@ DCM.loadPageScheduleForVenue = function() {
 	});
 };
 
+DCM.loadTwitterTrend = function(){
+	$.ajax({
+	        url: "http://search.twitter.com/search.json?q=dcm13",
+	        dataType: 'jsonp',
+	        success: function(json_results){
+	            // Need to add UL on AJAX call or formatting of userlist is not displayed
+	            $('#twitList').append('<ul data-role="listview"></ul>');
+	            listItems = $('#twitList').find('ul');
+	            $.each(json_results.results, function(key) {
+		console.log(json_results.results[key]);
+	                html = '<img src="'+json_results.results[key].profile_image_url+'"/>';
+	                html += '<h3><a style="color:black;" href="http://mobile.twitter.com/statuses/' + json_results.results[key].id_str +'">'+json_results.results[key].text+'</a></h3>';
+	                html += '<p>From: '+json_results.results[key].from_user+' Created: '+json_results.results[key].created_at+'</p>';
+	                listItems.append('<li>'+html+'</li>');
+	            });
+	            // Need to refresh list after AJAX call
+	            $('#twitList ul').listview();
+	        }
+	    });
+};
+
 
 $( document ).bind( 'mobileinit', function() {
     // On page load, check if there's a query string (for individual item pages).
@@ -689,6 +710,10 @@ $( document ).bind( 'mobileinit', function() {
                 break;
             case 'nowandnext':
 				DCM.loadNowAndNext();
+				break;
+				
+			case 'dcm_twitter':
+				DCM.loadTwitterTrend();
 				break;
         }
     });

@@ -268,19 +268,6 @@ DCM.loadNowAndNext = function(){
 	});
 };
 
-// DCM.createBookmarksTable = function() {
-//   DCM.db.transaction(function(tx) {
-//     tx.executeSql(
-//       'SELECT * FROM dcm13_bookmarks',
-//       [],
-//       null,
-//       function(tx) {
-//         tx.executeSql('CREATE TABLE dcm13_bookmarks (id int, show_id int, starttime timestamp)');
-//       }
-//     );
-//   });
-// };
-
 DCM.loadShows = function() {
 
   DCM.db.readTransaction(function(tx) {

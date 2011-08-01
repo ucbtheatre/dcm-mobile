@@ -27,7 +27,7 @@
 		},
 		{
 			"name": "dcm13_bookmarks",
-			"columns": ["id integer primary key autoincrement", "show_id"],
+			"columns": ["id integer primary key autoincrement", "schedule_id"],
 			"rows": []
 		}
 		

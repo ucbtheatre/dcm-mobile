@@ -268,18 +268,18 @@ DCM.loadNowAndNext = function(){
 	});
 };
 
-DCM.createBookmarksTable = function() {
-  DCM.db.transaction(function(tx) {
-    tx.executeSql(
-      'SELECT * FROM dcm13_bookmarks',
-      [],
-      null,
-      function(tx) {
-        tx.executeSql('CREATE TABLE dcm13_bookmarks (id int, show_id int, starttime timestamp)');
-      }
-    );
-  });
-};
+// DCM.createBookmarksTable = function() {
+//   DCM.db.transaction(function(tx) {
+//     tx.executeSql(
+//       'SELECT * FROM dcm13_bookmarks',
+//       [],
+//       null,
+//       function(tx) {
+//         tx.executeSql('CREATE TABLE dcm13_bookmarks (id int, show_id int, starttime timestamp)');
+//       }
+//     );
+//   });
+// };
 
 DCM.loadShows = function() {
 
@@ -327,7 +327,7 @@ DCM.loadFavorites = function() {
 
   DCM.db.readTransaction(function(tx) {
     tx.executeSql(
-      'SELECT dcm13_bookmarks.id as bookmark_id, dcm13_shows.id, dcm13_shows.show_name AS title FROM dcm13_bookmarks LEFT JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_bookmarks.show_id) JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY show_name',
+      'SELECT dcm13_bookmarks.id as bookmark_id, dcm13_shows.id, dcm13_shows.show_name AS title FROM dcm13_bookmarks LEFT JOIN dcm13_schedules ON (dcm13_schedules.id = dcm13_bookmarks.schedule_id) JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY show_name',
       [],
       function (tx, result) {
 
@@ -373,7 +373,7 @@ DCM.loadPageShow = function() {
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
-      'SELECT dcm13_shows.id, dcm13_shows.show_name, dcm13_shows.image, dcm13_shows.promo_blurb, dcm13_shows.cast_list, dcm13_venues.name as venue_name, dcm13_schedules.starttime, dcm13_bookmarks.id as bookmark_id FROM dcm13_shows LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.show_id = dcm13_shows.id)  JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) WHERE dcm13_shows.id = ' + id + ' LIMIT 1',
+      'SELECT dcm13_shows.id, dcm13_shows.show_name, dcm13_shows.image, dcm13_shows.promo_blurb, dcm13_shows.cast_list, dcm13_venues.name as venue_name, dcm13_schedules.starttime, dcm13_bookmarks.id as bookmark_id, dcm13_schedules.id as schedule_id FROM dcm13_shows JOIN dcm13_schedules ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) LEFT JOIN dcm13_bookmarks ON (dcm13_bookmarks.schedule_id = dcm13_schedules.id)  WHERE dcm13_shows.id = ' + id + ' LIMIT 1',
       [],
       function (tx, result) {
 
@@ -394,7 +394,7 @@ DCM.loadPageShow = function() {
           $favorite_link.unbind('favorite_changed', DCM.updateFavoriteButtonUI);
           $favorite_link.bind('favorite_changed', DCM.updateFavoriteButtonUI);
           $favorite_link.addClass('favorite_listener');
-          DCM.updateFavoriteButtonUI(null, {show_id:data.id, isFavorite: (data.bookmark_id != null)});      
+          DCM.updateFavoriteButtonUI(null, {schedule_id:data.schedule_id, isFavorite: (data.bookmark_id != null)});      
         }
         
 		//Show image
@@ -783,10 +783,10 @@ $(document).ready(function($) {
 DCM.addFavoriteShow = function(event){
     DCM.db.transaction(function(tx) {
     tx.executeSql(
-            'insert into dcm13_bookmarks(show_id) values(?)',
-            [event.data.show_id],
+            'insert into dcm13_bookmarks(schedule_id) values(?)',
+            [event.data.schedule_id],
             function (tx, result) {
-				$('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:true});
+				$('.favorite_listener').trigger('favorite_changed', {'schedule_id': event.data.schedule_id, isFavorite:true});
             }
         );
     });
@@ -796,10 +796,10 @@ DCM.addFavoriteShow = function(event){
 DCM.removeFavoriteShow = function(event){
     DCM.db.transaction(function(tx) {
     tx.executeSql(
-            'delete from dcm13_bookmarks where show_id = ?',
-            [event.data.show_id],
+            'delete from dcm13_bookmarks where schedule_id = ?',
+            [event.data.schedule_id],
             function (tx, result) {
-				$('.favorite_listener').trigger('favorite_changed', {'show_id': event.data.show_id, isFavorite:false});
+				$('.favorite_listener').trigger('favorite_changed', {'schedule_id': event.data.schedule_id, isFavorite:false});
             }
         );
     });
@@ -809,7 +809,7 @@ DCM.updateFavoriteButtonUI = function(e, data){
     if(data.isFavorite)
     {
         $('#show [data-role="header"] #favorite_button').unbind('click', DCM.addFavoriteShow);
-        $('#show [data-role="header"] #favorite_button').bind('click', {'show_id': data.show_id}, DCM.removeFavoriteShow);
+        $('#show [data-role="header"] #favorite_button').bind('click', {'schedule_id': data.schedule_id}, DCM.removeFavoriteShow);
         $('#show [data-role="header"] #favorite_button').attr('data-theme', 'b');
         $('#show [data-role="header"] #favorite_button').removeClass("ui-btn-up-a").addClass("ui-btn-up-b").removeClass("ui-btn-down-a").addClass("ui-btn-down-b").removeClass('ui-btn-hover-a');
         $('#show [data-role="header"] #favorite_button span .ui-btn-text').text('Remove from Favorites');
@@ -817,7 +817,7 @@ DCM.updateFavoriteButtonUI = function(e, data){
     else
     {
         $('#show [data-role="header"] #favorite_button').unbind('click', DCM.removeFavoriteShow);
-		$('#show [data-role="header"] #favorite_button').bind('click', {'show_id': data.show_id}, DCM.addFavoriteShow);
+		$('#show [data-role="header"] #favorite_button').bind('click', {'schedule_id': data.schedule_id}, DCM.addFavoriteShow);
 		$('#show [data-role="header"] #favorite_button').attr('data-theme', 'a');
 		$('#show [data-role="header"] #favorite_button').removeClass("ui-btn-up-b").addClass("ui-btn-up-a").removeClass("ui-btn-down-b").addClass("ui-btn-down-a").removeClass('ui-btn-hover-b');
         $('#show [data-role="header"] #favorite_button span .ui-btn-text').text('Add to Favorites');

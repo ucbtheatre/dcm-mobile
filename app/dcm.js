@@ -768,16 +768,25 @@ $(document).ready(function($) {
 
 
 DCM.addFavoriteShow = function(event){
-    DCM.db.transaction(function(tx) {
-    tx.executeSql(
-            'insert into dcm13_bookmarks(schedule_id) values(?)',
-            [event.data.schedule_id],
-            function (tx, result) {
-				$('.favorite_listener').trigger('favorite_changed', {'schedule_id': event.data.schedule_id, isFavorite:true});
-            }
-        );
-    });
-    
+	DCM.db.transaction(function(tx) {
+		tx.executeSql('select * from dcm13_bookmarks where schedule_id = ?',[event.data.schedule_id], function(tx, result){
+			//if for some reason the show is already in the DB, do not allow it to be added again.
+			if(result.rows.length > 0){
+				return;
+			}
+			else{
+				DCM.db.transaction(function(tx2) {
+			    tx2.executeSql(
+			            'insert into dcm13_bookmarks(schedule_id) values(?)',
+			            [event.data.schedule_id],
+			            function (tx2, result2) {
+							$('.favorite_listener').trigger('favorite_changed', {'schedule_id': event.data.schedule_id, isFavorite:true});
+			            }
+			        );
+				});
+			}
+    	});
+	});
 };
 
 DCM.removeFavoriteShow = function(event){
@@ -793,6 +802,7 @@ DCM.removeFavoriteShow = function(event){
 };
 
 DCM.updateFavoriteButtonUI = function(e, data){
+	$('#show [data-role="header"] #favorite_button').unbind('click');
     if(data.isFavorite)
     {
         $('#show [data-role="header"] #favorite_button').unbind('click', DCM.addFavoriteShow);

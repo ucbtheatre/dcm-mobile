@@ -608,12 +608,15 @@ DCM.loadPageScheduleForVenue = function() {
 			[],
 			function (tx, result) {
 				var $items = $('#schedule [data-role="content"] .list'),
-					$itemTpl = $items.children( 'li:first' ).remove();
+					$itemTpl = $items.children('.item:first'),
+					$dividerTpl = $items.children('.divider:first');
 				
 				// Remove anything currently in the list.
 				$items.empty();
 				
-				for (var i = 0; i < result.rows.length; i++) {
+				var current_day = '';
+				
+				for (var i = 0; i < result.rows.length; i++) {					
 					var row = result.rows.item( i ),
 						$item = $itemTpl.clone(),
 						$link = $item.find( 'a' ),
@@ -634,6 +637,22 @@ DCM.loadPageScheduleForVenue = function() {
 						hours = 12;
 					}
 					
+					var weekday=new Array(7);
+					weekday[0]="Sunday";
+					weekday[1]="Monday";
+					weekday[2]="Tuesday";
+					weekday[3]="Wednesday";
+					weekday[4]="Thursday";
+					weekday[5]="Friday";
+					weekday[6]="Saturday";
+					
+					if(weekday[start_time.getDay()] != current_day){
+						current_day = weekday[start_time.getDay()];
+						var day_header = $dividerTpl.clone();
+						day_header.text(current_day); 
+						$items.append(day_header);
+					}
+					
 					if(row.show_name == "THEATRE CLEANING"){
 					    $link.addClass("theatre-cleaning");
 					  }
@@ -644,6 +663,7 @@ DCM.loadPageScheduleForVenue = function() {
 					$link.jqmData( 'dcm', { id : row.id, type : 'show' } );
 					// Add item to list.
 					$items.append( $item );
+					
 				}
 				
 				$items.listview( 'refresh' );

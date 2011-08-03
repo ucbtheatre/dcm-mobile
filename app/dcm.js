@@ -825,7 +825,7 @@ DCM.updateFavoriteButtonUI = function(e, data){
         $('#show [data-role="header"] #favorite_button').bind('click', {'schedule_id': data.schedule_id}, DCM.removeFavoriteShow);
         $('#show [data-role="header"] #favorite_button').attr('data-theme', 'b');
         $('#show [data-role="header"] #favorite_button').removeClass("ui-btn-up-a").addClass("ui-btn-up-b").removeClass("ui-btn-down-a").addClass("ui-btn-down-b").removeClass('ui-btn-hover-a');
-        $('#show [data-role="header"] #favorite_button span .ui-btn-text').text('Un-favorite');
+        $('#show [data-role="header"] #favorite_button span .ui-btn-text').text('Un-iosfavorite');
     }
     else
     {

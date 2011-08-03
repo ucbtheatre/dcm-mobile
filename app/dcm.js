@@ -324,6 +324,32 @@ DCM.loadFavorites = function() {
         // Remove all current list items, in case.
         $items.empty();
 
+		if(result.rows.length == 0){
+			$('#bookmarks [data-role="content"]').addClass('empty_content');
+			$('#bookmarks [data-role="content"]').removeClass('ui-body-a');
+								
+			$('#bookmarks').removeClass('ui-body-a');
+			$('#bookmarks').addClass('ui-body-b');
+			$('#bookmarks').addClass('empty_content');
+			$('.empty_view').css('display', 'block');
+			
+			var template = $itemTpl.clone();
+			template.css('display','none');
+			$items.append(template);
+		}
+		else
+		{
+			$('#bookmarks [data-role="content"]').removeClass('empty_content');
+			$('#bookmarks [data-role="content"]').addClass('ui-body-a');
+								
+			$('#bookmarks').addClass('ui-body-a');
+			$('#bookmarks').removeClass('ui-body-b');
+			$('#bookmarks').removeClass('empty_content');			
+			
+			$itemTpl.css('display', 'inherit');
+			$('.empty_view').css('display', 'none');
+		}
+	
         for (var i = 0; i < result.rows.length; i++) {
 
           var row = result.rows.item( i ),

@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-# revision 02
+# revision 03
 
 NETWORK:
 
@@ -8,21 +8,17 @@ NETWORK:
 
 CACHE:
 
+cache.manifest
 dcm.js
 dcm13.css
 dcm13_footer.jpg
 dcm13_mobile_header.jpg
 dcm13data.js
-index.html
-jquery.mobile-1.0b1.min.js
-resetdb.html
-schedule.html
-touch-icon.png
 five_pointed_star.png
-# http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.css
-http://code.jquery.com/mobile/latest/jquery.mobile.min.css
-http://code.jquery.com/jquery-1.6.2.min.js
-http://code.jquery.com/mobile/latest/jquery.mobile.min.js
-# http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js
+index.html
+resetdb.html
+touch-icon.png
 
-# http://code.jquery.com/mobile/1.0b1/images/ajax-loader.png
+http://code.jquery.com/jquery-1.6.2.min.js
+http://code.jquery.com/mobile/latest/jquery.mobile.min.css
+http://code.jquery.com/mobile/latest/jquery.mobile.min.js

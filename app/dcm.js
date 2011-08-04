@@ -7,6 +7,10 @@ DCM.getActiveState = function( type ) {
   return parseInt( DCM.state[ type ], 10 ) || null;
 }
 
+DCM.invalidStateAction = function (){
+	window.location.href= "#home"
+}
+
 DCM.dbImport = function(tableName, tableColumns, tableRows) {
 	console.log('dbImport');
   DCM.db.transaction(function(tx) {
@@ -421,6 +425,10 @@ DCM.loadPageShow = function() {
   var id = DCM.getActiveState( 'show' ),
       $itemTpl = $( '#show [data-role="content"]' );
 
+  if(id == null){
+	DCM.invalidStateAction();
+  }
+
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
@@ -558,6 +566,10 @@ DCM.loadPageVenueDetails = function() {
   var id = DCM.getActiveState( 'venue' ),
       $itemTpl = $( '#venue [data-role="content"]' );
 
+  if(id == null){
+	DCM.invalidStateAction();
+  }  
+
   DCM.db.readTransaction(function(tx) {
 
     tx.executeSql(
@@ -651,6 +663,10 @@ DCM.loadVenuesForSchedules = function() {
 
 DCM.loadPageScheduleForVenue = function() {
 	var id = DCM.getActiveState( 'venue' );
+	
+	if(id == null){
+		DCM.invalidStateAction();
+  	}	
 	
 	DCM.db.readTransaction(function(tx) {
 		tx.executeSql(

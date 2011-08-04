@@ -314,12 +314,13 @@ DCM.loadFavorites = function() {
 
   DCM.db.readTransaction(function(tx) {
     tx.executeSql(
-      'SELECT dcm13_bookmarks.id as bookmark_id, dcm13_shows.id, dcm13_shows.show_name AS title FROM dcm13_bookmarks LEFT JOIN dcm13_schedules ON (dcm13_schedules.id = dcm13_bookmarks.schedule_id) JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY starttime',
+      'SELECT dcm13_bookmarks.id as bookmark_id, dcm13_shows.id, dcm13_shows.show_name AS show_name, dcm13_schedules.starttime as starttime FROM dcm13_bookmarks LEFT JOIN dcm13_schedules ON (dcm13_schedules.id = dcm13_bookmarks.schedule_id) JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) JOIN dcm13_venues ON (dcm13_schedules.venue_id = dcm13_venues.id) ORDER BY starttime',
       [],
       function (tx, result) {
 
         var $items = $('#bookmarks [data-role="content"] .list'),
-            $itemTpl = $items.children( 'li:first' ).remove();
+			$itemTpl = $items.children('.item:first'),
+			$dividerTpl = $items.children('.divider:first');
 
         // Remove all current list items, in case.
         $items.empty();
@@ -334,8 +335,11 @@ DCM.loadFavorites = function() {
 			$('.empty_view').css('display', 'block');
 			
 			var template = $itemTpl.clone();
+			var divider = $dividerTpl.clone();
 			template.css('display','none');
+			divider.css('display','none');
 			$items.append(template);
+			$items.append(divider);
 		}
 		else
 		{
@@ -347,29 +351,63 @@ DCM.loadFavorites = function() {
 			$('#bookmarks').removeClass('empty_content');			
 			
 			$itemTpl.css('display', 'inherit');
+			$dividerTpl.css('display', 'inherit');
 			$('.empty_view').css('display', 'none');
 		}
 	
-        for (var i = 0; i < result.rows.length; i++) {
-
-          var row = result.rows.item( i ),
-              $item = $itemTpl.clone(),
-              $link = $item.find( 'a' ),
-              href = $link.attr( 'href' );
-
-          // Add show title to link.
-          $link.text( row.title );
-
-          // Add show id to href.
-          $link.jqmData( 'dcm', { id : row.id, type : 'show' } );
-
-          // Add item to list.
-          $items.append( $item );
-
-        }
-
-        // Reload list plugin.
-        $items.listview( 'refresh' );
+		var current_day = '';
+		
+		for (var i = 0; i < result.rows.length; i++) {					
+			var row = result.rows.item( i ),
+				$item = $itemTpl.clone(),
+				$link = $item.find( 'a' ),
+				href = $link.attr( 'href' );
+			
+			var start_time = new Date(row.starttime * 1000);
+			var hours = start_time.getHours();
+			var minutes = start_time.getMinutes();
+			if (minutes < 10) {
+				minutes = '0' + minutes;
+			}
+			var abbreviation = 'AM';
+			if (hours > 12) {
+				abbreviation = 'PM';
+				hours = hours - 12;
+			}
+			if (hours == 0) {
+				hours = 12;
+			}
+			
+			var weekday=new Array(7);
+			weekday[0]="Sunday";
+			weekday[1]="Monday";
+			weekday[2]="Tuesday";
+			weekday[3]="Wednesday";
+			weekday[4]="Thursday";
+			weekday[5]="Friday";
+			weekday[6]="Saturday";
+			
+			if(weekday[start_time.getDay()] != current_day){
+				current_day = weekday[start_time.getDay()];
+				var day_header = $dividerTpl.clone();
+				day_header.text(current_day); 
+				$items.append(day_header);
+			}
+			
+			if(row.show_name == "THEATRE CLEANING"){
+			    $link.addClass("theatre-cleaning");
+			  }
+			var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
+			// Add show title to link
+			$link.text( formattedTime + ' ' + row.show_name );
+			// Add venue id to href
+			$link.jqmData( 'dcm', { id : row.id, type : 'show' } );
+			// Add item to list.
+			$items.append( $item );
+			
+		}
+		
+		$items.listview( 'refresh' );
 
       }
     );

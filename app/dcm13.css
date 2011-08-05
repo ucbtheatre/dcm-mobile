@@ -172,3 +172,5 @@ body {
 .tweet_container{padding-top:5px;}
 .tweet_container div {float:left;}
 .tweet_container div img {margin-top:-3px; padding-left:5px;}
+
+#show-details-times{list-style:none;padding:0;}

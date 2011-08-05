@@ -276,7 +276,7 @@ DCM.loadShows = function() {
 
   DCM.db.readTransaction(function(tx) {
     tx.executeSql(
-      'SELECT DISTINCT dcm13_schedules.show_id, dcm13_shows.show_name AS title FROM dcm13_schedules JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) ORDER BY show_name',
+      'SELECT DISTINCT dcm13_schedules.show_id as id, dcm13_shows.show_name AS title FROM dcm13_schedules JOIN dcm13_shows ON (dcm13_schedules.show_id = dcm13_shows.id) ORDER BY show_name',
       [],
       function (tx, result) {
 
@@ -485,37 +485,66 @@ DCM.loadPageShow = function() {
 		 if($el.hasClass('show-data-cast_list')){
 			$el.html('<span class="cast-label">Cast:</span> ' + v);
 		 }
-		
-			var start_time = new Date(data.starttime * 1000);
+		//Get all start times
+		tx.executeSql('select id, show_id, venue_id, starttime from dcm13_schedules where show_id = ' + data.id + ' order by starttime asc',
+					[],
+					function(tx, time_result){
+						// console.log(time_result);
+						$showtimesList = $('#show-details-times');
+						$showtimesList.children('li').remove();
+						for(var time_index = 0; time_index < time_result.rows.length; time_index++) {
+							time_occurance_object = time_result.rows.item(time_index);
+							var start_time = new Date(time_occurance_object.starttime * 1000);
 
-			var hours = start_time.getHours();
-			var minutes = start_time.getMinutes();
-			if (minutes < 10) {
-				minutes = '0' + minutes;
-			}
-			var abbreviation = 'AM';
-			if (hours > 12) {
-				abbreviation = 'PM';
-				hours = hours - 12;
-			}
-			if (hours == 0) {
-				hours = 12;
-			}
-			
-			var day = 'Friday';
-			switch(start_time.getDay()){
-				case 6:
-				day = 'Saturday';
-				break;
-				
-				case 0:
-				day = 'Sunday';
-				break;
-			}
+							var hours = start_time.getHours();
+							var minutes = start_time.getMinutes();
+							if (minutes < 10) {
+								minutes = '0' + minutes;
+							}
+							var abbreviation = 'AM';
+							if (hours > 12) {
+								abbreviation = 'PM';
+								hours = hours - 12;
+							}
+							if (hours == 0) {
+								hours = 12;
+							}
 
-			var formattedTime = day + ' ' + hours + ':' + minutes + ' ' + abbreviation;
-			$('.show-starttime').text(formattedTime);
+							var day = 'Friday';
+							switch(start_time.getDay()){
+								case 6:
+								day = 'Saturday';
+								break;
 
+								case 0:
+								day = 'Sunday';
+								break;
+							}
+							
+							var venue = 'UCB Theatre';
+							switch(time_occurance_object.venue_id) {
+								case 2:
+								venue = 'Hudson Guild Theatre';
+								break;
+								
+								case 3:
+								venue = 'Urban Stages';
+								break;
+								
+								case 4:
+								venue = 'FIT Kate Murphy Amphitheater';
+								break;
+								
+								case 5:
+								venue = 'FIT Haft Auditorium';
+								break;
+							}
+
+							var formattedTime = venue + ' ' + day + ' ' + hours + ':' + minutes + ' ' + abbreviation;
+							$showtimesList.append('<li>' + formattedTime + '</li>');
+							// $('.show-starttime').text(formattedTime);
+						}
+					});
         });
 
       }

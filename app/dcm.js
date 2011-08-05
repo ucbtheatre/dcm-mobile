@@ -466,6 +466,12 @@ DCM.loadPageShow = function() {
 			}
 		}
 		
+		//setup tweet link
+		var show_link = $(location)[0].protocol + '//' + $(location)[0].host + $(location)[0].pathname + '?id=' + data.id + '#twitter_link';
+		var tweet_share_url = 'http://twitter.com/share/?url=' + encodeURIComponent(show_link) + '&text=' + encodeURIComponent('Check out ' + data.show_name + ' at the Del Close Marathon.');
+		$('.tweet_link').attr('href', tweet_share_url);
+
+		
         $.each( data, function( i, v ) {
 			// console.log(i + '||' + v);
           var className = 'show-data-' + i,
@@ -776,10 +782,18 @@ DCM.loadTwitterTrend = function(){
 $( document ).bind( 'mobileinit', function() {
     // On page load, check if there's a query string (for individual item pages).
     $( 'div' ).live( 'pageshow', function( event, ui ) {
+	
+		if($(location)[0].hash == '#twitter_link')
+		{
+			var show_id = $(location)[0].search.split('=')[1];
+			DCM.state[ 'show' ] = show_id;
+			$.mobile.changePage('#show');
+		}
+	
         var $page = $.mobile.activePage;
 
         switch ( $page.attr( 'id' ) ) {
-
+	
             case 'show':
                 DCM.loadPageShow();
                 break;

@@ -163,6 +163,8 @@ body {
 .show-image, .venue-data-image{max-width:300px;}
 .now-time{font-weight:bold;text-align:center;}
 
+.places-category-name{color:#777;}
+
 .empty_content {background:#ffffff !important;}
 .empty_view {text-align:center;}
 .empty_icon {text-align:center; padding-top:25px; padding-bottom:15px;}

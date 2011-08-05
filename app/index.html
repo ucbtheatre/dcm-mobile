@@ -9,7 +9,6 @@
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
 	<link rel="stylesheet" href="dcm13.css" />
 	<link rel="apple-touch-icon" href="touch-icon.png" />
-	<link rel="apple-touch-startup-image" href="startup-image.png" />
 	<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="dcm.js"></script>
 	<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
@@ -26,6 +25,7 @@
 				<li><a href="#bookmarks" data-transition="slide">Favorite Shows</a></li>
 				<li><a href="#shows" data-transition="slide">All Shows</a></li>
 				<li><a href="#venues_details" data-transition="slide">Venue Details</a></li>
+				<li><a href="#places">Useful Places</a></li>
 				<li><a href="#dcm_twitter">#dcm13</a></li>
 			</ul>
 			<div id="footer_image"><img src="dcm13_footer.jpg" /></div>
@@ -172,6 +172,43 @@
 			</ul>
 		</div>
 	</div>
+	
+	<!-- Useful Places-->
+  <div data-role="page" data-theme="a" id="places">
+    <div data-role="header">
+      <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
+      <h1>Useful Places</h1>
+    </div>
+    <div data-role="content">
+        <ul class="list" data-role="listview" data-inset="true">
+          <li>Places to Eat</li>
+          <li><a href="http://www.yelp.com/biz/regional-thai-taste-restaurant-new-york">Regional Thai</a></li>
+          <li><a href="http://www.yelp.com/biz/pars-grill-house-and-bar-new-york-2">Pars Grill House</a></li>
+          <li><a href="http://www.yelp.com/biz/salsa-y-salsa-new-york">Salsa y Salsa</a></li>
+          <li><a href="http://www.yelp.com/biz/canaan-japanese-restaurant-new-york">Canaan Sushi</a></li>
+          <li><a href="http://www.yelp.com/biz/triple-crown-restaurant-and-ale-house-new-york">Triple Crown (pub fare)</a></li>
+          <li><a href="http://www.yelp.com/biz/new-venus-restaurant-new-york">Venus Diner (24 hrs)</a></li>
+        </ul>
+        <ul class="list" data-role="listview" data-inset="true">
+          <li>Pharmacy</li>
+          <li><a href="http://maps.google.com/maps?q=duane+reade&hl=en&ll=40.748078,-73.995913&spn=0.003991,0.008111&sll=40.747387,-73.997319&sspn=0.004194,0.008111&z=17&iwloc=A">Duane Reade</a></li>
+          <li><a href="http://maps.google.com/maps?q=rite+aid&hl=en&ll=40.74668,-73.996943&spn=0.003991,0.008111&sll=40.747395,-73.9966&sspn=0.004194,0.008111&z=17&iwloc=A">Rite Aide (24 hrs)</a></li>
+          <li><a href="http://maps.google.com/maps?q=CVS&hl=en&ll=40.746485,-73.997265&spn=0.003991,0.008111&sll=40.74668,-73.996943&sspn=0.003991,0.008111&z=17&iwloc=A">CVS (24 hrs)</a></li>
+        </ul>
+        <ul class="list" data-role="listview" data-inset="true">
+          <li>Banks</li>
+          <li>Most Duane Reades have Chase ATM's</li>
+          <li>Most Bodegas have ATM's with fees</li>
+          <li><a href="http://maps.google.com/maps?q=bank+of+america&hl=en&ll=40.745696,-73.997169&spn=0.004194,0.008111&sll=40.746501,-73.996514&sspn=0.003991,0.008111&radius=0.26&z=17&iwloc=A">Bank of America</a></li>
+          <li><a href="http://maps.google.com/maps?q=chase&hl=en&ll=40.745331,-73.997973&spn=0.003991,0.008111&sll=40.745688,-73.99646&sspn=0.003991,0.008111&z=17&iwloc=lyrftr:lmq:1005:chase,8354558768247310748,40.744737,-73.998767">Chase ATM</a></li>
+          <li><a href="http://maps.google.com/maps?q=bank&hl=en&ll=40.74655,-73.998585&spn=0.003991,0.008111&sll=40.745331,-73.997973&sspn=0.003991,0.008111&z=17&iwloc=E">Citibank</a></li>
+        </ul>
+        <ul class="list" data-role="listview" data-inset="true">
+          <li>Baby Supplies</li>
+          <li><a href="http://maps.google.com/maps?q=baby&hl=en&ll=40.747485,-73.993263&spn=0.007982,0.016222&sll=40.74655,-73.998585&sspn=0.003991,0.008111&z=16&iwloc=A">Buy Buy Baby</a></li>
+        </ul>
+    </div>
+  </div>
 	
     <!-- #dcm13 Twitter Ticker -->
     <div data-role="page" data-theme="a" id="dcm_twitter">

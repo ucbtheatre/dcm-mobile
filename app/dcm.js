@@ -766,6 +766,7 @@ DCM.loadPageScheduleForVenue = function() {
 					
 					if(row.show_name == "THEATRE CLEANING"){
 					    $link.addClass("theatre-cleaning");
+					    $link.parent().next().remove();
 					  }
 					var formattedTime = hours + ':' + minutes + ' ' + abbreviation;
 					// Add show title to link

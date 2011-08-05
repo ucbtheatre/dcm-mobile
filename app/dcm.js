@@ -796,11 +796,24 @@ DCM.loadTwitterTrend = function(){
 	            $('#twitList').append('<ul data-role="listview"></ul>');
 	            listItems = $('#twitList').find('ul');
 	            $.each(json_results.results, function(key) {
-	                html = '<img src="'+json_results.results[key].profile_image_url+'"/>';
-	                html += '<h3><a style="color:black;" href="#" onclick="$(\'.twitter-details-' + json_results.results[key].id_str +'\').slideToggle();">'+json_results.results[key].text+'</a></h3>';
-	                html += '<p>From: '+json_results.results[key].from_user+' Created: '+json_results.results[key].created_at+'</p>';
-					html += '<div class="twitter-details-' + json_results.results[key].id_str + '" style="display:none">' +json_results.results[key].text  +'</div>'
-	                listItems.append('<li>'+html+'</li>');
+	            	var tweet = json_results.results[key];
+
+					var tweet_url = 'http://twitter.com/' + tweet.from_user + '/status/' + tweet.id_str;
+					var user_url = 'http://twitter.com/' + tweet.from_user;
+
+	            	var user_html = '<a class="tweet_user" target="_blank" href="' + user_url + '">' + tweet.from_user + '</a> ';
+	            	var time_html = '<a class="tweet_time" target="_blank" href="' + tweet_url + '">' + tweet.created_at + '</a>';
+
+	            	var img_html = '<img src="'+tweet.profile_image_url+'"/>';
+	            	var content_html = '<p class="tweet_content">'+ tweet.text+'</p>';
+
+	            	listItems.append(
+	            		'<li>' + 
+	            		img_html + 
+	            		'<p>' + user_html + ' ' + time_html + '</p>' +
+	            		content_html +
+	            		'</li>'
+	            	);
 	            });
 	            // Need to refresh list after AJAX call
 	            $('#twitList ul').listview();

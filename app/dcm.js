@@ -822,6 +822,7 @@ DCM.loadTwitterTrend = function(){
 	        }
 	    });
 };
+
 //JRW - FOR INTERACTIVE GOOGLE MAP WEB APP, NOT NATIVE APP
 // DCM.loadGoogleMap = function(){
 // 	$.getScript('http://maps.google.com/maps/api/js?sensor=true', function(data, textStatus){
@@ -834,6 +835,11 @@ DCM.loadTwitterTrend = function(){
 // 
 // };
 
+
+DCM.isMobileBrowser = function(){
+	return navigator.userAgent.match('blackberry|android|iPhone|iPod|iPad|webOS');
+}
+
 $( document ).bind( 'mobileinit', function() {
 	//Enable Ajax
 	$.mobile.ajaxEnabled  = true;
@@ -844,8 +850,16 @@ $( document ).bind( 'mobileinit', function() {
 		if($(location)[0].hash == '#twitter_link')
 		{
 			var show_id = $(location)[0].search.split('=')[1];
-			DCM.state[ 'show' ] = show_id;
-			$.mobile.changePage('#show');
+
+			if(DCM.isMobileBrowser())
+			{
+				DCM.state[ 'show' ] = show_id;
+				$.mobile.changePage('#show');
+			}
+			else
+			{
+				window.location.href = "http://delclosemarathon.com/dcm13/shows/view/" + show_id + "/full"				
+			}
 		}
 	
         var $page = $.mobile.activePage;

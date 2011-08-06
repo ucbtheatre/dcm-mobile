@@ -9,7 +9,9 @@
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.css" />
 	<link rel="stylesheet" href="dcm13.css" />
 	<link rel="apple-touch-icon" href="touch-icon.png" />
+	<link rel="apple-touch-startup-image" href="startup-image.png" />
 	<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="bookmark_bubble.js"></script>
 	<script type="text/javascript" charset="utf-8" src="dcm.js"></script>
 	<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js"></script>
 </head>
@@ -224,6 +226,15 @@
           <li><a href="http://maps.google.com/maps/place?cid=2765515611675854133">buybuy BABY</a></li>
         </ul>
     </div>
+  </div>
+  
+  <!-- Interactive Map -->
+  <div data-role="page" data-theme="a" id="interactive_map">
+    <div data-role="header">
+      <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
+			<h1>Map</h1>
+		</div>
+		<div id="map_canvas"></div>
   </div>
   
   <!-- Easter Egg Del and Credits-->

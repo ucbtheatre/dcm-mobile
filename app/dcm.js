@@ -820,9 +820,22 @@ DCM.loadTwitterTrend = function(){
 	        }
 	    });
 };
-
+//JRW - FOR INTERACTIVE GOOGLE MAP WEB APP, NOT NATIVE APP
+// DCM.loadGoogleMap = function(){
+// 	$.getScript('http://maps.google.com/maps/api/js?sensor=true', function(data, textStatus){
+// 		$.getScript('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js', function(data, textStatus){
+// 			
+// 			console.log(google);
+// 			var latlng = new google.maps.LatLng(59.3426606750, 18.0736160278);
+// 		});
+// 	});
+// 
+// };
 
 $( document ).bind( 'mobileinit', function() {
+	//Enable Ajax
+	$.mobile.ajaxEnabled  = true;
+	
     // On page load, check if there's a query string (for individual item pages).
     $( 'div' ).live( 'pageshow', function( event, ui ) {
 	
@@ -855,6 +868,9 @@ $( document ).bind( 'mobileinit', function() {
 			case 'dcm_twitter':
 				DCM.loadTwitterTrend();
 				break;
+			// case 'interactive_map':
+			// 				DCM.loadGoogleMap();
+			// 				break;
         }
     });
 });

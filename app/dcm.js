@@ -806,7 +806,7 @@ DCM.loadTwitterTrend = function(){
 	            	var time_html = '<a class="tweet_time" target="_blank" href="' + tweet_url + '">' + prettyDate(new Date(tweet.created_at)) + '</a>';
 
 	            	var img_html = '<img src="'+tweet.profile_image_url+'"/>';
-	            	var content_html = '<p class="tweet_content">'+ tweet.text+'</p>';
+	            	var content_html = '<p class="tweet_content">'+ DCM.parseUsername(DCM.parseURL(tweet.text)) +'</p>';
 
 	            	listItems.append(
 	            		'<li>' + 
@@ -1001,3 +1001,17 @@ function prettyDate(date){
 		day_diff < 7 && day_diff + " days ago" ||
 		day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
 }
+
+// Some text parsing for tweets provided from http://www.simonwhatley.co.uk/examples/twitter/prototype/
+DCM.parseURL = function(string) {
+	return string.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function(url) {
+		return "<a target='_blank' href='" + url + "'>" + url + "</a>";
+	});
+};
+
+DCM.parseUsername = function(str) {
+	return str.replace(/[@]+[A-Za-z0-9-_]+/g, function(u) {
+		var username = u.replace("@","")
+		return "<a target='_blank' href='" + "http://twitter.com/" + username + "'>" + u + "</a>";
+	});
+};

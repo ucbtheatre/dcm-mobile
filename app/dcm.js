@@ -800,9 +800,10 @@ DCM.loadTwitterTrend = function(){
 
 					var tweet_url = 'http://twitter.com/' + tweet.from_user + '/status/' + tweet.id_str;
 					var user_url = 'http://twitter.com/' + tweet.from_user;
+					
 
 	            	var user_html = '<a class="tweet_user" target="_blank" href="' + user_url + '">' + tweet.from_user + '</a> ';
-	            	var time_html = '<a class="tweet_time" target="_blank" href="' + tweet_url + '">' + tweet.created_at + '</a>';
+	            	var time_html = '<a class="tweet_time" target="_blank" href="' + tweet_url + '">' + prettyDate(new Date(tweet.created_at)) + '</a>';
 
 	            	var img_html = '<img src="'+tweet.profile_image_url+'"/>';
 	            	var content_html = '<p class="tweet_content">'+ tweet.text+'</p>';
@@ -973,3 +974,30 @@ DCM.updateFavoriteButtonUI = function(e, data){
         $('#show [data-role="header"] #favorite_button span .ui-btn-text').text('Favorite');
     }
 };
+
+
+/*
+ * JavaScript Pretty Date
+ * Copyright (c) 2008 John Resig (jquery.com)
+ * Licensed under the MIT license.
+ */
+
+// Takes an ISO time and returns a string representing how
+// long ago the date represents.
+function prettyDate(date){
+		diff = (((new Date()).getTime() - date.getTime()) / 1000),
+		day_diff = Math.floor(diff / 86400);
+
+	if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+		return;
+
+	return day_diff == 0 && (
+			diff < 60 && "just now" ||
+			diff < 120 && "1 minute ago" ||
+			diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+			diff < 7200 && "1 hour ago" ||
+			diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
+		day_diff == 1 && "Yesterday" ||
+		day_diff < 7 && day_diff + " days ago" ||
+		day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+}

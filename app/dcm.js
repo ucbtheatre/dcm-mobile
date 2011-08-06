@@ -468,7 +468,7 @@ DCM.loadPageShow = function() {
 		
 		//setup tweet link
 		var show_link = $(location)[0].protocol + '//' + $(location)[0].host + $(location)[0].pathname + '?id=' + data.id + '#twitter_link';
-		var tweet_share_url = 'http://twitter.com/share/?url=' + encodeURIComponent(show_link) + '&text=' + encodeURIComponent('Check out ' + data.show_name + ' at the Del Close Marathon. #dcm13');
+		var tweet_share_url = 'http://twitter.com/share/?url=' + encodeURIComponent(show_link) + '&text=' + encodeURIComponent('#dcm13 ' + data.show_name);
 		$('.tweet_link').attr('href', tweet_share_url);
 
 		

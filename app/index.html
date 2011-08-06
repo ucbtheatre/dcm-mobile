@@ -255,7 +255,7 @@
 	<div data-role="page" id="twitter_client_dialog" data-rel="dialog" >
       	<div data-role="content">
 		<p>If you have the iPhone Twitter app installed you can view all #dcm13 posts by clicking below</p>
-		<a href="twitter://search?query=%23dcm13" data-role="button" data-theme="b"> Open the iPhone app </a>
+		<a href="twitter://search?query=%23dcm13" data-role="button" data-theme="b" onclick="$('.ui-dialog').dialog('close'); return true"> Open the iPhone app </a>
 		<a data-rel="back" data-role="button">Cancel</a>
       	</div>
 	</div>

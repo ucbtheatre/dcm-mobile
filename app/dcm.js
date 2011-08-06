@@ -793,6 +793,7 @@ DCM.loadTwitterTrend = function(){
 	        dataType: 'jsonp',
 	        success: function(json_results){
 	            // Need to add UL on AJAX call or formatting of userlist is not displayed
+				$('#twitList').empty();
 	            $('#twitList').append('<ul data-role="listview"></ul>');
 	            listItems = $('#twitList').find('ul');
 	            $.each(json_results.results, function(key) {

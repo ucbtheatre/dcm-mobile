@@ -230,12 +230,19 @@
       <div data-role="header">
         <a href="#home" data-direction="reverse" data-icon="arrow-l">Back</a>
         <h1>#dcm13</h1>
+		<a href="#twitter_client_dialog" data-transition="slidedown" data-rel="dialog">Twitter</a>
       </div>
       <div data-role="content">
           <div id="twitList"></div>
       </div>
     </div>
 
-
+	<div data-role="page" id="twitter_client_dialog" data-rel="dialog" >
+      	<div data-role="content">
+		<p>If you have the iPhone Twitter app installed you can view all #dcm13 posts by clicking below</p>
+		<a href="twitter://search?query=%23dcm13" data-role="button" data-theme="b"> Open the iPhone app </a>
+		<a data-rel="back" data-role="button">Cancel</a>
+      	</div>
+	</div>
 </body>
 </html>

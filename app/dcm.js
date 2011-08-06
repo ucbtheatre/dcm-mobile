@@ -837,7 +837,7 @@ DCM.loadTwitterTrend = function(){
 
 
 DCM.isMobileBrowser = function(){
-	return navigator.userAgent.match('blackberry|android|iPhone|iPod|iPad|webOS');
+	return navigator.userAgent.match('BlackBerry|Android|iPhone|iPod|iPad|webOS');
 }
 
 $( document ).bind( 'mobileinit', function() {

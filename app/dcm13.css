@@ -174,7 +174,7 @@ body {
 
 .tweet_container{padding-top:5px;}
 .tweet_container div {float:left;}
-.tweet_container div img {margin-top:-3px; padding-left:5px;}
+.tweet_container div img {margin-top:0px; padding-left:5px;}
 
 #twitList > ul > li {
 	padding-left: 58px;
@@ -183,6 +183,7 @@ body {
 #twitList a.tweet_time {
 	color: #666;
 	text-decoration: none;
+	float:right;
 }
 #twitList a.tweet_user {
 	color: #000;
@@ -193,5 +194,11 @@ body {
 	white-space: normal;
 	color: #000;
 }
+#twitList p.tweet_content a {
+	white-space: normal;
+	font-weight:bold;
+	text-decoration:none;
+}
+
 
 #show-details-times{list-style:none;padding:0;}

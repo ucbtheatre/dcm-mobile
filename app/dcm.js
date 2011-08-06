@@ -793,6 +793,7 @@ DCM.loadTwitterTrend = function(){
 	        dataType: 'jsonp',
 	        success: function(json_results){
 	            // Need to add UL on AJAX call or formatting of userlist is not displayed
+				$('#twitList').empty();
 	            $('#twitList').append('<ul data-role="listview"></ul>');
 	            listItems = $('#twitList').find('ul');
 	            $.each(json_results.results, function(key) {
@@ -800,12 +801,13 @@ DCM.loadTwitterTrend = function(){
 
 					var tweet_url = 'http://twitter.com/' + tweet.from_user + '/status/' + tweet.id_str;
 					var user_url = 'http://twitter.com/' + tweet.from_user;
+					
 
 	            	var user_html = '<a class="tweet_user" target="_blank" href="' + user_url + '">' + tweet.from_user + '</a> ';
-	            	var time_html = '<a class="tweet_time" target="_blank" href="' + tweet_url + '">' + tweet.created_at + '</a>';
+	            	var time_html = '<a class="tweet_time" target="_blank" href="' + tweet_url + '">' + prettyDate(new Date(tweet.created_at)) + '</a>';
 
 	            	var img_html = '<img src="'+tweet.profile_image_url+'"/>';
-	            	var content_html = '<p class="tweet_content">'+ tweet.text+'</p>';
+	            	var content_html = '<p class="tweet_content">'+ DCM.parseUsername(DCM.parseURL(tweet.text)) +'</p>';
 
 	            	listItems.append(
 	            		'<li>' + 
@@ -988,4 +990,45 @@ DCM.updateFavoriteButtonUI = function(e, data){
 		$('#show [data-role="header"] #favorite_button').removeClass("ui-btn-up-b").addClass("ui-btn-up-a").removeClass("ui-btn-down-b").addClass("ui-btn-down-a").removeClass('ui-btn-hover-b');
         $('#show [data-role="header"] #favorite_button span .ui-btn-text').text('Favorite');
     }
+};
+
+
+/*
+ * JavaScript Pretty Date
+ * Copyright (c) 2008 John Resig (jquery.com)
+ * Licensed under the MIT license.
+ */
+
+// Takes an ISO time and returns a string representing how
+// long ago the date represents.
+function prettyDate(date){
+		diff = (((new Date()).getTime() - date.getTime()) / 1000),
+		day_diff = Math.floor(diff / 86400);
+
+	if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+		return;
+
+	return day_diff == 0 && (
+			diff < 60 && "just now" ||
+			diff < 120 && "1 minute ago" ||
+			diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+			diff < 7200 && "1 hour ago" ||
+			diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
+		day_diff == 1 && "Yesterday" ||
+		day_diff < 7 && day_diff + " days ago" ||
+		day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+}
+
+// Some text parsing for tweets provided from http://www.simonwhatley.co.uk/examples/twitter/prototype/
+DCM.parseURL = function(string) {
+	return string.replace(/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&~\?\/.=]+/g, function(url) {
+		return "<a target='_blank' href='" + url + "'>" + url + "</a>";
+	});
+};
+
+DCM.parseUsername = function(str) {
+	return str.replace(/[@]+[A-Za-z0-9-_]+/g, function(u) {
+		var username = u.replace("@","")
+		return "<a target='_blank' href='" + "http://twitter.com/" + username + "'>" + u + "</a>";
+	});
 };

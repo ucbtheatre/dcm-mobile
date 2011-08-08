@@ -29,9 +29,12 @@ http://code.jquery.com/jquery-1.6.2.min.js
 http://code.jquery.com/mobile/1.0b2/jquery.mobile-1.0b2.min.js
 
 # jquery mobile icons
-http://code.jquery.com/mobile/latest/images/icons-18-white.png
-http://code.jquery.com/mobile/latest/images/icons-18-black.png
-http://code.jquery.com/mobile/latest/images/icons-36-white.png
-http://code.jquery.com/mobile/latest/images/icons-36-black.png
-http://code.jquery.com/mobile/latest/images/icon-search-black.png
-http://code.jquery.com/mobile/latest/images/ajax-loader.png
+http://code.jquery.com/mobile/1.0b2/images/icons-18-white.png
+http://code.jquery.com/mobile/1.0b2/images/icons-18-black.png
+http://code.jquery.com/mobile/1.0b2/images/icons-36-white.png
+http://code.jquery.com/mobile/1.0b2/images/icons-36-black.png
+http://code.jquery.com/mobile/1.0b2/images/icon-search-black.png
+http://code.jquery.com/mobile/1.0b2/images/ajax-loader.png
+
+#twitter assets
+http://a0.twimg.com/a/1312493385/images/goodies/tweetn.png

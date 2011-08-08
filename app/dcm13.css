@@ -167,8 +167,8 @@ body {
 .places-category-name{color:#777;}
 
 .empty_content {background:#ffffff !important;}
-.empty_view {text-align:center;}
-.empty_icon {text-align:center; padding-top:25px; padding-bottom:15px;}
+.empty_view {text-align:center; display:none;}
+.empty_icon {text-align:center; padding-top:25px; padding-bottom:15px; width:250px;}
 .empty_title {font-weight:bold; padding-bottom:10px;color:#999999;}
 .empty_message{color:#999999; padding-left:20px;padding-right:20px;}
 

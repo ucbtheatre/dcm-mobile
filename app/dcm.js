@@ -788,12 +788,38 @@ DCM.loadPageScheduleForVenue = function() {
 };
 
 DCM.loadTwitterTrend = function(){
+	var header = $( '#dcm_twitter [data-role="header"] h1' );
+	header.text('loading #dcm13...');
+	
+	$('#dcm_twitter [data-role="content"]').removeClass('empty_content');
+	$('#dcm_twitter [data-role="content"]').addClass('ui-body-a');
+
+	$('#dcm_twitter').addClass('ui-body-a');
+	$('#dcm_twitter').removeClass('ui-body-b');
+	$('#dcm_twitter').removeClass('empty_content');
+	$('.empty_view').css('display', 'none');
+	
+
 	$.ajax({
 	        url: "http://search.twitter.com/search.json?q=dcm13",
 	        dataType: 'jsonp',
-	        success: function(json_results){
-	            // Need to add UL on AJAX call or formatting of userlist is not displayed
+			error: function(bar){
+				header.text('No Tweets');
 				$('#twitList').empty();
+				$('#dcm_twitter [data-role="content"]').addClass('empty_content');
+				$('#dcm_twitter [data-role="content"]').removeClass('ui-body-a');
+
+				$('#dcm_twitter').removeClass('ui-body-a');
+				$('#dcm_twitter').addClass('ui-body-b');
+				$('#dcm_twitter').addClass('empty_content');
+				$('.empty_view').css('display', 'block');
+
+			},
+			timeout: 5000,
+	        success: function(json_results){
+				header.text('#dcm13');
+				$('#twitList').empty();
+	            // Need to add UL on AJAX call or formatting of userlist is not displayed
 	            $('#twitList').append('<ul data-role="listview"></ul>');
 	            listItems = $('#twitList').find('ul');
 	            $.each(json_results.results, function(key) {
@@ -817,11 +843,14 @@ DCM.loadTwitterTrend = function(){
 	            		'</li>'
 	            	);
 	            });
+	
 	            // Need to refresh list after AJAX call
 	            $('#twitList ul').listview();
 	        }
 	    });
 };
+
+
 
 //JRW - FOR INTERACTIVE GOOGLE MAP WEB APP, NOT NATIVE APP
 // DCM.loadGoogleMap = function(){

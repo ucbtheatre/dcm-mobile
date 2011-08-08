@@ -788,6 +788,15 @@ DCM.loadPageScheduleForVenue = function() {
 };
 
 DCM.loadTwitterTrend = function(){
+	if(DCM.isiOSBrowser())
+	{
+		$('#twitter_client_button').css('display', 'block');		
+	}
+	else
+	{
+		$('#twitter_client_button').css('display', 'none');	
+	}
+	
 	var header = $( '#dcm_twitter [data-role="header"] h1' );
 	header.text('loading #dcm13...');
 	
@@ -867,6 +876,10 @@ DCM.loadTwitterTrend = function(){
 
 DCM.isMobileBrowser = function(){
 	return navigator.userAgent.match('BlackBerry|Android|iPhone|iPod|iPad|webOS');
+}
+
+DCM.isiOSBrowser = function(){
+	return navigator.userAgent.match('iPhone|iPod|iPad');
 }
 
 $( document ).bind( 'mobileinit', function() {

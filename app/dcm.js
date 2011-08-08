@@ -1051,6 +1051,12 @@ DCM.updateFavoriteButtonUI = function(e, data){
 //JRW - some code for the add to home screen bubble
 window.addEventListener('load', function() {
   window.setTimeout(function() {
+	//to make sure we only show the bubble if the user is on the homepage
+	if($(location)[0].hash != '')
+	{
+		return;
+	}
+	
     var bubble = new google.bookmarkbubble.Bubble();
 
     var parameter = 'bmb=1';

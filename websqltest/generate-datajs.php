@@ -27,7 +27,7 @@ function echo_json_for_table($db, $table)
 				$all_rows[] = "[" . join(',', $column_values) . "]";
 			} while ($row = $st->fetch(PDO::FETCH_ASSOC));
 			printf("\t\t\t\"name\": \"%s\",\n", $table);
-			printf("\t\t\t\"columns\": ['%s'],\n", join("','", $column_names));
+			printf("\t\t\t\"columns\": [\"%s\"],\n", join("\",\"", $column_names));
 			printf("\t\t\t\"rows\": [%s]\n", join(',', $all_rows));
 		}
 	} else {

@@ -994,29 +994,56 @@ $(document).ready(function($) {
  });
 
 
+/*
+	addFavoriteShow is passed a schedule ID, but until we have add buttons on a
+	per-timeslot basis, we want to add all the instances of shows that are 
+	happening at multiple times.
+*/
 DCM.addFavoriteShow = function(event){
-	DCM.db.transaction(function(tx2) {
-	tx2.executeSql(
-			'insert into dcm13_bookmarks(schedule_id) values(?)',
+	DCM.db.transaction(function(tx) {
+		// Get show_id from schedule_id
+		tx.executeSql(
+			'SELECT show_id FROM dcm13_schedules WHERE id = ? LIMIT 1',
 			[event.data.schedule_id],
-			function (tx2, result2) {
-				$('.favorite_listener').trigger('favorite_changed', {'schedule_id': event.data.schedule_id, isFavorite:true});
+			function (tx, result) {
+				if (result.rows.length < 1) return;
+				var show_id = result.rows.item(0).show_id;
+				// Insert all schedule_ids for that show into the bookmarks table
+				tx.executeSql(
+					'INSERT INTO dcm13_bookmarks(schedule_id) SELECT id FROM dcm13_schedules WHERE show_id = ?',
+					[show_id],
+					function (tx, result2) {
+						$('.favorite_listener').trigger('favorite_changed', {'schedule_id': event.data.schedule_id, isFavorite:true});
+					}
+				)
 			}
 		);
 	});
 };
 
+
 DCM.removeFavoriteShow = function(event){
     DCM.db.transaction(function(tx) {
-    tx.executeSql(
-            'delete from dcm13_bookmarks where schedule_id = ?',
-            [event.data.schedule_id],
-            function (tx, result) {
-				$('.favorite_listener').trigger('favorite_changed', {'schedule_id': event.data.schedule_id, isFavorite:false});
-            }
-        );
-    });
+    	// Get show_id from schedule_id
+		tx.executeSql(
+			'SELECT show_id FROM dcm13_schedules WHERE id = ? LIMIT 1',
+			[event.data.schedule_id],
+			function (tx, result) {
+				if (result.rows.length < 1) return;
+				var show_id = result.rows.item(0).show_id;
+    			// Delete all schedule_ids for that show
+    			tx.executeSql(
+    				'DELETE FROM dcm13_bookmarks WHERE schedule_id IN (SELECT id FROM dcm13_schedules WHERE show_id = ?)',
+    				[show_id],
+    				function (tx, result2) {
+						$('.favorite_listener').trigger('favorite_changed', {'schedule_id':event.data.schedule_id, isFavorite:false});
+					}
+				);
+			}
+		);
+	});
 };
+
 
 DCM.updateFavoriteButtonUI = function(e, data){
 	$('#show [data-role="header"] #favorite_button').unbind('click');

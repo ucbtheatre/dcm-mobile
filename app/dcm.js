@@ -1072,16 +1072,12 @@ window.addEventListener('load', function() {
 	
     var bubble = new google.bookmarkbubble.Bubble();
 
-    var parameter = 'bmb=1';
-
     bubble.hasHashParameter = function() {
-      return window.location.hash.indexOf(parameter) != -1;
+      return (window.localStorage.showBubble != undefined);
     };
 
     bubble.setHashParameter = function() {
-      if (!this.hasHashParameter()) {
-        window.location.hash += parameter;
-      }
+	  window.localStorage.showBubble = true;
     };
 
     bubble.getViewportHeight = function() {

@@ -6,6 +6,7 @@ define (DB_PASS, 'root');
 
 function echo_json_for_table($db, $table)
 {
+	echo "\t\t{\n";
 	$st = $db->prepare("SELECT * FROM $table");
 	if ($st->execute()) {
 		$all_rows = array();
@@ -25,20 +26,38 @@ function echo_json_for_table($db, $table)
 				}
 				$all_rows[] = "[" . join(',', $column_values) . "]";
 			} while ($row = $st->fetch(PDO::FETCH_ASSOC));
-			echo "dbimport(DB, '$table', ['", join("','", $column_names), "'], [", join(',', $all_rows), "]);\n";
+			printf("\t\t\t\"name\": \"%s\",\n", $table);
+			printf("\t\t\t\"columns\": ['%s'],\n", join("','", $column_names));
+			printf("\t\t\t\"rows\": [%s]\n", join(',', $all_rows));
 		}
 	} else {
 		echo "/* can't export $table */\n";
 	}
+	echo "\t\t},\n";
+}
+
+function echo_json_for_bookmarks()
+{
+	
+	echo "\t\t{\n";
+	printf("\t\t\t\"name\": \"%s\",\n", 'dcm13_bookmarks');
+	printf("\t\t\t\"columns\": [\"id INTEGER PRIMARY KEY AUTOINCREMENT\", \"schedule_id INTEGER UNIQUE ON CONFLICT IGNORE\"],\n");
+	printf("\t\t\t\"rows\": []\n");
+	echo "\t\t}\n";
 }
 
 try {
 	$db = new PDO(DB_DSN, DB_USER, DB_PASS);
-	echo 'loadCallback(function (DB) {';
+	echo "{\n";
+	echo "\t\"tables\": [\n";
 	echo_json_for_table($db, 'dcm13_venues');
 	echo_json_for_table($db, 'dcm13_schedules');
 	echo_json_for_table($db, 'dcm13_shows');
-	echo '});';
+	echo_json_for_table($db, 'dcm13_times');
+	echo_json_for_table($db, 'dcm13_home_theatres');
+	echo_json_for_bookmarks();
+	echo "\t]\n";
+	echo "}\n";
 } catch (PDOException $e) {
 	echo "Connection failed: " . $e->getMessage();
 	exit(1);

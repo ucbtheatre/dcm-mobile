@@ -12,7 +12,7 @@ DCM.invalidStateAction = function (){
 }
 
 DCM.dbImport = function(tableName, tableColumns, tableRows) {
-	console.log('dbImport');
+  console.log('Importing table ' + tableName);
   DCM.db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS ' + tableName);
     tx.executeSql('CREATE TABLE ' + tableName + ' (' + tableColumns.join(',') + ')');
@@ -50,17 +50,24 @@ DCM.createEndTimes = function() {
 	});
 };
 
+DCM.fetchDataIntoDB = function() {
+  console.log('Importing into local database');
+  //populate the DB
+  $.getJSON('dcm13data.js', function(json) {
+	console.log('Data fetched, saving to database');
+	for (var i = 0; i < json.tables.length; i++) {
+	  var table = json.tables[i];
+	  DCM.dbImport(table.name, table.columns, table.rows);
+	}
+	//load the data into the UI
+	DCM.loadData();
+	DCM.createEndTimes();
+  });
+};
+
 DCM.resetDB = function() {
-	$.getJSON("dcm13data.js", function(json) {
-	  DCM.db.transaction(function(txt){
-	    tx.executeSql('DROP DATABASE IF EXISTS dcm');	
-	  });
-	  for (var i = 0; i < json.tables.length; i++) {
-	    var table = json.tables[i];
-	    DCM.dbImport(table.name, table.columns, table.rows);
-	  }
-	});
-    $(".message").html("Database is Reset");
+  DCM.fetchDataIntoDB();
+  $(".message").html("Database is Reset");
 };
 
 DCM.loadNowAndNext = function(){
@@ -962,21 +969,11 @@ $(document).ready(function($) {
   DCM.setupStateTracking();
 
   // Load database.
-  DCM.db = openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024, function(db){
-    //populate the DB
-    $.getJSON('dcm13data.js', function(json) {
-	console.log('importing the db');
-      for (var i = 0; i < json.tables.length; i++) {
-        var table = json.tables[i];
-        DCM.dbImport(table.name, table.columns, table.rows);
-      }
-
-      //load the data into the UI
-      DCM.loadData();
-    });
+  DCM.db = openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024, function(db) {
+    console.log("Performing initial database setup");
+    DCM.db = db;
+    DCM.fetchDataIntoDB();
   });
-
-  DCM.createEndTimes();
 
   $('h1').ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     $(this).text('Error!');
@@ -988,10 +985,9 @@ $(document).ready(function($) {
   }
     
   $('#bookmarks').bind('pageshow', function() {
-            DCM.loadFavorites();
-    });
-
- });
+    DCM.loadFavorites();
+  });
+});
 
 
 /*

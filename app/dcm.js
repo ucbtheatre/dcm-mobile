@@ -889,6 +889,10 @@ DCM.isiOSBrowser = function(){
 	return navigator.userAgent.match('iPhone|iPod|iPad');
 }
 
+DCM.isAndroidBrowser = function(){
+	return navigator.userAgent.match('Android');
+}
+
 $( document ).bind( 'mobileinit', function() {
 	//Enable Ajax
 	$.mobile.ajaxEnabled  = true;
@@ -973,14 +977,33 @@ $(document).ready(function($) {
     console.log("Performing initial database setup");
     DCM.db = db;
     DCM.fetchDataIntoDB();
+	alert('data has been loaded');
   });
+
+  if(DCM.isAndroidBrowser())
+  {
+	var dbValidTest =  openDatabase('dcm', '1.0', 'Del Close Marathon', 2*1024*1024);
+	
+	dbValidTest.transaction(function(tx) {
+		// Get show_id from schedule_id
+		tx.executeSql(
+			'SELECT * FROM dcm13_schedules LIMIT 1',
+			[],
+			function (tx, result) {
+			},
+			function (tx, error){
+				DCM.fetchDataIntoDB();
+			}
+		);
+	});
+  }
 
   $('h1').ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     $(this).text('Error!');
     console.log(thrownError);
   });
   
-  if(DCM.db.version == "1.0"){
+  if(DCM.db.version == "1.0" && !DCM.isAndroidBrowser()){
     DCM.loadData();
   }
     

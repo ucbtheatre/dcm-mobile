@@ -990,6 +990,7 @@ $(document).ready(function($) {
 			'SELECT * FROM dcm13_schedules LIMIT 1',
 			[],
 			function (tx, result) {
+				DCM.loadData();
 			},
 			function (tx, error){
 				DCM.fetchDataIntoDB();

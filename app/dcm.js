@@ -977,7 +977,6 @@ $(document).ready(function($) {
     console.log("Performing initial database setup");
     DCM.db = db;
     DCM.fetchDataIntoDB();
-	alert('data has been loaded');
   });
 
   if(DCM.isAndroidBrowser())

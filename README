@@ -1,6 +1,11 @@
 The Del Close Marathon mobile app
 
-dcm13_scrubbed.sql.gz contains a scrubbed SQL dump of the DCM database, 
-for development testing. Only the dcm13 show tables have been included, 
-rejected shows have been removed, and the contact_email and extra_info 
-fields have been set to NULL.
+This is the mobile app that everyone will use for the 14th Annual Del Close Marathon.
+
+Android version is under android/
+
+iOS version is under ios/
+
+web-app version is under wep-app/
+
+Drop all designs, images and other creative assets into create_assets/

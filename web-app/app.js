@@ -13,6 +13,8 @@ Ext.application({
 
     views: ['Main', 'Home'],
 
+    models: ['Performer', 'Show', 'Schedule', 'Venue'],
+
     icon: {
         57: 'resources/icons/Icon.png',
         72: 'resources/icons/Icon~ipad.png',

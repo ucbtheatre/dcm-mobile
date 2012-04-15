@@ -15,6 +15,8 @@ Ext.application({
 
     models: ['Performer', 'Show', 'Schedule', 'Venue'],
 
+    stores: ['Venues'],
+
     icon: {
         57: 'resources/icons/Icon.png',
         72: 'resources/icons/Icon~ipad.png',
@@ -31,6 +33,7 @@ Ext.application({
 
         // Initialize the main view
         Ext.Viewport.add(Ext.create('dcm14.view.Main'));
+
     },
 
     onUpdated: function() {
@@ -41,5 +44,5 @@ Ext.application({
                 window.location.reload();
             }
         );
-    }
+    },
 });

@@ -11,11 +11,11 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    views: ['Main', 'Home'],
+    views: ['Main', 'Home', 'Shows'],
 
     models: ['Performer', 'Show', 'Schedule', 'Venue'],
 
-    stores: ['Venues'],
+    stores: ['Venues', 'Shows'],
 
     icon: {
         57: 'resources/icons/Icon.png',
@@ -34,9 +34,19 @@ Ext.application({
         // Initialize the main view
         Ext.Viewport.add(Ext.create('dcm14.view.Main'));
 
+        // Venues
         Ext.getStore('Venues').load(function(venues){
           Ext.each(venues, function(venue){
+            // console.log('Venue');
             // console.log(venue);
+          });
+        });
+
+        // Shows
+        Ext.getStore('Shows').load(function(shows){
+          Ext.each(shows, function(show){
+            // console.log('Show');
+            // console.log(show);
           });
         });
     },

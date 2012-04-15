@@ -8,7 +8,8 @@ Ext.define("dcm14.view.Main", {
         items: [ 
           {
             xtype: 'homepanel'
-          }
+          },
+          { xtype: 'showspanel' }
         ]
     }
 });

@@ -34,6 +34,11 @@ Ext.application({
         // Initialize the main view
         Ext.Viewport.add(Ext.create('dcm14.view.Main'));
 
+        Ext.getStore('Venues').load(function(venues){
+          Ext.each(venues, function(venue){
+            // console.log(venue);
+          });
+        });
     },
 
     onUpdated: function() {

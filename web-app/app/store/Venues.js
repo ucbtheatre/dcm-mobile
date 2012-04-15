@@ -5,8 +5,7 @@ Ext.define('dcm14.store.Venues', {
     proxy: {
         type: 'ajax',
         url : 'dcm13data.json',
-        reader: 'json'
+        reader: { type : 'json', rootProperty : 'Venues', record : 'Venue' }
     },
-    autoLoad: true
   }
 });

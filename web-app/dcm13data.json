@@ -1,5 +1,5 @@
-{ Venues :
-  [
+{
+  "Venues":[
     {
       "Venue":{
         "id":"1",
@@ -61,8 +61,7 @@
       }
     }
   ],
-  "Shows" :
-  [
+  "Shows":[
     {
       "Show":{
         "show_name":"TidbiT",
@@ -4679,8 +4678,7 @@
       }
     }
   ],
-  "Schedules" :
-  [
+  "Schedules":[
     {
       "Schedule":{
         "id":"24",

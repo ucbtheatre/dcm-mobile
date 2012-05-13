@@ -11,7 +11,7 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    views: ['Main', 'Home', 'Shows'],
+    views: ['Main', 'Home', 'Shows', 'NavShows'],
 
     models: ['Performer', 'Show', 'Schedule', 'Venue'],
 

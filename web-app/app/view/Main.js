@@ -9,7 +9,7 @@ Ext.define("dcm14.view.Main", {
           {
             xtype: 'homepanel'
           },
-          { xtype: 'showspanel' }
+          { xtype: 'showsnav' }
         ]
     }
 });

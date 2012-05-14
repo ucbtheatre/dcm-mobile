@@ -4,7 +4,18 @@ Ext.define('dcm14.model.Show', {
         fields: [
             { name: 'id', type: 'int' },
             { name: 'show_name', type: 'string' },
-            { name: 'description', type: 'string' }
-        ]
+            { name: 'promo_blurb', type: 'string' },
+            { name: 'home_city', type: 'string' },
+            { name: 'cast', type:'auto' }
+        ],
+        proxy: {
+          type: 'ajax',
+          url : 'dcm13data.json',
+          reader: { type : 'json', rootProperty : 'Shows', record : 'Show' }
+        }
+    },
+    stores:['Shows'],
+    getShowtimes:function(){
+      return 'TEST SHOWTIME';
     }
 });

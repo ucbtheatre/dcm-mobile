@@ -3,7 +3,11 @@ Ext.define('dcm14.model.Schedule', {
     config: {
         fields: [
             { name: 'id', type: 'int' },
-            { name: 'name', type: 'string' }
+            { name: 'show_id', type: 'int' },
+            { name: 'venue_id', type: 'int' },
+            { name: 'starttime', type: 'int' },
+            { name: 'endtime', type: 'int' },
+            { name: 'minutes', type: 'int' }
         ]
     }
 });

@@ -4,13 +4,14 @@ Ext.define("dcm14.view.Main", {
     
     config: {
         tabBarPosition: 'bottom',
-        
+
         items: [ 
-          {
-            xtype: 'homepanel'
-          },
+          { xtype: 'homepanel' },
           { xtype: 'showsnav' },
-          { xtype: 'venuesnav' }
+          { xtype: 'venuesnav' },
+          { xtype: 'happeningnow'},
+          { xtype: 'mappanel'},
+          { xtype: 'favoritespanel' }
         ]
     }
 });

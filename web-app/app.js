@@ -11,11 +11,13 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    views: ['Main', 'Home', 'Shows', 'NavShows', 'Venues', 'NavVenues'],
+    views: ['Main', 'Home', 'Shows', 'ShowDetail', 'NavShows', 'Venues', 'NavVenues', 'HappeningNow', 'Map', 'Favorites'],
 
     models: ['Performer', 'Show', 'Schedule', 'Venue'],
 
     stores: ['Venues', 'Shows'],
+
+    controllers:['ShowDetail'],
 
     icon: {
         57: 'resources/icons/Icon.png',

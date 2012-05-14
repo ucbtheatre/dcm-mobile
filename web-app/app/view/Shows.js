@@ -12,9 +12,16 @@ Ext.define('dcm14.view.Shows', {
         listeners: {
           select:function(view, record){
             parent = view.getParent();
-            this_store = this.getStore();
-            // console.log(this_store.getAt(record.internalId));
-            parent.push({ html: record.data.show_name + "<br/>" + record.raw.promo_blurb + "<br/><br/>" + record.raw.cast.join("<br/>")});
+            show_detail = Ext.create('dcm14.view.ShowDetail');
+            show_detail.setData(record.data);
+            show_detail.items.items[0].setData(record.data);
+            performers = [];
+              for(i=0; i < record.data.cast.length; i++) {
+                performers.push({name:record.data.cast[i]});
+              }
+            // show_detail.items.items[1].setData({text:'Performers', children: performers});
+            // console.log(show_detail.items.items[1]);
+            parent.push(show_detail);
           }
         },
         store : 'Shows',

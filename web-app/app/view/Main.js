@@ -1,17 +1,11 @@
 Ext.define("dcm14.view.Main", {
     extend: 'Ext.tab.Panel',
-    requires: ['Ext.TitleBar'],
-    
+    xtype: 'main',
+
     config: {
         tabBarPosition: 'bottom',
-
         items: [ 
-          { xtype: 'homepanel' },
-          { xtype: 'showsnav' },
-          { xtype: 'venuesnav' },
-          { xtype: 'happeningnow'},
-          { xtype: 'mappanel'},
-          { xtype: 'favoritespanel' }
+          { xclass: 'dcm14.view.show.Card' }
         ]
     }
 });

@@ -7,17 +7,38 @@ Ext.Loader.setPath({
 Ext.application({
     name: 'dcm14',
 
+    title: 'DCM XIV',
+
     requires: [
-        'Ext.MessageBox'
+      'Ext.MessageBox',
+      'dcm14.util.Proxy'
     ],
 
-    views: ['Main', 'Home', 'Shows', 'ShowDetail', 'NavShows', 'Venues', 'NavVenues', 'HappeningNow', 'Map', 'Favorites'],
+    stores: [
+      'Schedules',
+      'Shows',
+      'Venues'
+    ],
 
-    models: ['Performer', 'Show', 'Schedule', 'Venue'],
+    models: [
+      'Performer',
+      'Schedule',
+      'Show',
+      'Venue'
+    ],
 
-    stores: ['Venues', 'Shows'],
+    views: [
+      'Main',
+      'show.Card',
+      'show.List',
+      'show.Detail',
+      'show.Info',
+      'schedule.List'
+    ],
 
-    controllers:['ShowDetail'],
+    controllers: [
+      'Shows'
+    ],
 
     icon: {
         57: 'resources/icons/Icon.png',
@@ -31,26 +52,12 @@ Ext.application({
 
     launch: function() {
         // Destroy the #appLoadingIndicator element
-        Ext.fly('appLoadingIndicator').destroy();
-
-        // Initialize the main view
-        Ext.Viewport.add(Ext.create('dcm14.view.Main'));
-
-        // Venues
-        Ext.getStore('Venues').load(function(venues){
-          Ext.each(venues, function(venue){
-            // console.log('Venue');
-            // console.log(venue);
-          });
-        });
-
-        // Shows
-        Ext.getStore('Shows').load(function(shows){
-          Ext.each(shows, function(show){
-            // console.log('Show');
-            // console.log(show);
-          });
-        });
+        // Ext.fly('appLoadingIndicator').destroy();
+        Ext.Viewport.setMasked({ xtype: 'loadmask' });
+        dcm14.util.Proxy.process('dcm13data.json', function() {
+          Ext.Viewport.add(Ext.create('dcm14.view.Main'));
+          Ext.Viewport.setMasked(false);
+        })
     },
 
     onUpdated: function() {

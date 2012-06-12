@@ -1,4 +1,4 @@
-Ext.define('dcm14.view.about', {
+Ext.define('dcm14.view.About', {
   extend: 'Ext.Container',
   xtype: 'about',
   

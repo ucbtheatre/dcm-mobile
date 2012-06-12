@@ -7,6 +7,7 @@ Ext.define("dcm14.view.Main", {
         items: [ 
           { xclass: 'dcm14.view.show.Card' },
           { xclass: 'dcm14.view.venue.Card' },
+          { xclass: 'dcm14.view.favorite.Card' },
           { xclass: 'dcm14.view.about' }
         ]
     }

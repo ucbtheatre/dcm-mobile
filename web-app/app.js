@@ -38,7 +38,9 @@ Ext.application({
       'venue.List',
       'venue.Info',
       'venue.Detail',
-      'about'
+      'about',
+      'favorite.Card',
+      'favorite.List'
     ],
 
     controllers: [

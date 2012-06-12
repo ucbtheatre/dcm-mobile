@@ -1,7 +1,6 @@
 Ext.define('dcm14.view.show.List', {
   extend: 'Ext.List',
   xtype: 'shows',
-  
   config: {
     items: [
       { xtype : 'toolbar', docked : 'top',
@@ -9,7 +8,7 @@ Ext.define('dcm14.view.show.List', {
           { xtype : 'spacer' },
           { xtype: 'searchfield', placeHolder: 'Search...',
             listeners: {
-              scope: this,
+              // scope : this,
               // clearicontap: this.onSearchClearIconTap,
               // keyup: this.onSearchKeyUp
             }
@@ -24,9 +23,9 @@ Ext.define('dcm14.view.show.List', {
   initialize: function() {
     this.config.title = dcm14.app.title;
     this.callParent();
-  }, 
+  },
   onSearchKeyUp: function (f) {
-	console.log('keyup');
+	console.log('keyup function inside list called');
     var e = f.getValue(),
       b = this.getStore();
     b.clearFilter();

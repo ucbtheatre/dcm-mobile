@@ -76,5 +76,5 @@ Ext.application({
                 window.location.reload();
             }
         );
-    },
+    }
 });

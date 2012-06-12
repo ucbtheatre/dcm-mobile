@@ -40,5 +40,4 @@ Ext.define('dcm14.controller.Shows', {
     this.getShowInfo().setRecord(record);
 
   }
-
 });

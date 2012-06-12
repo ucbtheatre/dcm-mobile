@@ -8,7 +8,6 @@ Ext.define('dcm14.model.Venue', {
             { name: 'address', type: 'string' },
             { name: 'image', type: 'string' },
             { name: 'gmaps', type: 'string' }
-
         ]
     }
 });

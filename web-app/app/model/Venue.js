@@ -3,7 +3,12 @@ Ext.define('dcm14.model.Venue', {
     config: {
         fields: [
             { name: 'id', type: 'int' },
-            { name: 'name', type: 'string' }
+            { name: 'name', type: 'string' },
+            { name: 'short_name', type: 'string' },
+            { name: 'address', type: 'string' },
+            { name: 'image', type: 'string' },
+            { name: 'gmaps', type: 'string' }
+
         ]
     }
 });

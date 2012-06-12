@@ -1,17 +1,17 @@
-Ext.define('dcm14.view.show.Card', {
+Ext.define('dcm14.view.venue.Card', {
   extend: 'Ext.NavigationView',
-  xtype: 'showContainer',
+  xtype: 'venueContainer',
   
   config: {
-    title: 'All Shows',
-    iconCls: 'info',
+    title: 'Venues',
+    iconCls: 'search',
     
     autoDestroy: false,
 
     items:[
       {
-        xtype: 'shows',
-        store: 'Shows',
+        xtype: 'venues',
+        store: 'Venues',
         grouped: false,
         pinHeaders: true
       }

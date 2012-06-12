@@ -33,11 +33,16 @@ Ext.application({
       'show.List',
       'show.Detail',
       'show.Info',
-      'schedule.List'
+      'schedule.List',
+      'venue.Card',
+      'venue.List',
+      'venue.Info',
+      'venue.Detail'
     ],
 
     controllers: [
-      'Shows'
+      'Shows',
+      'Venues'
     ],
 
     icon: {

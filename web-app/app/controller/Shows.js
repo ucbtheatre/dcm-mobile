@@ -18,7 +18,7 @@ Ext.define('dcm14.controller.Shows', {
   },
 
   initShows: function() {
-    console.log('Hello Shows!');
+    // console.log('Hello Shows!');
   },
 
   onShowTap: function(list, idex, el, record) {

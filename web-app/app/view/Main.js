@@ -5,7 +5,8 @@ Ext.define("dcm14.view.Main", {
     config: {
         tabBarPosition: 'bottom',
         items: [ 
-          { xclass: 'dcm14.view.show.Card' }
+          { xclass: 'dcm14.view.show.Card' },
+          { xclass: 'dcm14.view.venue.Card' }
         ]
     }
 });

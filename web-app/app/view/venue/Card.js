@@ -4,7 +4,7 @@ Ext.define('dcm14.view.venue.Card', {
   
   config: {
     title: 'Venues',
-    iconCls: 'search',
+    iconCls: 'info',
     
     autoDestroy: false,
 

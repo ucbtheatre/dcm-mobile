@@ -8,9 +8,20 @@ Ext.define('dcm14.view.show.List', {
           { xtype : 'spacer' },
           { xtype: 'searchfield', placeHolder: 'Search...',
             listeners: {
-              // scope : this,
-              // clearicontap: this.onSearchClearIconTap,
-              // keyup: this.onSearchKeyUp
+              // scope : this.dcm14.view.show.List,
+              clearicontap: function() {
+                showStore = Ext.getStore('Shows');
+                showStore.clearFilter();
+              },
+              keyup: function(f) {
+                showStore = Ext.getStore('Shows');
+                value = f.getValue();
+                if (value == '') {
+                  showStore.clearFilter();
+                } else {
+                  showStore.filter("show_name", value, true, false);
+                }
+              }
             }
           },
           { xtype: 'spacer' }
@@ -23,38 +34,5 @@ Ext.define('dcm14.view.show.List', {
   initialize: function() {
     this.config.title = dcm14.app.title;
     this.callParent();
-  },
-  onSearchKeyUp: function (f) {
-	console.log('keyup function inside list called');
-    var e = f.getValue(),
-      b = this.getStore();
-    b.clearFilter();
-    if (e) {
-      var d = e.split(" "),
-        a = [],
-        c;
-      for (c = 0; c < d.length; c++) {
-        if (!d[c]) {
-          continue
-        }
-        a.push(new RegExp(d[c], "i"))
-      }
-      b.filter(function (h) {
-        var g = [];
-        for (c = 0; c < a.length; c++) {
-          var j = a[c],
-            i = h.get("show_name").match(j);
-          g.push(i)
-        }
-        if (a.length > 1 && g.indexOf(false) != -1) {
-          return false
-        } else {
-          return g[0]
-        }
-      })
-    }
-  },
-  onSearchClearIconTap: function () {
-    this.getStore().clearFilter()
   }
 });

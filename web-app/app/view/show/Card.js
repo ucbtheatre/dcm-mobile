@@ -4,7 +4,7 @@ Ext.define('dcm14.view.show.Card', {
   
   config: {
     title: 'All Shows',
-    iconCls: 'info',
+    iconCls: 'search',
     
     autoDestroy: false,
 

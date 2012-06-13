@@ -7,6 +7,18 @@ Ext.define('dcm14.view.show.Detail', {
     scrollable: true,
     title: '',
     items:[
+      { 
+        xtype: 'toolbar',
+        docked: 'top',
+        scrollable: false,
+        ui:'neutral',
+        defaults: {
+          iconMask:true,
+          ui:'plain'
+        },
+        items:[{iconCls:'star'}],
+        layout:{ pack: 'right', align: 'right' }
+      },
       {
         xtype: 'showInfo'
       },

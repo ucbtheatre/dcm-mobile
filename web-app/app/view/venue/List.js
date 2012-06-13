@@ -4,7 +4,7 @@ Ext.define('dcm14.view.venue.List', {
   
   config: {
     items: [],
-    itemTpl: ['<div class="venue"><div class="title">{name}</div>']
+    itemTpl: ['<div class="venue"><div class="title">{name}</div><div class="x-list-disclosure "></div></div>']
   },
   
   initialize: function() {

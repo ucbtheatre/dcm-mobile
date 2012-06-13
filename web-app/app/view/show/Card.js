@@ -13,7 +13,7 @@ Ext.define('dcm14.view.show.Card', {
         xtype: 'shows',
         store: 'Shows',
         grouped: false,
-        pinHeaders: true
+        pinHeaders: false
       }
     ]
   }  

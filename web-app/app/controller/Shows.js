@@ -23,14 +23,12 @@ Ext.define('dcm14.controller.Shows', {
 
   onShowTap: function(list, idex, el, record) {
     var scheduleStore = Ext.getStore('Schedules');
+    var showStore = Ext.getStore('Shows');
     var showId = record.get('id');
     
     scheduleStore.clearFilter();
-    scheduleStore.filterBy(function(schedule) {
-      console.log(schedule.get('show_id'));
-      return showId == schedule.get('show_id');
-    });
-  
+    scheduleStore.filter('show_id', showId, false, false);
+
     if(!this.show) {
       this.show = Ext.create('dcm14.view.show.Detail');
     }

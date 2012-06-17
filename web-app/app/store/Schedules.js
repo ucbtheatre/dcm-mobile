@@ -6,7 +6,8 @@ Ext.define('dcm14.store.Schedules', {
     proxy: {
         type: 'ajax',
         url : 'dcm13data.json',
-        reader: { type : 'json', rootProperty : 'Schedules', record : 'Schedule' }
+        reader: { type : 'json', rootProperty : 'Schedules', record : 'Schedule' },
+        id: 'scheduleStore'
     },
   }
 });

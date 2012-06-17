@@ -9,7 +9,6 @@ Ext.define('dcm14.model.Schedule', {
             { name: 'endtime', type: 'int' },
             { name: 'minutes', type: 'int' }
         ],
-        associations: [{ type: 'belongsTo', model: 'Show', foreignKey: 'show_id' },
-                       { type: 'belongsTo', model: 'Venue', foreignKey: 'venue_id' }]
+        associations: { type: 'hasOne', model: 'dcm14.model.Venue' }
     }
 });

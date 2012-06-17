@@ -31,7 +31,7 @@ Ext.define('dcm14.view.show.Detail', {
           {
             xtype: 'listitemheader',
             cls: 'dark',
-            html: 'Schedules'
+            html: 'Showtimes'
           }
         ]
       }

@@ -17,7 +17,8 @@ Ext.application({
     stores: [
       'Schedules',
       'Shows',
-      'Venues'
+      'Venues',
+      'Favorites'
     ],
 
     models: [

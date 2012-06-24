@@ -7,7 +7,8 @@ Ext.define('dcm14.controller.Shows', {
       showInfo: 'showContainer showInfo',
       showPerformers: 'showContainer list',
       showContainer: 'showContainer', 
-      showSchedules: 'showContainer list'
+      showSchedules: 'showContainer list',
+      showFavoriteButton: 'showContainer show toolbar button'
     },
     control: {
       shows: {
@@ -27,7 +28,7 @@ Ext.define('dcm14.controller.Shows', {
     var showId = record.get('id');
     
     scheduleStore.clearFilter();
-    scheduleStore.filter('show_id', showId, false, false);
+    scheduleStore.filter('show_id', showId);
 
     if(!this.show) {
       this.show = Ext.create('dcm14.view.show.Detail');
@@ -37,5 +38,17 @@ Ext.define('dcm14.controller.Shows', {
     this.getShowContainer().push(this.show);
     this.getShowInfo().setRecord(record);
 
+    fave_button = this.getShowFavoriteButton();
+    fave_button.clearListeners();
+    fave_button.addListener('tap', function(event_name, args) {
+      console.log('favorite show_id: ' + showId);
+      if (args.target.classList.contains('star-active')) {
+        args.target.classList.remove('star-active');
+	      args.target.classList.add('star');
+      } else {
+        args.target.classList.remove('star');
+	      args.target.classList.add('star-active');
+      }
+    });
   }
 });

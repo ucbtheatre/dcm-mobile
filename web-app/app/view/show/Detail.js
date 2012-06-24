@@ -16,7 +16,7 @@ Ext.define('dcm14.view.show.Detail', {
           iconMask:true,
           ui:'plain'
         },
-        items:[{iconCls:'star'}],
+        items:[{iconCls:'star', alias:'widget.favoriteButton', enableToggle:true}],
         layout:{ pack: 'right', align: 'right' }
       },
       {
@@ -36,5 +36,5 @@ Ext.define('dcm14.view.show.Detail', {
         ]
       }
     ]
-  }  
+  }
 });

@@ -42,24 +42,16 @@ Ext.define('dcm14.controller.Shows', {
     fave_button = this.getShowFavoriteButton();
     is_a_favorite = favoritesStore.isInFavorites(showId);
     if (is_a_favorite) {
-star_index = fave_button.iconElement.classList.indexOf('star');
-fave_button.iconElement.classList.splice(star_index, 1);
-fave_button.iconElement.classList.push('star-active');
-
-element = document.getElementById('ext-element-368');
-element.className = 
-   element.className.replace
-      ( /(?:^|\s)star(?!\S)/ , '' );
-element.className += " star-active";
+      element = document.getElementById(fave_button.iconElement.getId());
+      element.className = 
+      element.className.replace( /(?:^|\s)star(?!\S)/ , '' );
+      element.className += " star-active";
     } else {
-    	element = document.getElementById('ext-element-368');
-			element.className = 
-			   element.className.replace
-			      ( /(?:^|\s)star-active(?!\S)/ , '' );
-			element.className += " star";
+      element = document.getElementById(fave_button.iconElement.getId());
+      element.className = element.className.replace( /(?:^|\s)star-active(?!\S)/ , '' );
+      element.className += " star";
     }
 
-    has_this_as_favorite = favoritesStore.isInFavorites(showId);
     fave_button.clearListeners();
     fave_button.addListener('tap', function(event_name, args) {
       favoritesStore = Ext.getStore('Favorites');

@@ -32,18 +32,20 @@ Ext.define('dcm14.store.Favorites', {
     }
   },
   addFavorite:function(show_id) {
-    fave_exitss = this.isInFavorites(show_id);
+    fave_exists = this.isInFavorites(show_id);
     if (!fave_exists) {
       this.add({show_id: show_id});
       this.sync();
+      console.log('Favorite added ' + show_id);
     }
   },
   removeFavorite:function(show_id) {
-    fave_exitss = this.isInFavorites(show_id);
+    fave_exists = this.isInFavorites(show_id);
     if (fave_exists) {
       fave_index = this.find('show_id', show_id);
       this.removeAt(fave_index);
       this.sync();
+      console.log('Favorite removed ' + show_id);
     }
   }
 });

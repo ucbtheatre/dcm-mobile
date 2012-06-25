@@ -11,7 +11,8 @@ Ext.application({
 
     requires: [
       'Ext.MessageBox',
-      'dcm14.util.Proxy'
+      'dcm14.util.Proxy',
+      'dcm14.model.Favorite'
     ],
 
     stores: [
@@ -25,7 +26,8 @@ Ext.application({
       'Performer',
       'Schedule',
       'Show',
-      'Venue'
+      'Venue',
+      'Favorite'
     ],
 
     views: [

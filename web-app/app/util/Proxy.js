@@ -4,6 +4,7 @@ Ext.define('dcm14.util.Proxy', {
     var scheduleStore = Ext.getStore('Schedules');
     var showStore = Ext.getStore('Shows');
     var venueStore = Ext.getStore('Venues');
+    var favoritesStore = Ext.getStore('Favorites');
     // console.log(scheduleStore, showStore, venueStore);
     // console.log('Loading Schedules...');
     scheduleStore.load(function() {
@@ -12,7 +13,9 @@ Ext.define('dcm14.util.Proxy', {
         // console.log('Loading Venues...');
         venueStore.load(function() {
           // console.log('Loading Complete!');
-          callback();
+          favoritesStore.load(function() {
+            callback();
+          })
         })
       })
     });

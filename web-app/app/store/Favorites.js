@@ -2,11 +2,7 @@ Ext.define('dcm14.store.Favorites', {
   extend: 'Ext.data.Store', 
   config : {
     storeId: 'Favorites',
-    fields:['id', 'show_id'],
-    proxy: {
-        type: 'localstorage',
-        id: 'favoritesStore'
-    },
+    model: 'dcm14.model.Favorite'
   },
   setCookie:function(c_name, c_value) {
     document.cookie=c_name + "=" + c_value;
@@ -27,21 +23,27 @@ Ext.define('dcm14.store.Favorites', {
   getFavorites:function() {
     return this.getCookie('dcm14-favorites');
   },
+  isInFavorites:function(show_id) {
+    fave_index = this.find('show_id', show_id);
+    if (fave_index == -1) {
+      return false;
+    } else {
+      return true;
+    }
+  },
   addFavorite:function(show_id) {
-    current_favorites_string = this.getFavorites();
-    current_favorites_array = current_favorites_string.split('|');
-    current_favorites_array.push(show_id);
-    new_favorites_string = current_favorites_array.join('|');
-    this.setCookie('dcm14-favorites', new_favorites_string);
-    return;
+    fave_exitss = this.isInFavorites(show_id);
+    if (!fave_exists) {
+      this.add({show_id: show_id});
+      this.sync();
+    }
   },
   removeFavorite:function(show_id) {
-    current_favorites_string = this.getFavorites();
-    current_favorites_array = current_favorites_string.split('|');
-    index = current_favorites_array.indexOf(show_id);
-    current_favorites_array.splice(index, 1);
-    new_favorites_string = current_favorites_array.join('|');
-    this.setCookie('dcm14-favorites', new_favorites_string);
-    return;
+    fave_exitss = this.isInFavorites(show_id);
+    if (fave_exists) {
+      fave_index = this.find('show_id', show_id);
+      this.removeAt(fave_index);
+      this.sync();
+    }
   }
 });

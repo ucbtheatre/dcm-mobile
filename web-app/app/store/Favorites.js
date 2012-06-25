@@ -4,25 +4,6 @@ Ext.define('dcm14.store.Favorites', {
     storeId: 'Favorites',
     model: 'dcm14.model.Favorite'
   },
-  setCookie:function(c_name, c_value) {
-    document.cookie=c_name + "=" + c_value;
-  },
-  getCookie:function(c_name) {
-    var i,x,y,dcmCookies=document.cookie.split(";");
-		for (i=0;i<dcmCookies.length;i++)
-		{
-		  x=dcmCookies[i].substr(0,dcmCookies[i].indexOf("="));
-		  y=dcmCookies[i].substr(dcmCookies[i].indexOf("=")+1);
-		  x=x.replace(/^\s+|\s+$/g,"");
-		  if (x==c_name)
-		    {
-		    return unescape(y);
-		    }
-		  }
-  },
-  getFavorites:function() {
-    return this.getCookie('dcm14-favorites');
-  },
   isInFavorites:function(show_id) {
     fave_index = this.find('show_id', show_id);
     if (fave_index == -1) {
@@ -34,7 +15,9 @@ Ext.define('dcm14.store.Favorites', {
   addFavorite:function(show_id) {
     fave_exists = this.isInFavorites(show_id);
     if (!fave_exists) {
-      this.add({show_id: show_id});
+      show = this.getShowData(show_id);
+      favorite_object = {show_id: show.data.id, show_name: show.data.show_name };
+      this.add(favorite_object);
       this.sync();
       console.log('Favorite added ' + show_id);
     }
@@ -47,5 +30,11 @@ Ext.define('dcm14.store.Favorites', {
       this.sync();
       console.log('Favorite removed ' + show_id);
     }
+  },
+  getShowData:function(show_id) {
+    showsStore = Ext.getStore('Shows');
+    showIndex = showsStore.find('id', show_id);
+    show = showsStore.getAt(showIndex);
+    return show;
   }
 });

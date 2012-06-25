@@ -11,8 +11,7 @@ Ext.application({
 
     requires: [
       'Ext.MessageBox',
-      'dcm14.util.Proxy',
-      'dcm14.model.Favorite'
+      'dcm14.util.Proxy'
     ],
 
     stores: [
@@ -48,7 +47,8 @@ Ext.application({
 
     controllers: [
       'Shows',
-      'Venues'
+      'Venues',
+      'Favorites'
     ],
 
     icon: {

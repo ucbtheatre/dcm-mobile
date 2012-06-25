@@ -7,8 +7,14 @@ Ext.define('dcm14.model.Schedule', {
             { name: 'venue_id', type: 'int' },
             { name: 'starttime', type: 'int' },
             { name: 'endtime', type: 'int' },
-            { name: 'minutes', type: 'int' }
+            { name: 'minutes', type: 'int' },
+            { name: 'time_display', type: 'string' },
+            { name: 'venue_short_name', type: 'string' }
         ],
-        associations: { type: 'hasOne', model: 'dcm14.model.Venue' }
+        associations: { type: 'hasOne', model: 'dcm14.model.Venue' },
+        proxy: {
+          type:'localstorage',
+          id: 'SchedulesStorage'
+        }
     }
 });

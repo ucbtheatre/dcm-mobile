@@ -7,11 +7,11 @@ Ext.define('dcm14.util.Proxy', {
     var favoritesStore = Ext.getStore('Favorites');
     // console.log(scheduleStore, showStore, venueStore);
     // console.log('Loading Schedules...');
-    scheduleStore.load(function() {
-      // console.log('Loading Shows...');
-      showStore.load(function() {
-        // console.log('Loading Venues...');
-        venueStore.load(function() {
+    venueStore.load(function(){
+      scheduleStore.load(function() {
+        // console.log('Loading Shows...');
+        showStore.load(function() {
+          // console.log('Loading Venues...');
           // console.log('Loading Complete!');
           favoritesStore.load(function() {
             callback();

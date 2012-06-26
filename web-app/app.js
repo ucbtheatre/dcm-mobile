@@ -18,7 +18,8 @@ Ext.application({
       'Schedules',
       'Shows',
       'Venues',
-      'Favorites'
+      'Favorites',
+      'HappeningNow'
     ],
 
     models: [

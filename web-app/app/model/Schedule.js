@@ -9,7 +9,9 @@ Ext.define('dcm14.model.Schedule', {
             { name: 'endtime', type: 'int' },
             { name: 'minutes', type: 'int' },
             { name: 'time_display', type: 'string' },
-            { name: 'venue_short_name', type: 'string' }
+            { name: 'short_time', type: 'string' },
+            { name: 'venue_short_name', type: 'string' },
+            { name: 'show_name', type: 'string' }
         ],
         associations: { type: 'hasOne', model: 'dcm14.model.Venue' },
         proxy: {

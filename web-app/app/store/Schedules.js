@@ -9,6 +9,7 @@ Ext.define('dcm14.store.Schedules', {
         reader: { type : 'json', rootProperty : 'Schedules', record : 'Schedule' },
         id: 'scheduleStore'
     },
+    sorters: [{ property: 'endtime', direction: 'ASC' }],
     listeners:{
       load:function() {
         this.each(function(record) {
@@ -40,16 +41,23 @@ Ext.define('dcm14.store.Schedules', {
 				      minutes = '00';
 				    }
 				    date_output += date.getMonth() + '/' + date.getDate() + ' ' + hours + ':' + minutes + meridian;
+				    short_time = hours + ':' + minutes + meridian;
 				    var venueStore = Ext.getStore('Venues');
 				    venue = venueStore.getById(record.get('venue_id'));
 				    venue_short_name = venue.data.short_name;
-            sStore.updateSchedule(scheduleModel, date_output, venue_short_name);
+				    showStore = Ext.getStore('Shows');
+				    showModel = showStore.getById(record.get('show_id'));
+				if(showModel.data.show_id == 322) {console.log(showModel);}
+				    show_name = showModel.data.show_name;
+            sStore.updateSchedule(scheduleModel, show_name, date_output, short_time, venue_short_name);
         });
       }
     }
   },
-  updateSchedule:function(scheduleModel, time_display, venue_short_name) {
+  updateSchedule:function(scheduleModel, show_name, time_display, short_time, venue_short_name) {
+    scheduleModel.data.show_name = show_name;
     scheduleModel.data.time_display = time_display;
+    scheduleModel.data.short_time = short_time;
     scheduleModel.data.venue_short_name = venue_short_name;
     scheduleModel.save();
   }

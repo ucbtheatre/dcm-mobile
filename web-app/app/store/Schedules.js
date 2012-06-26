@@ -5,7 +5,7 @@ Ext.define('dcm14.store.Schedules', {
     storeId: 'Schedules',
     proxy: {
         type: 'ajax',
-        url : 'dcm13data.json',
+        url : 'dcm14data.json',
         reader: { type : 'json', rootProperty : 'Schedules', record : 'Schedule' },
         id: 'scheduleStore'
     },
@@ -16,6 +16,7 @@ Ext.define('dcm14.store.Schedules', {
           sStore = Ext.getStore('Schedules');
           scheduleIndex = sStore.find('id', record.getId());
           scheduleModel = sStore.getAt(scheduleIndex);
+// console.log('start time data');
             starttime_stamp = scheduleModel.data.starttime;
 				    date = new Date(starttime_stamp * 1000);
 				    day = date.getDay();
@@ -44,10 +45,11 @@ Ext.define('dcm14.store.Schedules', {
 				    short_time = hours + ':' + minutes + meridian;
 				    var venueStore = Ext.getStore('Venues');
 				    venue = venueStore.getById(record.get('venue_id'));
+				// console.log('venue data');
 				    venue_short_name = venue.data.short_name;
 				    showStore = Ext.getStore('Shows');
 				    showModel = showStore.getById(record.get('show_id'));
-				if(showModel.data.show_id == 322) {console.log(showModel);}
+				// console.log('show data');
 				    show_name = showModel.data.show_name;
             sStore.updateSchedule(scheduleModel, show_name, date_output, short_time, venue_short_name);
         });

@@ -8,8 +8,8 @@ Ext.define('dcm14.util.Proxy', {
     // console.log(scheduleStore, showStore, venueStore);
     // console.log('Loading Schedules...');
     venueStore.load(function(){
-	    showStore.load(function() { console.log('Show Store loading!');
-        scheduleStore.load(function() { console.log('Schedules loading!');
+	    showStore.load(function() { // console.log('Show Store loading!');
+        scheduleStore.load(function() { // console.log('Schedules loading!');
           favoritesStore.load(function() {
             callback();
           })

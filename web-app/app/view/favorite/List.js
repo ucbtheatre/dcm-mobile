@@ -5,7 +5,7 @@ Ext.define('dcm14.view.favorite.List', {
     showStore = Ext.getStore('Shows');
     showIndex = showStore.find('id', record.get('show_id'));
     show = showStore.getAt(showIndex);
-    return_object = {show_id:record.get('show_id'), show_name:show.data.show_name }
+    return_object = {show_id:record.get('show_id'), show_name:record.get('show_name') }
     return return_object;
   },
   config: {
@@ -17,10 +17,8 @@ Ext.define('dcm14.view.favorite.List', {
     },
     emptyText: 'You have no favorite shows yet.'
   },
-  
   initialize: function() {
     this.config.title = dcm14.app.title;
     this.callParent();
-  } 
-
+  }
 });

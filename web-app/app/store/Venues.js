@@ -5,7 +5,7 @@ Ext.define('dcm14.store.Venues', {
     storeId: 'Venues',
     proxy: {
         type: 'ajax',
-        url : 'dcm13data.json',
+        url : 'dcm14data.json',
         reader: { type : 'json', rootProperty : 'Venues', record : 'Venue' }
     },
   }

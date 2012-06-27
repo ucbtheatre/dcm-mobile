@@ -2,18 +2,22 @@ Ext.define('dcm14.store.HappeningNow', {
   extend: 'Ext.data.Store', 
   config : {
     storeId: 'HappeningNow',
-    fields:['show_id', 'show_name', 'starttime', 'endtime', 'venue_short_name', 'time_display', 'short_time'],
-    groupField:'venue_short_name',
+    fields:['show_id', 'show_name', 'starttime', 'endtime', 'venue_short_name', 'time_display', 'short_time', 'venue_id'],
     grouper : {
-      sortProperty: 'venue_id',
-    }
+      property: 'venue_short_name'
+      // sortProperty: 'venue_id',
+      // direction: 'ASC',
+    },
+    sorters: [{
+      property: 'venue_id',
+      direction: 'ASC'
+    }]
   },
   getCurrentlyPlayingShows:function(timestamp) {
     scheduleStore = Ext.getStore('Schedules');
     happeningNowStore = Ext.getStore('HappeningNow');
     showStore = Ext.getStore('Shows');
     for (i=1; i <= 7; i++) {
-	    // console.log('filtering by venue ' + i);
       venue_results = happeningNowStore.filterByVenue(i);
       happeningNowStore.addToHappeningNow(venue_results);
     }
@@ -33,6 +37,7 @@ Ext.define('dcm14.store.HappeningNow', {
 	  happeningNowStore = Ext.getStore('HappeningNow');
     for (j=0; j < results.length; j++) {
       result = results[j].data;
+// console.log(result);
       happeningNowStore.add({
         show_id: result.show_id,
         show_name: result.show_name,
@@ -40,7 +45,8 @@ Ext.define('dcm14.store.HappeningNow', {
         short_time: result.short_time,
         endtime: result.endtime,
         time_display: result.time_display,
-        venue_short_name: result.venue_short_name });
+        venue_short_name: result.venue_short_name,
+        venue_id: result.venue_id });
     }
   }
 });

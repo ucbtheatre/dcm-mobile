@@ -15,12 +15,6 @@ Ext.define('dcm14.view.now.Card', {
               show:function() {
                 HappeningNow = Ext.getStore('HappeningNow');
                 HappeningNow.getCurrentlyPlayingShows(1234);
-// this.config.data = [{endtime:12345}];
-// this.setData();
-// console.log(this);
-// console.log(data);
-                // this.setData([{endtime:12345}]);
-// console.log(HappeningNow.getUcbLatest(1234));
               }
             }
       }]

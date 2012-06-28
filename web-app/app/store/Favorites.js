@@ -8,6 +8,10 @@ Ext.define('dcm14.store.Favorites', {
       sortProperty: 'starttime',
       direction: 'ASC',
     },
+    sorters: [{
+      property: 'starttime',
+      direction: 'ASC'
+    }],
   },
   isInFavorites:function(show_id) {
     fave_index = this.find('show_id', show_id);

@@ -37,7 +37,8 @@ Ext.define('dcm14.controller.Shows', {
     if(!this.show) {
       this.show = Ext.create('dcm14.view.show.Detail');
     }
-
+    cast_array = record.data.cast;
+    record.data.cast_string = cast_array.join(',');
     this.show.config.title = record.get('show_name');
     this.getShowContainer().push(this.show);
     this.getShowInfo().setRecord(record);

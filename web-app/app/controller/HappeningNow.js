@@ -32,7 +32,6 @@ Ext.define('dcm14.controller.HappeningNow', {
       showModel = showStore.getAt(showIndex);
 
      scheduleStore.clearFilter();
-     // scheduleStore.filter('show_id', showId, false, false);
      scheduleStore.filterBy(function(record, id) {
        show_id_from_record = record.get('show_id');
        if (show_id_from_record == showId) { return true; }
@@ -41,6 +40,8 @@ Ext.define('dcm14.controller.HappeningNow', {
       if(!showRef) {
         showRef = Ext.create('dcm14.view.show.Detail');
       }
+      cast_array = showModel.data.cast;
+      showModel.data.cast_string = cast_array.join(',');
       controllerRef.getShow().config.title = record.get('show_name');
       controllerRef.getNowContainerObject().push(showRef);
       controllerRef.getShowInfo().setRecord(showModel);

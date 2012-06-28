@@ -39,6 +39,8 @@ Ext.define('dcm14.controller.Favorites', {
     if(!this.show) {
       this.show = Ext.create('dcm14.view.show.Detail');
     }
+    cast_array = showModel.data.cast;
+    showModel.data.cast_string = cast_array.join(',');
     this.show.config.title = record.get('show_name');
     this.getFavoriteContainer().push(this.show);
     this.getShowInfo().setRecord(showModel);

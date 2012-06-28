@@ -7,6 +7,7 @@ Ext.define('dcm14.model.Show', {
             { name: 'promo_blurb', type: 'string' },
             { name: 'home_city', type: 'string' },
             { name: 'cast', type:'auto' },
+            { name: 'cast_string', type:'string' },
             { name: 'short_time_string', type:'string' },
             { name: 'starttime', type:'int'},
             { name: 'endtime', type:'int'}

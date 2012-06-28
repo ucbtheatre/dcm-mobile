@@ -5,8 +5,8 @@ Ext.define('dcm14.view.show.Info', {
   config: {
     cls: 'showInfo',
     tpl: Ext.create('Ext.XTemplate',
-      '<h3>{show_name}</h3>',
-      '<p>{promo_blurb}</p>'
+      '<p style="padding:10px;font-weight:bold;">{promo_blurb}</p>',
+      '<p style="padding:10px;">{cast_string}</p>'
     )
   }
 });

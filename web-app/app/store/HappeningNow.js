@@ -4,12 +4,12 @@ Ext.define('dcm14.store.HappeningNow', {
     storeId: 'HappeningNow',
     fields:['show_id', 'show_name', 'starttime', 'endtime', 'venue_short_name', 'time_display', 'short_time', 'venue_id'],
     grouper : {
-      property: 'venue_short_name'
-      // sortProperty: 'venue_id',
-      // direction: 'ASC',
+      property: 'venue_short_name',
+      sortProperty: 'venue_id',
+      direction: 'ASC',
     },
     sorters: [{
-      property: 'venue_id',
+      property: 'starttime',
       direction: 'ASC'
     }]
   },
@@ -25,12 +25,13 @@ Ext.define('dcm14.store.HappeningNow', {
   filterByVenue:function(venue_id) {
     scheduleStore = Ext.getStore('Schedules');
     scheduleStore.clearFilter();
-
     scheduleStore.filterBy(function(record, id){
-      if (record.get('venue_id') == venue_id)
+      if (record.data.venue_id == venue_id) {
         return true;
+      }
     });
     scheduleStore.sort('starttime', 'ASC');
+// console.log(scheduleStore.getRange(0,3));
     return scheduleStore.getRange(0,3);
   },
   addToHappeningNow:function(results) {

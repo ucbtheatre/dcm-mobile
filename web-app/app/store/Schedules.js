@@ -14,7 +14,7 @@ Ext.define('dcm14.store.Schedules', {
       load:function() {
         this.each(function(record) {
           sStore = Ext.getStore('Schedules');
-          scheduleIndex = sStore.find('id', record.getId());
+          scheduleIndex = sStore.find('id', record.getId(), 0, false, false, true);
           scheduleModel = sStore.getAt(scheduleIndex);
 // console.log('start time data');
             starttime_stamp = scheduleModel.data.starttime;
@@ -45,11 +45,9 @@ Ext.define('dcm14.store.Schedules', {
 				    short_time = hours + ':' + minutes + meridian;
 				    var venueStore = Ext.getStore('Venues');
 				    venue = venueStore.getById(record.get('venue_id'));
-				// console.log('venue data');
 				    venue_short_name = venue.data.short_name;
 				    showStore = Ext.getStore('Shows');
 				    showModel = showStore.getById(record.get('show_id'));
-				// console.log('show data');
 				    show_name = showModel.data.show_name;
             sStore.updateSchedule(scheduleModel, show_name, date_output, short_time, venue_short_name);
         });

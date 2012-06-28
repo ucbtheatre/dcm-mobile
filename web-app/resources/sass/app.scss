@@ -1,3 +1,11 @@
+$base-color: #000;
+$active-color: #d2232a;
+
+$tabs-bar-gradient: 'flat';
+$tabs-dark: darken(desaturate($base-color, 10%), 5%);
+$tabs-dark-active-color: $active-color;
+$tabs-bottom-active-gradient: 'glossy';
+
 @import 'sencha-touch/default/all';
 
 // You may remove any of the following modules that you
@@ -15,5 +23,6 @@
 @include sencha-carousel;
 @include sencha-form;
 @include sencha-msgbox;
+@include sencha-list-pullrefresh;
 
 // Your custom code goes here...

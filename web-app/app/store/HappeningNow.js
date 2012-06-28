@@ -31,14 +31,12 @@ Ext.define('dcm14.store.HappeningNow', {
       }
     });
     scheduleStore.sort('starttime', 'ASC');
-// console.log(scheduleStore.getRange(0,3));
     return scheduleStore.getRange(0,3);
   },
   addToHappeningNow:function(results) {
 	  happeningNowStore = Ext.getStore('HappeningNow');
     for (j=0; j < results.length; j++) {
       result = results[j].data;
-// console.log(result);
       happeningNowStore.add({
         show_id: result.show_id,
         show_name: result.show_name,

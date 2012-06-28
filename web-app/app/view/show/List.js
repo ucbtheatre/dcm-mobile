@@ -29,7 +29,7 @@ Ext.define('dcm14.view.show.List', {
         ]
       }
     ],
-    itemTpl: ['<div class="show"><div class="title">{show_name}</div><div class="x-list-disclosure "></div></div>']
+    itemTpl: ['<div class="show"><div class="title">{show_name}</div></div>']
   },
   
   initialize: function() {

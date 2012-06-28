@@ -50,7 +50,8 @@ Ext.application({
     controllers: [
       'Shows',
       'Venues',
-      'Favorites'
+      'Favorites',
+      'HappeningNow'
     ],
 
     icon: {

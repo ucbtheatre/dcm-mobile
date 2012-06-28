@@ -29,8 +29,11 @@ Ext.define('dcm14.controller.Shows', {
     var showId = record.get('id');
     
     scheduleStore.clearFilter();
-    scheduleStore.filter('show_id', showId);
-
+    // scheduleStore.filter('show_id', showId, false, false);
+    scheduleStore.filterBy(function(record, id) {
+       show_id_from_record = record.get('show_id');
+       if (show_id_from_record == showId) { return true; }
+     });
     if(!this.show) {
       this.show = Ext.create('dcm14.view.show.Detail');
     }

@@ -8,7 +8,7 @@ Ext.define('dcm14.view.venue.List', {
   },
   
   initialize: function() {
-    this.config.title = dcm14.app.title;
+    this.config.title = 'Venues';
     this.callParent();
   } 
 

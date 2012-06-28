@@ -46,7 +46,6 @@ Ext.define('dcm14.store.Favorites', {
         minutes = '00';
       }
       time_string = hours + ':' + minutes + ' ' + meridian;
-console.log(time_string);
       favorite_object = {
         show_id: show.data.id,
         show_name: show.data.show_name,

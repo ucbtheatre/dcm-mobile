@@ -31,8 +31,11 @@ Ext.define('dcm14.controller.Favorites', {
     showModel = showStore.getAt(showIndex);
 
     scheduleStore.clearFilter();
-    scheduleStore.filter('show_id', showId);
-
+    // scheduleStore.filter('show_id', showId);
+    scheduleStore.filterBy(function(record, id) {
+       show_id_from_record = record.get('show_id');
+       if (show_id_from_record == showId) { return true; }
+     });
     if(!this.show) {
       this.show = Ext.create('dcm14.view.show.Detail');
     }

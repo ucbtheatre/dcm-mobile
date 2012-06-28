@@ -4,10 +4,9 @@ Ext.define('dcm14.view.now.Card', {
   config: {
     title: 'Now',
     iconCls: 'action',
-    // listeners:{show:function(){console.log('nav loaded!');this.config.title = 'NAV LOADED';}},
     autoDestroy: false,
     emptyText: 'Placeholder container',
-    items:[{xtype:'list', grouped:true, id:'nowList',
+    items:[{xtype:'list', grouped:true, id:'nowList',title:'Luxury Improv',
             store: 'HappeningNow',
             itemTpl:'<div>{show_name}</div><div style="float:right;margin-top:-17px;">{short_time}</div>',
             listeners:{

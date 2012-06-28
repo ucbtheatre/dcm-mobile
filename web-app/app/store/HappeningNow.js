@@ -17,6 +17,7 @@ Ext.define('dcm14.store.HappeningNow', {
     scheduleStore = Ext.getStore('Schedules');
     happeningNowStore = Ext.getStore('HappeningNow');
     showStore = Ext.getStore('Shows');
+    happeningNowStore.removeAll();
     for (i=1; i <= 7; i++) {
       venue_results = happeningNowStore.filterByVenue(i);
       happeningNowStore.addToHappeningNow(venue_results);

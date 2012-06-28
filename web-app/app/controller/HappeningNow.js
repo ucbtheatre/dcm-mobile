@@ -4,11 +4,11 @@ Ext.define('dcm14.controller.HappeningNow', {
     refs: {
       shows: 'shows',
       show: 'show',
-      showInfo: 'favoriteContainer showInfo',
+      showInfo: 'nowContainer showInfo',
       showPerformers: 'showContainer list',
       favoriteContainer: 'favoriteContainer', 
       showSchedules: 'showContainer list',
-      showFavoriteButton: 'favoriteContainer show toolbar button',
+      showFavoriteButton: 'nowContainer show toolbar button',
       nowContainerObject: 'nowContainer',
       nowContainerList: 'nowContainer list',
     },
@@ -22,55 +22,52 @@ Ext.define('dcm14.controller.HappeningNow', {
   initHappeningNow: function() {
     // console.log('Hello Happening NOw!');
     containerList = this.getNowContainerList();
+    controllerRef = this;
     containerList.addListener('itemtap', function(list, idex, el, record) {
-      console.log('show tap executed! ' + record.getId());
-    });
-  },
+      var scheduleStore = Ext.getStore('Schedules');
+      var showStore = Ext.getStore('Shows');
+      var favoritesStore = Ext.getStore('Favorites');
+      var showId = record.get('show_id');
+      showIndex = showStore.find('id', showId);
+      showModel = showStore.getAt(showIndex);
 
-  onShowTap: function(list, idex, el, record) {
-    // var scheduleStore = Ext.getStore('Schedules');
-    // var showStore = Ext.getStore('Shows');
-    // var favoritesStore = Ext.getStore('Favorites');
-    // var showId = record.get('show_id');
-    // showIndex = showStore.find('id', showId);
-    // showModel = showStore.getAt(showIndex);
-    // 
-    // scheduleStore.clearFilter();
-    // scheduleStore.filter('show_id', showId);
-    // 
-    // if(!this.show) {
-    //   this.show = Ext.create('dcm14.view.show.Detail');
-    // }
-    // this.show.config.title = record.get('show_name');
-    // this.getFavoriteContainer().push(this.show);
-    // this.getShowInfo().setRecord(showModel);
-    // 
-    // fave_button = this.getShowFavoriteButton();
-    // is_a_favorite = favoritesStore.isInFavorites(showId);
-    // if (is_a_favorite) {
-    //   element = document.getElementById(fave_button.iconElement.getId());
-    //   element.className = 
-    //   element.className.replace( /(?:^|\s)star(?!\S)/ , '' );
-    //   element.className += " star-active";
-    // } else {
-    //   element = document.getElementById(fave_button.iconElement.getId());
-    //   element.className = element.className.replace( /(?:^|\s)star-active(?!\S)/ , '' );
-    //   element.className += " star";
-    // }
-    // 
-    // fave_button.clearListeners();
-    // fave_button.addListener('tap', function(event_name, args) {
-    //   favoritesStore = Ext.getStore('Favorites');
-    //   has_this_as_favorite = favoritesStore.isInFavorites(showId);
-    //   if (has_this_as_favorite) {
-    //     favoritesStore.removeFavorite(showId);
-    //     args.target.classList.remove('star-active');
-    //     args.target.classList.add('star');
-    //   } else {
-    //     favoritesStore.addFavorite(showId);
-    //     args.target.classList.remove('star');
-    //     args.target.classList.add('star-active');
-    //   }
-    // });
+     scheduleStore.clearFilter();
+     scheduleStore.filter('show_id', showId);
+     showRef = controllerRef.getShow();
+      if(!showRef) {
+        showRef = Ext.create('dcm14.view.show.Detail');
+      }
+      controllerRef.getShow().config.title = record.get('show_name');
+      controllerRef.getNowContainerObject().push(showRef);
+      controllerRef.getShowInfo().setRecord(showModel);
+
+      fave_button = controllerRef.getShowFavoriteButton();
+      is_a_favorite = favoritesStore.isInFavorites(showId);
+      if (is_a_favorite) {
+        element = document.getElementById(fave_button.iconElement.getId());
+        element.className = 
+        element.className.replace( /(?:^|\s)star(?!\S)/ , '' );
+        element.className += " star-active";
+      } else {
+        element = document.getElementById(fave_button.iconElement.getId());
+        element.className = element.className.replace( /(?:^|\s)star-active(?!\S)/ , '' );
+        element.className += " star";
+      }
+
+      fave_button.clearListeners();
+      fave_button.addListener('tap', function(event_name, args) {
+        favoritesStore = Ext.getStore('Favorites');
+        has_this_as_favorite = favoritesStore.isInFavorites(showId);
+        if (has_this_as_favorite) {
+          favoritesStore.removeFavorite(showId);
+          args.target.classList.remove('star-active');
+          args.target.classList.add('star');
+        } else {
+          favoritesStore.addFavorite(showId);
+          args.target.classList.remove('star');
+          args.target.classList.add('star-active');
+        }
+      });
+    });
   }
 });

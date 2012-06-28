@@ -84,3 +84,5 @@ Ext.application({
         );
     }
 });
+
+window.scrollTo(0,1);

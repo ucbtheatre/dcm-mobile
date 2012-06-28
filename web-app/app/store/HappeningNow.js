@@ -11,7 +11,13 @@ Ext.define('dcm14.store.HappeningNow', {
     sorters: [{
       property: 'starttime',
       direction: 'ASC'
-    }]
+    }],
+    listeners:{
+      load:function(){
+        current_time = new Date();
+        this.getCurrentlyPlayingShows(current_time.getTime());
+      }
+    }
   },
   getCurrentlyPlayingShows:function(timestamp) {
     scheduleStore = Ext.getStore('Schedules');

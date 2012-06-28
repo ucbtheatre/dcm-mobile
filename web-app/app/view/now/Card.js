@@ -8,6 +8,16 @@ Ext.define('dcm14.view.now.Card', {
     emptyText: 'Placeholder container',
     items:[{xtype:'list', grouped:true, id:'nowList',title:'Luxury Improv',
             store: 'HappeningNow',
+            plugins: [{ xclass: 'Ext.plugin.PullRefresh',
+                        pullRefreshText: 'Pull down to refresh!',
+												refreshFn: function(plugin) {
+                          var store = Ext.getStore('HappeningNow');
+                          if (store.hasListener('load')) {
+                            store.fireEvent('load', store, store.getData(), true);
+                          }
+                       }
+                     }
+            ],
             itemTpl:'<div style="height:22px;width:217px;overflow:hidden;">{show_name}</div><div style="float:right;margin-top:-19px;">{short_time}</div>',
             listeners:{
               show:function() {

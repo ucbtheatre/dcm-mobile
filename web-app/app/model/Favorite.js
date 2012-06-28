@@ -3,7 +3,8 @@ Ext.define('dcm14.model.Favorite', {
     config: {
         fields: [
             { name:'show_id', type: 'int' },
-            { name: 'show_name', type: 'string' }
+            { name: 'show_name', type: 'string' },
+            { name: 'day_name', type: 'string' }
         ],
         proxy: {
           type:'localstorage',

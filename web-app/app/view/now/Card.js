@@ -8,7 +8,7 @@ Ext.define('dcm14.view.now.Card', {
     emptyText: 'Placeholder container',
     items:[{xtype:'list', grouped:true, id:'nowList',title:'Luxury Improv',
             store: 'HappeningNow',
-            itemTpl:'<div>{show_name}</div><div style="float:right;margin-top:-17px;">{short_time}</div>',
+            itemTpl:'<div style="height:22px;width:217px;overflow:hidden;">{show_name}</div><div style="float:right;margin-top:-19px;">{short_time}</div>',
             listeners:{
               show:function() {
                 HappeningNow = Ext.getStore('HappeningNow');

@@ -20,6 +20,7 @@ Ext.define('dcm14.view.show.List', {
                 if (value == '') {
                   showStore.clearFilter();
                 } else {
+                  showStore.clearFilter();
                   showStore.filter("show_name", value, true, false);
                 }
               }

@@ -21,9 +21,10 @@ Ext.define('dcm14.view.now.Card', {
             itemTpl:'<div style="height:22px;width:217px;overflow:hidden;">{show_name}</div><div style="float:right;margin-top:-19px;">{short_time}</div>',
             listeners:{
               show:function() {
-                HappeningNow = Ext.getStore('HappeningNow');
-                current_time = new Date();
-                HappeningNow.getCurrentlyPlayingShows(current_time.getTime());
+                var store = Ext.getStore('HappeningNow');
+                if (store.hasListener('load')) {
+                  store.fireEvent('load', store, store.getData(), true);
+                }
                 // HappeningNow.getCurrentlyPlayingShows(1341099000);
               },
               initialize:function() {

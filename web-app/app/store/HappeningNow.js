@@ -20,6 +20,7 @@ Ext.define('dcm14.store.HappeningNow', {
     }
   },
   getCurrentlyPlayingShows:function(timestamp) {
+    // console.log('GetCurrentlyPlayingSHows ' + timestamp);
     scheduleStore = Ext.getStore('Schedules');
     happeningNowStore = Ext.getStore('HappeningNow');
     showStore = Ext.getStore('Shows');
@@ -35,6 +36,7 @@ Ext.define('dcm14.store.HappeningNow', {
     scheduleStore.clearFilter();
     scheduleStore.filterBy(function(record, id){
       if (record.data.venue_id == venue_id) {
+        // console.log((record.data.endtime*1000) + ' > ' + timestamp + ' ???');
         if ((record.data.endtime*1000) > timestamp) {
           return true;
         }

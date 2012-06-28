@@ -14,15 +14,17 @@ Ext.define('dcm14.controller.HappeningNow', {
     },
     control: {
       'nowContainer': {
-        initialize: 'initHappeningNow',
-        // itemtap: 'onShowTap'
+        initialize: 'initHappeningNow'
       }
     }
   },
 
   initHappeningNow: function() {
     // console.log('Hello Happening NOw!');
-    // container_object = this.getNowContainerObject();
+    containerList = this.getNowContainerList();
+    containerList.addListener('itemtap', function(list, idex, el, record) {
+      console.log('show tap executed! ' + record.getId());
+    });
   },
 
   onShowTap: function(list, idex, el, record) {

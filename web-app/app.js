@@ -67,6 +67,11 @@ Ext.application({
     launch: function() {
         // Destroy the #appLoadingIndicator element
         // Ext.fly('appLoadingIndicator').destroy();
+        window.scrollTo(0,1);
+        setTimeout(function(){
+           // Hide the address bar ( hack for iPhone )!
+           window.scrollTo(0, 1);
+        }, 0);
         Ext.Viewport.setMasked({ xtype: 'loadmask' });
         dcm14.util.Proxy.process('dcm13data.json', function() {
           Ext.Viewport.add(Ext.create('dcm14.view.Main'));
@@ -84,5 +89,3 @@ Ext.application({
         );
     }
 });
-
-window.scrollTo(0,1);

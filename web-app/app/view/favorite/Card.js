@@ -11,8 +11,8 @@ Ext.define('dcm14.view.favorite.Card', {
     items:[
       {
         xtype: 'favorites',
-        grouped: false,
-        pinHeaders: true,
+        grouped: true,
+        pinHeaders: false,
         store: 'Favorites'
       }
     ]

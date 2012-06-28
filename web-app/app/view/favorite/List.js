@@ -5,11 +5,11 @@ Ext.define('dcm14.view.favorite.List', {
     showStore = Ext.getStore('Shows');
     showIndex = showStore.find('id', record.get('show_id'));
     show = showStore.getAt(showIndex);
-    return_object = {show_id:record.get('show_id'), show_name:record.get('show_name') }
+    return_object = {show_id:record.get('show_id'), show_name:record.get('show_name'), starttime_string:record.get('starttime_string') }
     return return_object;
   },
   config: {
-    itemTpl: ['<div class="favorite"><div class="title">{show_name}</div><div class="x-list-disclosure "></div></div>'],
+    itemTpl: ['<div class="favorite"><div class="title">{show_name}</div><div style="float:right;margin-top:-19px;">{starttime_string}</div></div>'],
     listeners:{
       afterrender: function(cmp) {
         cmp.refresh();
@@ -18,7 +18,7 @@ Ext.define('dcm14.view.favorite.List', {
     emptyText: 'You have no favorite shows yet.'
   },
   initialize: function() {
-    this.config.title = dcm14.app.title;
+    this.config.title = 'Favorites';
     this.callParent();
   }
 });

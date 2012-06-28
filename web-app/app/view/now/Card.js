@@ -12,7 +12,9 @@ Ext.define('dcm14.view.now.Card', {
             listeners:{
               show:function() {
                 HappeningNow = Ext.getStore('HappeningNow');
-                HappeningNow.getCurrentlyPlayingShows(1234);
+                current_time = new Date();
+                HappeningNow.getCurrentlyPlayingShows(current_time.getTime());
+                // HappeningNow.getCurrentlyPlayingShows(1341099000);
               },
               initialize:function() {
                 current_time = new Date();

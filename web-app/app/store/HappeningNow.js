@@ -18,17 +18,20 @@ Ext.define('dcm14.store.HappeningNow', {
     happeningNowStore = Ext.getStore('HappeningNow');
     showStore = Ext.getStore('Shows');
     happeningNowStore.removeAll();
+    // TODO: remove hardcoded max value for venue_id
     for (i=1; i <= 7; i++) {
-      venue_results = happeningNowStore.filterByVenue(i);
+      venue_results = happeningNowStore.filterByVenue(i, timestamp);
       happeningNowStore.addToHappeningNow(venue_results);
     }
   },
-  filterByVenue:function(venue_id) {
+  filterByVenue:function(venue_id, timestamp) {
     scheduleStore = Ext.getStore('Schedules');
     scheduleStore.clearFilter();
     scheduleStore.filterBy(function(record, id){
       if (record.data.venue_id == venue_id) {
-        return true;
+        if ((record.data.endtime*1000) > timestamp) {
+          return true;
+        }
       }
     });
     scheduleStore.sort('starttime', 'ASC');

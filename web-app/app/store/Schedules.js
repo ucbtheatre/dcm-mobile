@@ -23,13 +23,13 @@ Ext.define('dcm14.store.Schedules', {
 				    date_output = '';
 				    switch (day) {
 				      case 0 :
-				        date_output += 'Sunday ';
+				        date_output += 'Sun ';
 				        break;
 				      case 6 :
-				        date_output += 'Saturday ' ;
+				        date_output += 'Sat ' ;
 				        break;
 				      case 5 :
-				        date_output += 'Friday ';
+				        date_output += 'Fri ';
 				    }
 				    meridian = ' AM';
 				    hours = date.getHours();

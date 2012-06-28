@@ -5,11 +5,10 @@ Ext.define('dcm14.view.venue.Info', {
   config: {
     cls: 'venueInfo',
     tpl: Ext.create('Ext.XTemplate',
-      '<h3>{name}</h3>',
-      '<img style="max-width:500px;" src="{image}" />',
-      '<h4>{address}</h4>',
+      '<div style="text-align:center;padding-top:10px;"><img style="max-width:400px;" src="{image}" /></div>',
+      '<h4 style="text-align:center;">{address}</h4>',
       '<h4>{directions}</h4>',
-      '<h4><a href="{gmaps}">Map it!</a></h4>'
+      '<h4 style="text-align:center;"><a href="{gmaps}">Map it!</a></h4>'
     )
   }
 });

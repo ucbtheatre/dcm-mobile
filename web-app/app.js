@@ -6,7 +6,9 @@ Ext.Loader.setPath({
 
 Ext.application({
     name: 'dcm14',
-
+    viewport : {
+      autoMaximize : true
+    },
     title: 'DCM XIV',
 
     requires: [
